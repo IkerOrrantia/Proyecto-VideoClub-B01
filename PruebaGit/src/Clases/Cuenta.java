@@ -2,6 +2,7 @@ package Clases;
 
 public class Cuenta {
 	//Variables 
+	private String Usuario;
 	private String Nombre;
 	private String Apellidos;
 	private String DNI;
@@ -12,9 +13,11 @@ public class Cuenta {
 	
 	
 	//Constructor
-	public Cuenta(String nombre, String apellidos, String dNI, String correo, String contrasenya, String telefono,
-			String direccion) {
+	
+	public Cuenta(String usuario, String nombre, String apellidos, String dNI, String correo, String contrasenya,
+			String telefono, String direccion) {
 		super();
+		Usuario = usuario;
 		Nombre = nombre;
 		Apellidos = apellidos;
 		DNI = dNI;
@@ -23,8 +26,16 @@ public class Cuenta {
 		Telefono = telefono;
 		Direccion = direccion;
 	}
-	// Getters Y Setters
 
+	// Getters Y Setters
+	
+	public String getUsuario() {
+		return Usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		Usuario = usuario;
+	}
 
 	public String getNombre() {
 		return Nombre;
@@ -99,7 +110,7 @@ public class Cuenta {
 	//ToString
 	@Override
 	public String toString() {
-		return "Cuenta [Nombre=" + Nombre + ", Apellidos=" + Apellidos + ", DNI=" + DNI + ", Correo=" + Correo
+		return "Cuenta [ Usuario=" + Usuario + ", Nombre=" + Nombre + ", Apellidos=" + Apellidos + ", DNI=" + DNI + ", Correo=" + Correo
 				+ ", Contrasenya=" + Contrasenya + ", Telefono=" + Telefono + ", Direccion=" + Direccion + "]";
 	}
 	
