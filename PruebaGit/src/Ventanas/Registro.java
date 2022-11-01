@@ -1,46 +1,135 @@
 package Ventanas;
 
-import java.awt.EventQueue;
+import java.awt.FlowLayout;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+
 import java.awt.BorderLayout;
 
 public class Registro {
 
-	private JFrame frmRegistroDeUsuario;
+//	 public static void main(String[] args) {
+//	 Registro reg = new Registro();
+//	 }
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Registro window = new Registro();
-					window.frmRegistroDeUsuario.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
 	public Registro() {
-		initialize();
-	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frmRegistroDeUsuario = new JFrame();
-		frmRegistroDeUsuario.setTitle("Registro de Usuario");
-		frmRegistroDeUsuario.setBounds(100, 100, 900, 670);
-		frmRegistroDeUsuario.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmRegistroDeUsuario.getContentPane().setLayout(new BorderLayout(0, 0));
+		// Creamos un nuevo frame y definimos su tamaño, posicion, nombre y cuando ha de cerrarse
+		JFrame frame = new JFrame();
+
+		frame.setBounds(100, 100, 350, 470); // (Posicion x, Posicion Y, Anchura, Altura)
+
+		frame.getContentPane().setLayout(new BorderLayout());
+
+		frame.setLocationRelativeTo(null);
+
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		frame.setTitle("Registro de Usuario");
+
+		//Creamos Todos los Paneles, botones, etc que queremos anyadirle
+		JPanel panel_arriba = new JPanel(new FlowLayout());
+		
+		JPanel panel_centro = new JPanel(new FlowLayout());
+
+		JPanel panel_centro1 = new JPanel(new FlowLayout());
+		JPanel panel_centro2 = new JPanel(new FlowLayout());
+		JPanel panel_centro3 = new JPanel(new FlowLayout());
+		JPanel panel_centro4 = new JPanel(new FlowLayout());
+		JPanel panel_centro5 = new JPanel(new FlowLayout());
+		JPanel panel_centro6 = new JPanel(new FlowLayout());
+		JPanel panel_centro7 = new JPanel(new FlowLayout());
+		JPanel panel_centro8 = new JPanel(new FlowLayout());
+
+
+		JPanel panel_abajo = new JPanel(new FlowLayout());
+
+		JLabel Cabezera = new JLabel("Registro de Usuario: ");
+
+		JLabel Usuario = new JLabel("Nombre de Usuario: ");
+		
+		JTextField TextUsuario = new JTextField(15);	
+		
+		JLabel Nombre = new JLabel("Nombre: ");
+
+		JTextField  TextNombre = new JTextField(20);
+
+		JLabel Apellidos = new JLabel("Apellidos: ");
+
+		JLabel DNI = new JLabel("DNI: ");
+
+		JTextField  TextDNI = new JTextField(20);
+
+		JLabel Correo = new JLabel("Correo: ");
+
+		JTextField  TextCorreo = new JTextField(20);
+
+		JTextField  TextApellidos = new JTextField(20);
+		
+		JLabel Contrasenya = new JLabel("Contrasenya: ");
+
+		JTextField  TextContrasenya = new JTextField(20);
+		
+		JLabel Direccion = new JLabel("Direccion: ");
+
+		JTextField  TextDireccion = new JTextField(20);
+		
+		JLabel Telefono = new JLabel("Telefono: ");
+
+		JTextField  TextTelefono = new JTextField(20);
+		
+		JButton Registrarse = new JButton("Registrarse");
+		
+		JButton Atras = new JButton("Atras");
+		
+		
+		// Se anyaden botones y textos a su correspondiente panel
+				panel_arriba.add(Cabezera);
+				panel_centro1.add(Usuario);
+				panel_centro1.add(TextUsuario);
+				panel_centro2.add(Nombre);
+				panel_centro2.add(TextNombre);
+				panel_centro3.add(Apellidos);
+				panel_centro3.add(TextApellidos);
+				panel_centro4.add(DNI);
+				panel_centro4.add(TextDNI);
+				panel_centro5.add(Correo);
+				panel_centro5.add(TextCorreo);
+				panel_centro6.add(Contrasenya);
+				panel_centro6.add(TextContrasenya);
+				panel_centro7.add(Direccion);
+				panel_centro7.add(TextDireccion);
+				panel_centro8.add(Telefono);
+				panel_centro8.add(TextTelefono);
+				panel_abajo.add(Atras);
+				panel_abajo.add(Registrarse);
+				
+			//Anyadimos todos los sub paneles a los paneles Principales
+				panel_centro.add(panel_centro1);
+				panel_centro.add(panel_centro2);
+				panel_centro.add(panel_centro3);
+				panel_centro.add(panel_centro4);
+				panel_centro.add(panel_centro5);
+				panel_centro.add(panel_centro6);
+				panel_centro.add(panel_centro7);
+				panel_centro.add(panel_centro8);
+				
+			//Snyadimos cada panel a su correspondiente posicion en el frame
+				frame.add(panel_abajo,BorderLayout.SOUTH);
+				
+				frame.add(panel_centro,BorderLayout.CENTER);
+
+
+				frame.add(panel_arriba,BorderLayout.NORTH);
+				
+				//Estabelecemos el frame como visible
+				frame.setVisible(true);
+		
 	}
 
 }
