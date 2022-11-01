@@ -13,9 +13,9 @@ import javax.swing.JTextField;
 
 public class InicioSesion {
 	
-	public static void main(String[] args) {
-		InicioSesion ini = new InicioSesion();
-	}
+//	public static void main(String[] args) {
+//		InicioSesion ini = new InicioSesion();
+//	}
 
 	public InicioSesion() {
 
