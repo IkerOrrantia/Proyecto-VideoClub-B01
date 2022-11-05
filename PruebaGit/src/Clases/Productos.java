@@ -7,17 +7,16 @@ public class Productos {
 	private double precio;
 	private Genero genero;
 	private int anyo;
-	private String tipo;
+	
 	
 	//Constructor
-	public Productos(String nombre, String director, double precio, Genero genero, int anyo, String tipo) {
+	public Productos(String nombre, String director, double precio, Genero genero, int anyo) {
 		super();
 		this.nombre = nombre;
 		this.director = director;
 		this.precio = precio;
 		this.genero = genero;
 		this.anyo = anyo;
-		this.tipo = tipo;
 	}
 	//Getters y Setters
 	public String getNombre() {
@@ -55,10 +54,11 @@ public class Productos {
 	public void setAnyo(int anyo) {
 		this.anyo = anyo;
 	}
-	public String getTipo() {
-		return tipo;
+	//toString
+	@Override
+	public String toString() {
+		return "Productos [nombre=" + nombre + ", director=" + director + ", precio=" + precio + ", genero=" + genero
+				+ ", anyo=" + anyo + "]";
 	}
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
+
 }
