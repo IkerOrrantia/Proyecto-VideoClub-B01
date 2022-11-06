@@ -137,7 +137,7 @@ public class BD {
 			 ResultSet rs = st.executeQuery(sentSQL);
 		
 			 while (rs.next()) {
-				TEmpleado objEmp = new TEmpleado(rs.getInt( "codEmpleados" ), rs.getString( "nombre" ), rs.getString( "apellido" ), rs.getString( "telefono" ), rs.getDouble( "pagoNomina" ), null);
+				TEmpleado objEmp = new TEmpleado(rs.getInt( "codEmpleados" ), rs.getString( "nombre" ), rs.getString( "apellido" ), rs.getInt( "telefono" ), rs.getDouble( "pagoNomina" ), null);
 				lsEmpleado.add(objEmp);
 			}
 			rs.close();
