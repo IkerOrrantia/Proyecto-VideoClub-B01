@@ -7,12 +7,12 @@ public class TEmpleado {
 	private int aCodEmpleado;
 	private String aNombre;
 	private String aApell;
-	private String aTelefono;
+	private int aTelefono;
 	private Double aNomina;
 	
 	private ArrayList<TPagoNomina> lsPagoNomina;
 	
-	public TEmpleado(int pCodEmp, String pNomb, String pApell, String pTelef, Double pNomina, ArrayList<TPagoNomina> lsPN) {
+	public TEmpleado(int pCodEmp, String pNomb, String pApell, int pTelef, Double pNomina, ArrayList<TPagoNomina> lsPN) {
 		setLsPagoNomina(lsPN);
 		this.aCodEmpleado = pCodEmp;
 		this.aNombre = pNomb;
@@ -66,14 +66,14 @@ public class TEmpleado {
 	/**
 	 * @return the aTelefono
 	 */
-	public String getTelefono() {
+	public int getTelefono() {
 		return aTelefono;
 	}
 
 	/**
 	 * @param aTelefono the aTelefono to set
 	 */
-	public void setTelefono(String aTelefono) {
+	public void setTelefono(int aTelefono) {
 		this.aTelefono = aTelefono;
 	}
 
