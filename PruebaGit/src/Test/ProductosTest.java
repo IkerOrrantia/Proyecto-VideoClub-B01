@@ -26,13 +26,16 @@ public class ProductosTest {
 		assertEquals("Tarantino", p.getDirector());
 	}
 	@Test
+	public void testgetPrecio() {
+		assertEquals(3.24, p.getPrecio(),0.001);
+	}
+	@Test
+	public void testgetGenero() {
+		assertEquals(Genero.DRAMA, p.getGenero());
+	}
+	@Test
 	public void testgetAnyo() {
 		assertEquals(2017, p.getAnyo());
-	}	
-	@Test
-	public void testgetPrecio() {
-		assertEquals(3.24, p.getPrecio());
-	}
-			
+	}			
 }
 
