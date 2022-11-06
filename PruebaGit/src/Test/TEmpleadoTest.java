@@ -30,5 +30,9 @@ public class TEmpleadoTest {
 	@Test
 	public void testgetaTelefono() {
 		assertEquals(633834978,p.getTelefono());
-	}	
+	}
+	@Test
+	public void testgetNomina() {
+		assertEquals(8.90, p.getNomina(), 0.001);
+	}
 }
