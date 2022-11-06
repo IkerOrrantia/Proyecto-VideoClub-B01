@@ -1,4 +1,4 @@
-package BD;
+package Clases;
 import java.sql.*;
 import java.util.*; 
 import java.util.logging.*;
