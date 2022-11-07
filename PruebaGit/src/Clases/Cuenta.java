@@ -8,14 +8,14 @@ public class Cuenta {
 	private String DNI;
 	private String Correo;
 	private String Contrasenya;
-	private int Telefono;
+	private String Telefono;
 	private String Direccion;
 	
 	
 	//Constructor
 	
 	public Cuenta(String usuario, String nombre, String apellidos, String dNI, String correo, String contrasenya,
-			int telefono, String direccion) {
+			String telefono, String direccion) {
 		super();
 		Usuario = usuario;
 		Nombre = nombre;
@@ -92,7 +92,7 @@ public class Cuenta {
 	}
 
 
-	public void setTelefono(int telefono) {
+	public void setTelefono(String telefono) {
 		Telefono = telefono;
 	}
 
