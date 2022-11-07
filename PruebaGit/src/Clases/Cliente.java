@@ -5,8 +5,7 @@ public class Cliente extends Cuenta {
 	private int NumerodePeliculas;
 	private Genero Genero;
 	// Anyadir numero de peliculas por tipo ---> For TipoPelicula...
-	public Cliente(String usuario, String nombre, String apellidos, String dNI, String correo, String contrasenya,
-			int telefono, String direccion) {
+	public Cliente(String usuario, String nombre, String apellidos, String dNI, String correo, String contrasenya, int telefono, String direccion, int NumerodePeliculas) {
 		super(usuario, nombre, apellidos, dNI, correo, contrasenya, telefono, direccion);
 		this.NumerodePeliculas = NumerodePeliculas;
 	}
