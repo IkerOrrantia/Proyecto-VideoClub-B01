@@ -1,6 +1,6 @@
 package Clases;
 
-public class Productos {
+public class Productos implements Pagable {
 	//Variables
 	private String nombre;
 	private String director;
