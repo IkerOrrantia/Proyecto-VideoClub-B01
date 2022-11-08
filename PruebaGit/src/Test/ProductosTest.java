@@ -19,7 +19,7 @@ public class ProductosTest {
 		}
 	@Test
 	public void testgetnombre() {
-		assertEquals("Django",p.getNombre());
+		assertEquals("Django Desencadenado",p.getNombre());
 	}
 	@Test
 	public void testgetDirector() {
@@ -35,7 +35,7 @@ public class ProductosTest {
 	}
 	@Test
 	public void testgetAnyo() {
-		assertEquals(2017, p.getAnyo());
+		assertEquals(2013, p.getAnyo());
 	}			
 }
 
