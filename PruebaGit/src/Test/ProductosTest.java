@@ -15,7 +15,7 @@ public class ProductosTest {
 		
 		@Before
 		public void setUp() {
-			p = new Productos("Django Desencadenado","Tarantino",3.24,Genero.ACCION,2012);
+			p = new Productos("Django Desencadenado","Tarantino",3.24,Genero.ACCION,2013);
 		}
 	@Test
 	public void testgetnombre() {
@@ -31,7 +31,7 @@ public class ProductosTest {
 	}
 	@Test
 	public void testgetGenero() {
-		assertEquals(Genero.DRAMA, p.getGenero());
+		assertEquals(Genero.ACCION, p.getGenero());
 	}
 	@Test
 	public void testgetAnyo() {
