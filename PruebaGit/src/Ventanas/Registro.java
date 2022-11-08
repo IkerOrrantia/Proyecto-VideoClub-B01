@@ -11,7 +11,7 @@ import javax.swing.JTextField;
 
 import java.awt.BorderLayout;
 
-public class Registro {
+public class Registro extends JFrame {
 
 //	 public static void main(String[] args) {
 //	 Registro reg = new Registro();
@@ -20,17 +20,16 @@ public class Registro {
 	public Registro() {
 
 		// Creamos un nuevo frame y definimos su tamaño, posicion, nombre y cuando ha de cerrarse
-		JFrame frame = new JFrame();
 
-		frame.setBounds(100, 100, 350, 470); // (Posicion x, Posicion Y, Anchura, Altura)
+		setBounds(100, 100, 350, 470); // (Posicion x, Posicion Y, Anchura, Altura)
 
-		frame.getContentPane().setLayout(new BorderLayout());
+		getContentPane().setLayout(new BorderLayout());
 
-		frame.setLocationRelativeTo(null);
+		setLocationRelativeTo(null);
 
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-		frame.setTitle("Registro de Usuario");
+		setTitle("Registro de Usuario");
 
 		//Creamos Todos los Paneles, botones, etc que queremos anyadirle
 		JPanel panel_arriba = new JPanel(new FlowLayout());
@@ -120,15 +119,16 @@ public class Registro {
 				panel_centro.add(panel_centro8);
 				
 			//Snyadimos cada panel a su correspondiente posicion en el frame
-				frame.add(panel_abajo,BorderLayout.SOUTH);
+				add(panel_abajo,BorderLayout.SOUTH);
 				
-				frame.add(panel_centro,BorderLayout.CENTER);
+				add(panel_centro,BorderLayout.CENTER);
 
 
-				frame.add(panel_arriba,BorderLayout.NORTH);
+				add(panel_arriba,BorderLayout.NORTH);
 				
 				//Estabelecemos el frame como visible
-				frame.setVisible(true);
+				pack();
+				setVisible(true);
 		
 	}
 

@@ -3,6 +3,7 @@ package Ventanas;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.security.DomainCombiner;
+import java.util.Properties;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -11,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class InicioSesion {
+public class InicioSesion extends JFrame {
 	
 //	public static void main(String[] args) {
 //		InicioSesion ini = new InicioSesion();
@@ -20,17 +21,16 @@ public class InicioSesion {
 	public InicioSesion() {
 
 		// Creamos un nuevo frame y definimos su tamaño, posicion, nombre y cuando ha de cerrarse
-		JFrame frame = new JFrame();
 
-		frame.setBounds(100, 100, 220, 224); // (Posicion x, Posicion Y, Anchura, Altura)
+		setBounds(100, 100, 220, 224); // (Posicion x, Posicion Y, Anchura, Altura)
 
-		frame.getContentPane().setLayout(new BorderLayout());
+		getContentPane().setLayout(new BorderLayout());
 
-		frame.setLocationRelativeTo(null);
+		setLocationRelativeTo(null);
 
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-		frame.setTitle("Incio de Sesion");
+		setTitle("Incio de Sesion");
 		
 		//Creamos Todos los Paneles, botones etc que queremos anyadirle
 		JPanel panel_arriba = new JPanel(new FlowLayout());
@@ -65,13 +65,14 @@ public class InicioSesion {
 		
 		
 		//anyadimos cada panel a su correspondiente posicion en el frame
-		frame.add(panel_abajo,BorderLayout.SOUTH);
+		add(panel_abajo,BorderLayout.SOUTH);
 
-		frame.add(panel_centro,BorderLayout.CENTER);
+		add(panel_centro,BorderLayout.CENTER);
 
-		frame.add(panel_arriba,BorderLayout.NORTH);
+		add(panel_arriba,BorderLayout.NORTH);
 		
 		//Estabelecemos el frame como visible
-		frame.setVisible(true);
+		pack();
+		setVisible(true);
 	}
 }
