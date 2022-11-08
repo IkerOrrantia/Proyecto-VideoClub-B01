@@ -1,4 +1,4 @@
-package Test;
+package test;
 
 
 import static org.junit.Assert.assertEquals;
@@ -6,8 +6,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import Clases.Genero;
-import Clases.Productos;
+import clases.Genero;
+import clases.Productos;
 
 public class ProductosTest {
 

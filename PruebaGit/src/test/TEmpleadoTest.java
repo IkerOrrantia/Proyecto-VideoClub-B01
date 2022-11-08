@@ -1,11 +1,11 @@
-package Test;
+package test;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import Clases.TEmpleado;
+import clases.TEmpleado;
 
 public class TEmpleadoTest {
 		

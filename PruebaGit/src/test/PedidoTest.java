@@ -1,4 +1,4 @@
-package Test;
+package test;
 
 import static org.junit.Assert.assertEquals;
 
@@ -7,8 +7,8 @@ import java.sql.Date;
 import org.junit.Before;
 import org.junit.Test;
 
-import Clases.Estado;
-import Clases.Pedido;
+import clases.Estado;
+import clases.Pedido;
 
 public class PedidoTest {
 

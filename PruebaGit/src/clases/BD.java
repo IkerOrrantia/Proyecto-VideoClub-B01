@@ -1,10 +1,10 @@
-package Clases;
+package clases;
 import java.sql.*;
 import java.util.*; 
 import java.util.logging.*;
 
-import Clases.TEmpleado;
-import Clases.TPagoNomina;
+import clases.TEmpleado;
+import clases.TPagoNomina;
 
 
 public class BD {

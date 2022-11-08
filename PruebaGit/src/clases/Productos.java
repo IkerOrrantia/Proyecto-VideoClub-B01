@@ -1,4 +1,4 @@
-package Clases;
+package clases;
 
 public class Productos implements Pagable {
 	//Variables
