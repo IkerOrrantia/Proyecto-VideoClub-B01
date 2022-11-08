@@ -15,7 +15,7 @@ public class ProductosTest {
 		
 		@Before
 		public void setUp() {
-			p = new Productos("Django","Tarantino",3.24,Genero.DRAMA,2017);
+			p = new Productos("Django Desencadenado","Tarantino",3.24,Genero.ACCION,2012);
 		}
 	@Test
 	public void testgetnombre() {
