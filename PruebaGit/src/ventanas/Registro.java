@@ -27,7 +27,7 @@ public class Registro extends JFrame {
 
 		setLocationRelativeTo(null);
 
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(HIDE_ON_CLOSE);
 
 		setTitle("Registro de Usuario");
 
