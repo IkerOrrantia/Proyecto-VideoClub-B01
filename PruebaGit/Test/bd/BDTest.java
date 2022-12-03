@@ -1,4 +1,4 @@
-package test;
+package bd;
 
 
 import static org.junit.Assert.*;
@@ -11,7 +11,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import clases.BD;
+import bd.BD;
 import clases.TEmpleado;
 import clases.TPagoNomina;
 
