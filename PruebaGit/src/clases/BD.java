@@ -9,11 +9,11 @@ import clases.TPagoNomina;
 
 public class BD {
 	
-	private static Exception lastError = null;  // Informaci�n de �ltimo error SQL ocurrido	
+	private static Exception lastError = null;  // Informacion de ultimo error SQL ocurrido	
 	
-	/** Inicializa una BD SQLITE y devuelve una conexi�n con ella
+	/** Inicializa una BD SQLITE y devuelve una conexion con ella
 	 * @param nombreBD	Nombre de fichero de la base de datos
-	 * @return	Conexi�n con la base de datos indicada. Si hay alg�n error, se devuelve null
+	 * @return	Conexion con la base de datos indicada. Si hay algun error, se devuelve null
 	 */
 	public static Statement initBD( String nombreBD ) {
 		try 
@@ -27,14 +27,14 @@ public class BD {
 			return st;
 		} catch (ClassNotFoundException | SQLException e) {
 			lastError = e;
-			log( Level.SEVERE, "Error en conexi�n de base de datos " + nombreBD, e );
+			log( Level.SEVERE, "Error en conexion de base de datos " + nombreBD, e );
 			e.printStackTrace();
 			return null;
 		}
 	}
 	
 	/** Devuelve statement para usar la base de datos
-	 * @param con	Conexi�n ya creada y abierta a la base de datos
+	 * @param con	Conexion ya creada y abierta a la base de datos
 	 * @return	sentencia de trabajo si se crea correctamente, null si hay cualquier error
 	 */
 	public static Statement usarBD( Connection con ) {
@@ -51,7 +51,7 @@ public class BD {
 	}
 	
 	/** Cierra la base de datos abierta
-	 * @param con	Conexi�n abierta de la BD
+	 * @param con	Conexion abierta de la BD
 	 * @param st	Sentencia abierta de la BD
 	 */
 	public static void cerrarBD( Connection con, Statement st ) {
@@ -67,8 +67,8 @@ public class BD {
 	}
 	
 	
-	/** Devuelve la informaci�n de excepci�n del �ltimo error producido por cualquiera 
-	 * de los m�todos de gesti�n de base de datos
+	/** Devuelve la informacion de excepcion del ultimo error producido por cualquiera 
+	 * de los metodos de gestion de base de datos
 	 */
 	public static Exception getLastError() {
 		return lastError;
@@ -90,8 +90,8 @@ public class BD {
 			
 			Statement st = initBD("NominaEmpleado.db");
 			int val = st.executeUpdate( sentSQL );
-			log( Level.INFO, "BD tabla empleados añadida " + val + " fila\t" + sentSQL, null );
-			if (val!=1) {  // Se tiene que a�adir 1 - error si no
+			log( Level.INFO, "BD tabla empleados anyadida " + val + " fila\t" + sentSQL, null );
+			if (val!=1) {  // Se tiene que anyadir 1 - error si no
 				log( Level.SEVERE, "Error en insert de BD\t" + sentSQL, null );
 				return false;  
 			}
@@ -115,7 +115,7 @@ public class BD {
 			Statement st = initBD("NominaEmpleado.db");
 			int val = st.executeUpdate( sentSQL );
 			log( Level.INFO, "BD tabla pagoEmpleado añadida " + val + " fila\t" + sentSQL, null );
-			if (val!=1) {  // Se tiene que a�adir 1 - error si no
+			if (val!=1) {  // Se tiene que anyadir 1 - error si no
 				log( Level.SEVERE, "Error en insert de BD\t" + sentSQL, null );
 				return false;  
 			}
@@ -191,7 +191,7 @@ public class BD {
 	}
 	
 	/////////////////////////////////////////////////////////////////////
-	//                      Métodos privados                           //
+	//                      Metodos privados                           //
 	/////////////////////////////////////////////////////////////////////
 
 	// Devuelve el string "securizado" para volcarlo en SQL
@@ -203,7 +203,7 @@ public class BD {
 		// Implementacion (2)
 		StringBuffer ret = new StringBuffer();
 		for (char c : string.toCharArray()) {
-			if ("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ��������������.,:;-_(){}[]-+*=<>'\"�?�!&%$@#/\\0123456789".indexOf(c)>=0) ret.append(c);
+			if ("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.,:;-_(){}[]-+*=<>'\"!&%$@#/\\0123456789".indexOf(c)>=0) ret.append(c);
 		}
 		return ret.toString();
 	}
@@ -213,8 +213,8 @@ public class BD {
 	//                      Logging                                    //
 	/////////////////////////////////////////////////////////////////////
 	
-	public static Logger logger = null;  // cambio en tarea 2 para poderlo utilizar desde all�
-	// M�todo p�blico para asignar un logger externo
+	public static Logger logger = null;  // cambio en tarea 2 para poderlo utilizar desde alli
+	// Metodo publico para asignar un logger externo
 	/** Asigna un logger ya creado para que se haga log de las operaciones de base de datos
 	 * @param logger	Logger ya creado
 	 */
