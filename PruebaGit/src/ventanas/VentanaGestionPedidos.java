@@ -6,8 +6,8 @@ import javax.swing.*;
 import javax.swing.event.*;
 
 
-import clases.Pedido;
-import clases.VideoClub;
+import clases.*;
+import ventanas.*;
 
 public class VentanaGestionPedidos extends JFrame {
 	protected VideoClub datos;

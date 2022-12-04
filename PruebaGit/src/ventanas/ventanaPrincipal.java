@@ -8,7 +8,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-import clases.Productos;
+import clases.*;
+import ventanas.*;
 
 public class ventanaPrincipal extends JFrame{
 	private JPanel panelCatalogo;
