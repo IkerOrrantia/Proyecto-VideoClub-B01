@@ -10,13 +10,22 @@ import clases.*;
 import ventanas.*;
 import means.*;
 
-public class InicioSesion extends JFrame {
+public class VentanaInicioSesion extends JFrame {
 
 	public static void main(String[] args) {
-		InicioSesion ini = new InicioSesion();
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					VentanaInicioSesion ventanainiciosesion = new VentanaInicioSesion();
+					ventanainiciosesion.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
-	public InicioSesion() {
+	public VentanaInicioSesion() {
 		ControladorDeTxt ctxt = new ControladorDeTxt();
 		// Metemos el controlador en el Arraylist de clientes
 		ArrayList<Cliente> clientes = ctxt.importarClientes(); 
@@ -72,7 +81,8 @@ public class InicioSesion extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					Registro reg = new Registro();
+					VentanaRegistro reg = new VentanaRegistro();
+					reg.setVisible(true);
 					setVisible(false);
 				}
 			});
@@ -100,7 +110,7 @@ public class InicioSesion extends JFrame {
 				if (acceso) {
 					JOptionPane.showMessageDialog(null, "Inicio de sesión válido.", "Confirmacion", 1, null);
 					
-					ventanaPrincipal ventanaprincipal = new ventanaPrincipal();
+					VentanaPrincipal ventanaprincipal = new VentanaPrincipal();
 					ventanaprincipal.setVisible(true);
 					setVisible(false);
 				}
@@ -126,9 +136,9 @@ public class InicioSesion extends JFrame {
 		panel_abajo.add(panel_abajo_centro, BorderLayout.CENTER);
 		
 
-		// Estabelecemos el frame como visible
+		// Estabelecemos el frame compacto y no maximizable
 		setResizable(false);
 		pack();
-		setVisible(true);
+		
 	}
 }
