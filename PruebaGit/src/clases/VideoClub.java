@@ -105,15 +105,14 @@ public class VideoClub {
 		
 		// Cargamos los muebles desde fichero
 		try {
-			Scanner sc = new Scanner(new File("deustea.csv"));
-			String[] categorias = { "COCINA", "CAMAS", "ESTANTERIAS", "ARMARIOS", "DESAYUNO", "SILLAS", 
-					"ALMACENAMIENTO", "INFANTIL", "SOFAS", "MESAS" };
+			Scanner sc = new Scanner(new File("bd.Peliculas.db"));
+			String[] genero = { "ANIMACION", "TERROR" , "ROMANTICA" , "ACCION" , "CIENCIAFICCION" };
 						
 			while(sc.hasNextLine()) {
 				String linea = sc.nextLine();
 				String[] campos = linea.split(";");
-				int pos = Arrays.asList(categorias).indexOf(campos[2]);
-				Pelicula nueva = new Pelicula(Integer.parseInt(campos[0]), campos[1], Categoria.values()[pos], Double.parseDouble(campos[3]));
+				int pos = Arrays.asList(genero).indexOf(campos[3]);
+				Pelicula nueva = new Pelicula(Integer.parseInt(campos[0]), campos[1], campos[2], Genero.values()[pos], Integer.parseInt(campos[4]), Double.parseDouble(campos[5]));
 				this.productos.add(nueva);
 				muebles.add(nueva);
 			}
