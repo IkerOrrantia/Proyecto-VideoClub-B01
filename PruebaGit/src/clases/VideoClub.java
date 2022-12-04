@@ -125,7 +125,7 @@ public class VideoClub {
 	}
 		
 	
-	/** Añade un pedido a las estructuras de datos de Deustea
+	/** Añade un pedido a las estructuras de datos del video club
 	 * @param pedido que se añade
 	 */
 	public void anyadirPedido(Pedido pedido) {
@@ -133,7 +133,7 @@ public class VideoClub {
 		pedidosPorEstado.get(pedido.getEstado()).add(pedido);
 	}
 	
-	/** Borra un pedido de las estructuras de datos de Deustea
+	/** Borra un pedido de las estructuras de datos del video club
 	 * @param pedido que se borra
 	 */
 	public void borrarPedido(Pedido pedido) {
@@ -141,7 +141,7 @@ public class VideoClub {
 		pedidosPorEstado.get(pedido.getEstado()).remove(pedido);
 	}
 	
-	/** Actualiza el estado de un pedido y las estructuras de datos de Deustea
+	/** Actualiza el estado de un pedido y las estructuras de datos del video club.
 	 * @param pedido que se actualiza
 	 * @param estado nuevo
 	 */
