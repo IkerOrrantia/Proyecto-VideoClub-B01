@@ -88,7 +88,7 @@ public class BD {
 					"'" + objEmp.getTelefono() + "'," +
 					"" + objEmp.getNomina() + ")";
 			
-			Statement st = initBD("NominaEmpleado.db");
+			Statement st = initBD("data/NominaEmpleado.db");
 			int val = st.executeUpdate( sentSQL );
 			log( Level.INFO, "BD tabla empleados anyadida " + val + " fila\t" + sentSQL, null );
 			if (val!=1) {  // Se tiene que anyadir 1 - error si no
@@ -112,7 +112,7 @@ public class BD {
 					"" + objPagoNom.getValorMensual() + "," +					
 					"" + objPagoNom.getCodEmpleadoFK() + ")";
 			
-			Statement st = initBD("NominaEmpleado.db");
+			Statement st = initBD("data/NominaEmpleado.db");
 			int val = st.executeUpdate( sentSQL );
 			log( Level.INFO, "BD tabla pagoEmpleado añadida " + val + " fila\t" + sentSQL, null );
 			if (val!=1) {  // Se tiene que anyadir 1 - error si no
@@ -132,7 +132,7 @@ public class BD {
 		String sentSQL = "";
 		ArrayList<TEmpleado> lsEmpleado = new ArrayList<TEmpleado>();
 		try {
-			 Statement st = initBD("NominaEmpleado.db");
+			 Statement st = initBD("data/NominaEmpleado.db");
 			 sentSQL = "Select * from empleados";
 			 ResultSet rs = st.executeQuery(sentSQL);
 		
@@ -159,7 +159,7 @@ public class BD {
 		String sentSQL = "";
 		ArrayList<TPagoNomina> lsP = new ArrayList<TPagoNomina>();
 		try {
-			 Statement st = initBD("NominaEmpleado.db");
+			 Statement st = initBD("data/NominaEmpleado.db");
 			 sentSQL = "Select * from pagoEmpleado";
 			 ResultSet rs = st.executeQuery(sentSQL);
 		

@@ -105,7 +105,7 @@ public class VideoClub {
 		
 		// Cargamos los muebles desde fichero
 		try {
-			Scanner sc = new Scanner(new File("bd.Peliculas.db"));
+			Scanner sc = new Scanner(new File("data/Peliculas.db"));
 			String[] genero = { "ANIMACION", "TERROR" , "ROMANTICA" , "ACCION" , "CIENCIAFICCION" };
 						
 			while(sc.hasNextLine()) {

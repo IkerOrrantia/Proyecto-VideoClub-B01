@@ -111,7 +111,7 @@ public ArrayList<Pelicula>importarPeliculas(){
         
         ArrayList<Pelicula>peliculas = new ArrayList<Pelicula>();
       
-        String ruta = "bd.Pelicuilas.db";
+        String ruta = "data/Pelicuilas.db";
         try {
 			archivo = new File(ruta);
 			fr = new FileReader(archivo);
