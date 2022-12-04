@@ -14,13 +14,13 @@ public class Cuenta {
 	
 	//Constructor
 	
-	public Cuenta(String usuario, String nombre, String apellidos, String dNI, String correo, String contrasenya,
+	public Cuenta(String usuario, String nombre, String apellidos, String dni, String correo, String contrasenya,
 			int telefono, String direccion) {
 		super();
 		Usuario = usuario;
 		Nombre = nombre;
 		Apellidos = apellidos;
-		DNI = dNI;
+		DNI = dni;
 		Correo = correo;
 		Contrasenya = contrasenya;
 		Telefono = telefono;
@@ -62,8 +62,8 @@ public class Cuenta {
 	}
 
 
-	public void setDNI(String dNI) {
-		DNI = dNI;
+	public void setDNI(String dni) {
+		DNI = dni;
 	}
 
 

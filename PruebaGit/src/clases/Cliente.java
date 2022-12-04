@@ -2,22 +2,22 @@ package clases;
 
 public class Cliente extends Cuenta {
 	// Variable
-	private int NumerodePeliculas;
+	private int PeliculasCompradas;
 	private Genero Genero;
 	// Anyadir numero de peliculas por tipo ---> For TipoPelicula...
-	public Cliente(String usuario, String nombre, String apellidos, String dNI, String correo, String contrasenya, int telefono, String direccion, int NumerodePeliculas) {
-		super(usuario, nombre, apellidos, dNI, correo, contrasenya, telefono, direccion);
-		this.NumerodePeliculas = NumerodePeliculas;
+	public Cliente(String usuario, String nombre, String apellidos, String dni, String correo, String contrasenya, int telefono, String direccion, int peliculascompradas) {
+		super(usuario, nombre, apellidos, dni, correo, contrasenya, telefono, direccion);
+		this.PeliculasCompradas = peliculascompradas;
 	}
-	public int getNumerodePeliculas() {
-		return NumerodePeliculas;
+	public int getPeliculasCompradas() {
+		return PeliculasCompradas;
 	}
-	public void setNumerodePeliculas(int numerodePeliculas) {
-		NumerodePeliculas = numerodePeliculas;
+	public void setPeliculasCompradas(int peliculascompradas) {
+		this.PeliculasCompradas = peliculascompradas;
 	}
 	@Override
 	public String toString() {
-		return "Cliente [NumerodePeliculas=" + NumerodePeliculas + "]";
+		return "Cliente [PeliculasCompradas=" + PeliculasCompradas + "]";
 	}
 	
 }
