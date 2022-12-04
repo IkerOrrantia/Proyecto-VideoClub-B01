@@ -2,9 +2,13 @@ package ventanas;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
 
-import clases.GuardarDispositivo;
+import clases.*;
+import ventanas.*;
+import means.*;
 
 public class InicioSesion extends JFrame {
 
@@ -13,6 +17,9 @@ public class InicioSesion extends JFrame {
 	}
 
 	public InicioSesion() {
+		ControladorDeTxt ctxt = new ControladorDeTxt();
+		// Metemos el controlador en el Arraylist de clientes
+		ArrayList<Cliente> clientes = ctxt.importarClientes(); 
 
 		// Creamos un nuevo frame y definimos su tamaño, posicion, nombre y cuando ha de
 		// cerrarse
@@ -66,6 +73,7 @@ public class InicioSesion extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
 					Registro reg = new Registro();
+					setVisible(false);
 				}
 			});
 		JButton IniciarSesion = new JButton("Acceder"); // Posibles cambios: Entrar, Logg in, Iniciar.... Por decidir
@@ -74,7 +82,32 @@ public class InicioSesion extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				String usuario= TextUsuario.getText();
+				String myPass=String.valueOf(TextContrasenya.getPassword());
 				
+				boolean acceso = false;
+				
+				for (Cliente c : clientes) {
+				    
+					//Compobar si la contraseña y usuario coinciden con lo q esta guardado en el txt
+					if (c.getUsuario().equals(usuario) && c.getContrasenya().equals(myPass) || c.getCorreo().equals(usuario) && c.getContrasenya().equals(myPass)) {
+						acceso = true;
+					}
+				}
+				//Ventana de mensaje java
+				//0=Error 1=Informacion 2=warning 3=Question 4=Message
+				//Asi es true !acceso seria false
+				if (acceso) {
+					JOptionPane.showMessageDialog(null, "Inicio de sesión válido.", "Confirmacion", 1, null);
+					
+					ventanaPrincipal ventanaprincipal = new ventanaPrincipal();
+					ventanaprincipal.setVisible(true);
+					setVisible(false);
+				}
+				else {
+					
+					JOptionPane.showMessageDialog(null, "No se encuentra el usuario o la contraseña es incorrecta.", "Error", 0, null);
+				}
 			}
 		});					
 
