@@ -88,7 +88,7 @@ public class ControladorDeTxt {
 				String direccion = c.getDireccion();
 				int peliculas = c.getPeliculasCompradas();
 				
-				fw.write(usuario+","+nombre+","+apellidos+","+dni+","+correo+","+contrasenya+","+telefono+","+direccion+","+peliculas+"\n");
+				fw.write(usuario+";"+nombre+";"+apellidos+";"+dni+";"+correo+";"+contrasenya+";"+telefono+";"+direccion+";"+peliculas+"\n");
 			}
 			//Para cerrar
 			fw.close();
