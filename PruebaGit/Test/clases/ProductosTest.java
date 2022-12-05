@@ -7,15 +7,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 import clases.Genero;
-import clases.Productos;
+import clases.Producto;
 
 public class ProductosTest {
 
-		private Productos p;
+		private Pelicula p;
 		
 		@Before
 		public void setUp() {
-			p = new Productos("Django Desencadenado","Tarantino",3.24,Genero.ACCION,2013);
+			p = new Pelicula(1, "Django Desencadenado","Tarantino", Genero.ACCION, 2013, 3.24);
 		}
 	@Test
 	public void testgetnombre() {

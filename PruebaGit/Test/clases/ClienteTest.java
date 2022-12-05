@@ -17,6 +17,6 @@ public class ClienteTest {
 	}
 	@Test
 	public void testgetNumerodePeliculas() {
-		assertEquals(4, c.getNumerodePeliculas());
+		assertEquals(4, c.getPeliculasCompradas());
 	}
 }

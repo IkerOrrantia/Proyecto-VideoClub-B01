@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import clases.Cuenta;
 import clases.Genero;
-import clases.Productos;
+import clases.Producto;
 
 public class CuentaTest {
 
