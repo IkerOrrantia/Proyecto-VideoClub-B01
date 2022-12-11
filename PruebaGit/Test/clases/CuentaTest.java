@@ -16,7 +16,7 @@ public class CuentaTest {
 		
 		@Before
 		public void setUp() {
-			p = new Cuenta("Fermin101", "Fermin", "Garcia","21304542A", "Fermin@gmail.com", "Perro33",688925075 , "Calle el Redentor");
+			p = new Cuenta("Fermin101", "Fermin", "Garcia","21304542A", "Fermin@gmail.com", "Perro33", 688925075, "Data/Clientes.txt", "Calle el Redentor");
 		}
 	@Test
 	public void testgetUsuario() {

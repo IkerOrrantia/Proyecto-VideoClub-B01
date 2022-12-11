@@ -13,7 +13,7 @@ public class ClienteTest {
 	
 	@Before
 	public void SetUp() {
-		c = new Cliente("Fermin101", "Fermin", "Garcia","21304542A", "Fermin@gmail.com", "Perro33",688925075 , "Calle el Redentor", 4);
+		c = new Cliente("Fermin101", "Fermin", "Garcia","21304542A", "Fermin@gmail.com", "Perro33",688925075 , "Calle el Redentor","Data/Clientes.txt", 4);
 	}
 	@Test
 	public void testgetNumerodePeliculas() {
