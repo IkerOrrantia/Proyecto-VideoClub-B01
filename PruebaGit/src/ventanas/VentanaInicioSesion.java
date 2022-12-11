@@ -102,6 +102,12 @@ public class VentanaInicioSesion extends JFrame {
 					//Compobar si la contraseña y usuario coinciden con lo q esta guardado en el txt
 					if (c.getUsuario().equals(usuario) && c.getContrasenya().equals(myPass) || c.getCorreo().equals(usuario) && c.getContrasenya().equals(myPass)) {
 						acceso = true;
+						c.setConexion("En linea");
+						
+						
+//						clientes.add(c);
+//						ctxt.exportarClientes(clientes);
+						
 					}
 				}
 				//Ventana de mensaje java

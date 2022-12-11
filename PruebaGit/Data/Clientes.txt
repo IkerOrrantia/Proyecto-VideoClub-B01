@@ -1,8 +1,8 @@
-hector67;Hector;Fernandez Cortes;00000001A;hector.f.c@opendeusto.es;soyPr0g3er;66666666;San Antonio;0
-iker007;Iker;Orrantia Marques;00000002A;iker.orrantia@opendeusto.es;gat1t0s;66666667;Etxebarri;0
-inhar11;Inhar;Serrano Gonzalez;00000003A;inhar.serrano@opendeusto.es;viva4nlasp;66666668;Algorta;0
-ander69;Ander;Perez Caballero;00000004A;ander.perezcaballero@opendeusto.es;cutersill0;66666669;Bilbao;0
-gonzaa08;Unai;Gonzalez Ronaldo;00000005A;unai.gonzalez@opendeusto.es;furbochanpagne;66666660;Santutxu;0
-rablo17;Pablo;del Campo Olano;00000006A;pablodel.campo@opendeusto.es;gat0albino;66666661;Getxo;0
-portuu4;Aitor;Portugues Oliveira;00000007A;aitor.portugues@opendeusto.es;ruleteo;66666662;Santurtzi;0
-Manolito19;Manolo;Perez Azpirigoiti;00000008A;Manolito19@gmail.com;suMorenito;611111111;Cuenca;0
+hector67;Hector;Fernandez Cortes;00000001A;hector.f.c@opendeusto.es;soyPr0g3er;66666666;San Antonio;Deconectado;0
+iker007;Iker;Orrantia Marques;00000002A;iker.orrantia@opendeusto.es;iker123;66666667;Etxebarri;Deconectado;0
+inhar11;Inhar;Serrano Gonzalez;00000003A;inhar.serrano@opendeusto.es;viva4nlasp;66666668;Algorta;Deconectado;0
+ander69;Ander;Perez Caballero;00000004A;ander.perezcaballero@opendeusto.es;cutersill0;66666669;Bilbao;Deconectado;0
+gonzaa08;Unai;Gonzalez Ronaldo;00000005A;unai.gonzalez@opendeusto.es;furbochanpagne;66666660;Santutxu;Deconectado;0
+rablo17;Pablo;del Campo Olano;00000006A;pablodel.campo@opendeusto.es;gat0albino;66666661;Getxo;Deconectado;0
+portuu4;Aitor;Portugues Oliveira;00000007A;aitor.portugues@opendeusto.es;ruleteo;66666662;Santurtzi;Deconectado;0
+Manolito19;Manolo;Perez Azpirigoiti;00000008A;Manolito19@gmail.com;suMorenito;611111111;Cuenca;Deconectado;0

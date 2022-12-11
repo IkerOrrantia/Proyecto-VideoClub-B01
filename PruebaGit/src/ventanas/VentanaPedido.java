@@ -108,7 +108,7 @@ public class VentanaPedido extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// Guardamos los datos
-				pedido.setCliente((textoCliente.getText()));
+				pedido.setCliente(null); //Sacar la cuenta del usuario y lograr meter la informacion ahi **Solucionar cuando sea posible
 				pedido.setElementos(Collections.list(modeloPagables.elements()));
 				pedido.setEstado(Estado.PREPARACION);
 

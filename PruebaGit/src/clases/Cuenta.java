@@ -10,12 +10,13 @@ public class Cuenta {
 	private String Contrasenya;
 	private int Telefono;
 	private String Direccion;
+	private String Conexion;
 	
 	
 	//Constructor
 	
 	public Cuenta(String usuario, String nombre, String apellidos, String dni, String correo, String contrasenya,
-			int telefono, String direccion) {
+			int telefono, String direccion, String conexion) {
 		super();
 		Usuario = usuario;
 		Nombre = nombre;
@@ -25,6 +26,7 @@ public class Cuenta {
 		Contrasenya = contrasenya;
 		Telefono = telefono;
 		Direccion = direccion;
+		Conexion  = conexion;
 	}
 
 	// Getters Y Setters
@@ -101,17 +103,23 @@ public class Cuenta {
 		return Direccion;
 	}
 
-
 	public void setDireccion(String direccion) {
 		Direccion = direccion;
 	}
+	
+	public String getConexion() {
+		return Conexion;
+	}
 
+	public void setConexion(String conexion) {
+		Conexion = conexion;
+	}
 
 	//ToString
 	@Override
 	public String toString() {
 		return "Cuenta [ Usuario=" + Usuario + ", Nombre=" + Nombre + ", Apellidos=" + Apellidos + ", DNI=" + DNI + ", Correo=" + Correo
-				+ ", Contrasenya=" + Contrasenya + ", Telefono=" + Telefono + ", Direccion=" + Direccion + "]";
+				+ ", Contrasenya=" + Contrasenya + ", Telefono=" + Telefono + ", Direccion=" + Direccion + ", Conexion=" + Conexion + "]";
 	}
 	
 	

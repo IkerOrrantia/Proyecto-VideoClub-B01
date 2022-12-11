@@ -29,7 +29,7 @@ public class Pedido implements Serializable {
 	 */
 	public Pedido() {
 		super();
-		this.cliente = new Cliente(cliente.getUsuario(), cliente.getNombre(), cliente.getApellidos(), cliente.getDNI(), cliente.getCorreo(), null, cliente.getTelefono(), cliente.getDireccion(), 0);
+		this.cliente = new Cliente(cliente.getUsuario(), cliente.getNombre(), cliente.getApellidos(), cliente.getDNI(), cliente.getCorreo(), cliente.getContrasenya() ,cliente.getTelefono(), cliente.getDireccion(), cliente.getConexion(),0);
 		this.fecha = new Date();
 		this.elementos = new ArrayList<Pagable>();
 		this.estado = Estado.PREPARACION;

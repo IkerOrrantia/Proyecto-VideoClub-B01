@@ -44,11 +44,12 @@ public class ControladorDeTxt {
 				String correo = palabras[4];
 				String contrasenya = palabras[5];
 				int telefono = Integer.parseInt(palabras[6]);
-				String direccion = palabras[7];
-			    int peliculas = Integer.parseInt(palabras[8]);
+				String direccion = palabras[7];				
+				String conexion = palabras[8];
+			    int peliculas = Integer.parseInt(palabras[9]);
 			    
 			    
-				Cliente cliente = new Cliente(usuario, nombre, apellidos, dni, correo, contrasenya, telefono, direccion, peliculas);
+				Cliente cliente = new Cliente(usuario, nombre, apellidos, dni, correo, contrasenya, telefono, direccion, conexion, peliculas);
 			    clientes.add(cliente);
 			    
 				linea = br.readLine();
@@ -86,9 +87,10 @@ public class ControladorDeTxt {
 				String contrasenya = c.getContrasenya();
 				int telefono = c.getTelefono();
 				String direccion = c.getDireccion();
+				String conexion = "Deconectado";
 				int peliculas = c.getPeliculasCompradas();
 				
-				fw.write(usuario+";"+nombre+";"+apellidos+";"+dni+";"+correo+";"+contrasenya+";"+telefono+";"+direccion+";"+peliculas+"\n");
+				fw.write(usuario+";"+nombre+";"+apellidos+";"+dni+";"+correo+";"+contrasenya+";"+telefono+";"+direccion+";"+conexion+";"+peliculas+"\n");
 			}
 			//Para cerrar
 			fw.close();

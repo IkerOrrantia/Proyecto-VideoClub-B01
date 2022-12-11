@@ -121,11 +121,12 @@ public class VentanaRegistro extends JFrame {
 				String correo= TextCorreo.getText();
 				String direccion= TextDireccion.getText();
 				int telefono= Integer.parseInt(TextTelefono.getText());
+				String conexion= "Desconectado";
 				String myPass= String.valueOf(TextContrasenya.getPassword());
 					//Si aca en esas terminaciones el email
 					if (TextCorreo.getText().contains("@gmail.com") || TextCorreo.getText().contains("@yahoo.es") ||  TextCorreo.getText().contains("@hotmail.com") || TextCorreo.getText().contains("@opendeusto.es")) {
 						
-						Cliente cliente = new Cliente(usuario, nombre, apellidos, dni, correo, myPass, telefono, direccion, 0);
+						Cliente cliente = new Cliente(usuario, nombre, apellidos, dni, correo, myPass, telefono, direccion, conexion,0);
 						clientes.add(cliente);
 						ctxt.exportarClientes(clientes);
 						
