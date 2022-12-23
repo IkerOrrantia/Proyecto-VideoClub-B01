@@ -64,7 +64,7 @@ public class VentanaPrincipal extends JFrame{
 	
 	public void filter() {
 		try {
-			sorter.setRowFilter(RowFilter.regexFilter("?i");
+			sorter.setRowFilter(RowFilter.regexFilter("?i"));
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -103,14 +103,14 @@ public class VentanaPrincipal extends JFrame{
 
 	    
 	    // creacion de tabla de productos
-	    String[] columnas = {"ID", "Titulo", "Director", "Genero", "Anyo", "Precio"};
+	   /* String[] columnas = {"ID", "Titulo", "Director", "Genero", "Anyo", "Precio"};
 	    String[][] datos = {
 	        {"1", "Pelicula 1", "Director 1", "Genero 1", "2001", "10.00"},
 	        {"2", "Pelicula 2", "Director 2", "Genero 2", "2002", "20.00"},
 	        {"3", "Pelicula 3", "Director 3", "Genero 3", "2003", "30.00"},
 	        {"4", "Pelicula 4", "Director 4", "Genero 4", "2004", "40.00"},
 	        {"5", "Pelicula 5", "Director 5", "Genero 5", "2005", "50.00"}
-	    };
+	    };*/
 	    // creacion de tabla de productos
 	    // Establecemos los detalles de la conexion a la base de datos
 	    String url = "data/Peliculas.db";
@@ -174,7 +174,8 @@ public class VentanaPrincipal extends JFrame{
 	      System.out.println("Error al transferir los datos: " + ex.getMessage());
 	    }
 	  
-	    tablaProductos = new JTable(tablePeli); //REVISA ESTO
+	    initTables();
+	    loadTables();
 
 	    // agregar componentes al panel principal
 	    panelCatalogo.add(panelFiltros, BorderLayout.NORTH);
