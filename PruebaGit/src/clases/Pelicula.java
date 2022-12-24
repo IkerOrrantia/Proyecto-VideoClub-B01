@@ -70,7 +70,7 @@ public class Pelicula extends Producto implements Pagable, Serializable {
 
 	@Override
 	public String toString() {
-		return "Pelicula [id=" + id + "nombre=" + nombre + ", director=" + director + "genero=" + genero + ", anyo="
+		return "Pelicula [id=" + id + ", nombre=" + nombre + ", director=" + director + ", genero=" + genero + ", anyo="
 				+ anyo + ", precio=" + precio + "]";
 	}
 
