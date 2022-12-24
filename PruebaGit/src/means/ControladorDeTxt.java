@@ -88,7 +88,7 @@ public class ControladorDeTxt {
 				int telefono = c.getTelefono();
 				String direccion = c.getDireccion();
 				String conexion = "Deconectado";
-				int peliculas = c.getPeliculasCompradas();
+				int peliculas = c.getPeliculasAlquiladas();
 				
 				fw.write(usuario+";"+nombre+";"+apellidos+";"+dni+";"+correo+";"+contrasenya+";"+telefono+";"+direccion+";"+conexion+";"+peliculas+"\n");
 			}
