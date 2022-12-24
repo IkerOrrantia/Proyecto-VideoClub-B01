@@ -40,7 +40,7 @@ public class VentanaPrincipal extends JFrame{
 	TableRowSorter<DefaultTableModel> sorter;
 	
 	private void initTables (){
-		Vector<String> cabecera = new Vector<String>(Arrays.asList("ID", "TITULO", "DIRECTOR", "GENERO", "ANYO", "PRECIO"));
+		Vector<String> cabecera = new Vector<String>(Arrays.asList("ID", "NOMBRE", "DIRECTOR", "GENERO", "ANYO", "PRECIO"));
 		// creamos modelo de datos
 		this.modeloDatos = new DefaultTableModel(new Vector<Vector<Object>>(), cabecera);
 		// se crea tabla utilizado el modelo
@@ -91,7 +91,7 @@ public class VentanaPrincipal extends JFrame{
 	    JButton aceptarBusqueda = new JButton("Filtrar");
 	    
 	    filtros.addItem("ID");
-	    filtros.addItem("Titulo");
+	    filtros.addItem("Nombre");
 	    filtros.addItem("Director");
 	    filtros.addItem("Precio");
 	    filtros.addItem("Genero");
@@ -127,7 +127,7 @@ public class VentanaPrincipal extends JFrame{
 	      // iteramos sobre los resultados de la consulta y los transferimos a la tabla
 	      while (rs.next()) {
 	        int id = rs.getInt("ID");
-	        String titulo = rs.getString("Titulo");
+	        String nombre = rs.getString("nombre");
 	        String director = rs.getString("Director");
 	        String genero = rs.getString("Genero");
 	        Genero generoP = Genero.ACCION;
@@ -161,7 +161,7 @@ public class VentanaPrincipal extends JFrame{
 				throw new IllegalArgumentException("Unexpected value: " + rs.getString("Genero"));
 			}
 	        
-	        Pelicula p = new Pelicula(id, titulo, director, generoP, anyo, precio);
+	        Pelicula p = new Pelicula(id, nombre, director, generoP, anyo, precio);
 	        // codigo para insertar estos datos en la tabla
 	        tablePeli.add(p);
 	        
