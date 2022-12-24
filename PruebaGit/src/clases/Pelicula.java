@@ -7,6 +7,8 @@ public class Pelicula extends Producto implements Pagable, Serializable {
 	protected double precio;
 	protected String director;
 	protected int anyo;
+	protected int cantidad;
+	protected String descripcion;
 
 	/**
 	 * Constructor con argumentos
@@ -16,17 +18,19 @@ public class Pelicula extends Producto implements Pagable, Serializable {
 	 * @param categoria del mueble
 	 * @param precio    del mueble
 	 */
-	public Pelicula(int id, String nombre, String director, Genero genero, int anyo, double precio) {
+	public Pelicula(int id, String nombre, String director, Genero genero, int anyo, double precio, int cantidad, String descripcion) {
 		super(id, nombre);
 		this.director = director;
 		this.genero = genero;
 		this.anyo = anyo;
 		this.setPrecio(precio);
+		this.cantidad = cantidad;
+		this.descripcion = descripcion;
 	}
 
 	/**
-	 * Constructor por defecto, crea un mueble con id -1, "Sin nombre" de categoría
-	 * COCINA y precio 0
+	 * Constructor por defecto, crea una pelicula con id -1, "Sin nombre" de Genero
+	 * Accion y precio 0
 	 */
 	public Pelicula() {
 		super();
@@ -67,11 +71,27 @@ public class Pelicula extends Producto implements Pagable, Serializable {
 			this.precio = precio;
 		}
 	}
+	
+	public int getCantidad() {
+		return cantidad;
+	}
+
+	public void setCantidad(int cantidad) {
+		this.cantidad = cantidad;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
 
 	@Override
 	public String toString() {
 		return "Pelicula [id=" + id + ", nombre=" + nombre + ", director=" + director + ", genero=" + genero + ", anyo="
-				+ anyo + ", precio=" + precio + "]";
+				+ anyo + ", precio=" + precio + ", cantidad=" + cantidad + ", descripcion=" + descripcion +"]";
 	}
 
 }

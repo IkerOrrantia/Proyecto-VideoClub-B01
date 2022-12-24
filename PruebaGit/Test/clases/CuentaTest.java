@@ -16,7 +16,7 @@ public class CuentaTest {
 		
 		@Before
 		public void setUp() {
-			p = new Cuenta("Fermin101", "Fermin", "Garcia","21304542A", "Fermin@gmail.com", "Perro33", 688925075,"Calle el Redentor", "Data/Clientes.txt");
+			p = new Cuenta( 8, "Fermin101", "Fermin", "Garcia","21304542A", "Fermin@gmail.com", "Perro33", 688925075,"Calle el Redentor", "Desconectado", 2);
 		}
 	@Test
 	public void testgetUsuario() {
@@ -46,5 +46,17 @@ public class CuentaTest {
 	public void testgetDireccion() {
 		assertEquals("Calle el Redentor", p.getDireccion());
 	}
-			
+	@Test
+	public void testgetConexion() {
+		assertEquals("Desconectado", p.getConexion());
+	}
+	@Test
+	public void testgetRol() {
+		assertEquals(2, p.getRol());
+	}		
+	@Test
+	public void testtoString() {
+		String esperado = "Cuenta [ Id=8 , Usuario=Fermin101 , Nombre=Fermin , Apellidos=Garcia , DNI=21304542A , Correo=Fermin@gmail.com , Contrasenya=Perro33 , Telefono=688925075 , Direccion=Calle el Redentor , Conexion=Desconectado , Rol=2]";
+		assertEquals(esperado, p.toString());
+	}
 }

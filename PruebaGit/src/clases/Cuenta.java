@@ -2,6 +2,7 @@ package clases;
 
 public class Cuenta {
 	//Variables 
+	private int Id;
 	private String Usuario;
 	private String Nombre;
 	private String Apellidos;
@@ -11,13 +12,15 @@ public class Cuenta {
 	private int Telefono;
 	private String Direccion;
 	private String Conexion;
+	private int Rol;
 	
 	
 	//Constructor
 	
-	public Cuenta(String usuario, String nombre, String apellidos, String dni, String correo, String contrasenya,
-			int telefono, String direccion, String conexion) {
+	public Cuenta(int id, String usuario, String nombre, String apellidos, String dni, String correo, String contrasenya,
+			int telefono, String direccion, String conexion, int rol) {
 		super();
+		Id = id;
 		Usuario = usuario;
 		Nombre = nombre;
 		Apellidos = apellidos;
@@ -27,9 +30,20 @@ public class Cuenta {
 		Telefono = telefono;
 		Direccion = direccion;
 		Conexion  = conexion;
+		Rol= rol;
+	}
+
+	public Cuenta(int id2, String usuario2) {
 	}
 
 	// Getters Y Setters
+	public int getId_Usuario() {
+		return Id;
+	}
+
+	public void setId_Usuario(int id) {
+		Id = id;
+	}
 	
 	public String getUsuario() {
 		return Usuario;
@@ -114,12 +128,21 @@ public class Cuenta {
 	public void setConexion(String conexion) {
 		Conexion = conexion;
 	}
+	
+
+	public int getRol() {
+		return Rol;
+	}
+
+	public void setRol(int rol) {
+		Rol = rol;
+	}
 
 	//ToString
 	@Override
 	public String toString() {
-		return "Cuenta [ Usuario=" + Usuario + ", Nombre=" + Nombre + ", Apellidos=" + Apellidos + ", DNI=" + DNI + ", Correo=" + Correo
-				+ ", Contrasenya=" + Contrasenya + ", Telefono=" + Telefono + ", Direccion=" + Direccion + ", Conexion=" + Conexion + "]";
+		return "Cuenta [ Id=" + Id +" , Usuario=" + Usuario + " , Nombre=" + Nombre + " , Apellidos=" + Apellidos + " , DNI=" + DNI + " , Correo=" + Correo
+				+ " , Contrasenya=" + Contrasenya + " , Telefono=" + Telefono + " , Direccion=" + Direccion + " , Conexion=" + Conexion + " , Rol=" + Rol + "]";
 	}
 	
 	

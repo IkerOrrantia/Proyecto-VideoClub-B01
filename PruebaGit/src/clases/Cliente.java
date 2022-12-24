@@ -1,12 +1,18 @@
 package clases;
 
 public class Cliente extends Cuenta {
-	// Variable
+	// Variables
+	private int Id_Cliente;
+	private String Usuario;
 	private int PeliculasAlquiladas;
-	private Genero Genero;
+	
+	static Cuenta cuenta;
 	// Anyadir numero de peliculas por tipo ---> For TipoPelicula...
-	public Cliente(String usuario, String nombre, String apellidos, String dni, String correo, String contrasenya, int telefono, String direccion, String conexion, int peliculasAlquiladas) {
-		super(usuario, nombre, apellidos, dni, correo, contrasenya, telefono, direccion, conexion);
+	public Cliente(int id, String usuario, int peliculasAlquiladas) {
+		super(id, usuario);
+	//	super(id, usuario, cuenta.getNombre(), cuenta.getApellidos(), cuenta.getDNI(), cuenta.getCorreo(), cuenta.getContrasenya(), cuenta.getTelefono(), cuenta.getDireccion(), cuenta.getConexion(), cuenta.getRol());
+		this.Id_Cliente = id;
+		this.Usuario = usuario;
 		this.PeliculasAlquiladas = peliculasAlquiladas;
 	}
 	public int getPeliculasAlquiladas() {
@@ -17,7 +23,12 @@ public class Cliente extends Cuenta {
 	}
 	@Override
 	public String toString() {
-		return "Cliente [PeliculasCompradas=" + PeliculasAlquiladas + "]";
+		return "Cliente [Id_Cliente=" + Id_Cliente + " , Usuario=" + Usuario + " , PeliculasAlquiladas="
+				+ PeliculasAlquiladas + "]";
 	}
+	
+	
+	
+	
 	
 }

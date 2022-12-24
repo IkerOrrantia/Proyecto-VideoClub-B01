@@ -13,10 +13,15 @@ public class ClienteTest {
 	
 	@Before
 	public void SetUp() {
-		c = new Cliente("Fermin101", "Fermin", "Garcia","21304542A", "Fermin@gmail.com", "Perro33",688925075 , "Calle el Redentor","Data/Clientes.txt", 4);
+		c = new Cliente(8 , "juanillo23", 4);
 	}
 	@Test
-	public void testgetNumerodePeliculas() {
+	public void testgetPeliculasAlquiladas() {
 		assertEquals(4, c.getPeliculasAlquiladas());
 	}
+ 	@Test
+ 	public void testtoString() {
+ 		String esperado = "Cliente [Id_Cliente=8 , Usuario=juanillo23 , PeliculasAlquiladas=4]";
+ 		assertEquals(esperado, c.toString());
+ 	}
 }
