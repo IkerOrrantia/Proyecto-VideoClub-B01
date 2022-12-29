@@ -49,8 +49,8 @@ public class ControladorDeTxt {
 			    int peliculas = Integer.parseInt(palabras[9]);
 			    
 			    
-				Cliente cliente = new Cliente(usuario, nombre, apellidos, dni, correo, contrasenya, telefono, direccion, conexion, peliculas);
-			    clientes.add(cliente);
+//				Cliente cliente = new Cliente(usuario, nombre, apellidos, dni, correo, contrasenya, telefono, direccion, conexion, peliculas);
+//			    clientes.add(cliente);
 			    
 				linea = br.readLine();
 			}
@@ -133,8 +133,8 @@ public ArrayList<Pelicula>importarPeliculas(){
 			    int anyo = Integer.parseInt(palabras[4]);
 			    double precio = Double.parseDouble(palabras[5]);
 			    
-			    Pelicula pelicula= new Pelicula(id, nombre, director, genero,anyo, precio);
-			    peliculas.add(pelicula);
+//			    Pelicula pelicula= new Pelicula(id, nombre, director, genero,anyo, precio);
+//			    peliculas.add(pelicula);
 			    
 				linea = br.readLine();
 			}

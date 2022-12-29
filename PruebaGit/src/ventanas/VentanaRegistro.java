@@ -3,7 +3,13 @@ package ventanas;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -14,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import bd.BD;
 import clases.*;
 import ventanas.*;
 import means.*;
@@ -25,6 +32,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 
 public class VentanaRegistro extends JFrame {
+	private static Logger logger = Logger.getLogger(VentanaRegistro.class.getName());
+	private BD BD;
 	public ArrayList<Cliente> clientes;
 
 //	 public static void main(String[] args) {
@@ -33,10 +42,8 @@ public class VentanaRegistro extends JFrame {
 
 	public VentanaRegistro() {
 		
-		ControladorDeTxt ctxt = new ControladorDeTxt();
-		clientes = new ArrayList<Cliente>(); 
-		clientes = ctxt.importarClientes();
-
+		
+	
 		// Creamos un nuevo frame y definimos su tamaño, posicion, nombre y cuando ha de cerrarse
 
 		setBounds(100, 100, 220, 524); // (Posicion x, Posicion Y, Anchura, Altura)
@@ -112,6 +119,15 @@ public class VentanaRegistro extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				BD = new BD();
+				
+				try {
+					BD.connect();
+					
+				}catch (SQLException | ClassNotFoundException e1) {
+					logger.log(Level.SEVERE, "Error al conectarse a la base de datos", e1);
+				}
+			      
 				// TODO Auto-generated method stub
 				//Variables
 				String usuario= TextUsuario.getText();
@@ -121,14 +137,23 @@ public class VentanaRegistro extends JFrame {
 				String correo= TextCorreo.getText();
 				String direccion= TextDireccion.getText();
 				int telefono= Integer.parseInt(TextTelefono.getText());
-				String conexion= "Desconectado";
-				String myPass= String.valueOf(TextContrasenya.getPassword());
+				String contrasenya= String.valueOf(TextContrasenya.getPassword());
+				String conexion = "Desconectado";
+				int peliculasAlquiladas = 0;
+				int rol = 2;
 					//Si aca en esas terminaciones el email
-					if (TextCorreo.getText().contains("@gmail.com") || TextCorreo.getText().contains("@yahoo.es") ||  TextCorreo.getText().contains("@hotmail.com") || TextCorreo.getText().contains("@opendeusto.es")) {
+					if (TextCorreo.getText().contains("@gmail.com") || TextCorreo.getText().contains("@yahoo.es") ||  TextCorreo.getText().contains("@hotmail.com") || TextCorreo.getText().contains("@opendeusto.es") || TextCorreo.getText().contains("@deusto.es")) {
 						
-						Cliente cliente = new Cliente(usuario, nombre, apellidos, dni, correo, myPass, telefono, direccion, conexion,0);
-						clientes.add(cliente);
-						ctxt.exportarClientes(clientes);
+						Cuenta cuenta = new Cuenta(0,usuario,nombre,apellidos,dni,correo,contrasenya,telefono,direccion, conexion, peliculasAlquiladas, rol);
+						Cliente cliente = new Cliente(0, usuario, 0);
+						 try{
+							BD.exportCuentaToDataBase(cuenta);
+							BD.exportarClienteToDataBase(cliente);
+							BD.disconnect();
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 						
 						VentanaInicioSesion ventanainiciosesion = new VentanaInicioSesion();
 						//Para que aparezca
@@ -150,6 +175,7 @@ public class VentanaRegistro extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				VentanaInicioSesion ventanainiciosesion = new VentanaInicioSesion();
+				ventanainiciosesion.setVisible(true);
 				setVisible(false);
 			}
 		});

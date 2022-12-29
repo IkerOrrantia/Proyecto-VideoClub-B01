@@ -15,6 +15,23 @@ public class Cliente extends Cuenta {
 		this.Usuario = usuario;
 		this.PeliculasAlquiladas = peliculasAlquiladas;
 	}
+	
+	public int getId_Cliente() {
+		return Id_Cliente;
+	}
+
+	public void setId_Cliente(int id_Cliente) {
+		Id_Cliente = id_Cliente;
+	}
+
+	public String getUsuario() {
+		return Usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		Usuario = usuario;
+	}
+
 	public int getPeliculasAlquiladas() {
 		return PeliculasAlquiladas;
 	}

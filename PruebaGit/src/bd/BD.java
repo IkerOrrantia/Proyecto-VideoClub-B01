@@ -1,243 +1,111 @@
 package bd;
+
 import java.sql.*;
-import java.util.*; 
+import java.util.*;
 import java.util.logging.*;
 
-import clases.TEmpleado;
-import clases.TPagoNomina;
+import javax.swing.JOptionPane;
 
+import clases.*;
+import ventanas.*;
+import means.*;
 
 public class BD {
-	
-	private static Exception lastError = null;  // Informacion de ultimo error SQL ocurrido	
-	
-	/** Inicializa una BD SQLITE y devuelve una conexion con ella
-	 * @param nombreBD	Nombre de fichero de la base de datos
-	 * @return	Conexion con la base de datos indicada. Si hay algun error, se devuelve null
+	private Connection conn; // conexión a la base de datos
+
+	/**
+	 * M�todo para conectar a la base de datos.
+	 * 
+	 * @throws ClassNotFoundException si se produce un error al cargar el driver de
+	 *                                base de datos.
+	 * @throws SQLException           si se produce un error al establecer la
+	 *                                conexión con la base de datos.
 	 */
-	public static Statement initBD( String nombreBD ) {
-		try 
-		{
-			Class.forName("org.sqlite.JDBC");
-			String dburl = "jdbc:sqlite:" + nombreBD;
-			Connection conexion = DriverManager.getConnection(dburl);
-				 
-			Statement st = conexion.createStatement();
-			log( Level.INFO, "Conectada base de datos " + nombreBD, null );
-			return st;
-		} catch (ClassNotFoundException | SQLException e) {
-			lastError = e;
-			log( Level.SEVERE, "Error en conexion de base de datos " + nombreBD, e );
-			e.printStackTrace();
-			return null;
+	public void connect() throws ClassNotFoundException, SQLException {
+		Class.forName("org.sqlite.JDBC");
+
+		conn = DriverManager.getConnection("jdbc:sqlite:data/VideoClub.db");
+	}
+
+	/**
+	 * Cierra la conexión a la base de datos.
+	 * 
+	 * @throws SQLException si se produce un error al intentar cerrar la conexión a
+	 *                      la base de datos.
+	 */
+	public void disconnect() throws SQLException {
+		conn.close();
+	}
+
+	// Exportar datos de registro
+	public void exportCuentaToDataBase(Cuenta cuenta) throws SQLException {
+		try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO Usuario (usuario, nombre, apellidos, dni, correo, contrasenya, telefono, direccion, conexion, peliculasAlquiladas, rol) Values( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
+//			stmt.setInt(1, 0);
+			stmt.setString(1, cuenta.getUsuario());
+			stmt.setString(2, cuenta.getNombre());
+			stmt.setString(3, cuenta.getApellidos());
+			stmt.setString(4, cuenta.getDNI());
+			stmt.setString(5, cuenta.getCorreo());
+			stmt.setString(6, cuenta.getContrasenya());
+			stmt.setInt(7, cuenta.getTelefono());
+			stmt.setString(8, cuenta.getDireccion());
+			stmt.setString(9, cuenta.getConexion());
+			stmt.setInt(10, 0);
+			stmt.setInt(11, cuenta.getRol());
+			stmt.executeUpdate();
 		}
 	}
-	
-	/** Devuelve statement para usar la base de datos
-	 * @param con	Conexion ya creada y abierta a la base de datos
-	 * @return	sentencia de trabajo si se crea correctamente, null si hay cualquier error
-	 */
-	public static Statement usarBD( Connection con ) {
-		try {
-			Statement statement = con.createStatement();
-			statement.setQueryTimeout(30);  // poner timeout 30 msg
-			return statement;
-		} catch (SQLException e) {
-			lastError = e;
-			log( Level.SEVERE, "Error en uso de base de datos", e );
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
-	/** Cierra la base de datos abierta
-	 * @param con	Conexion abierta de la BD
-	 * @param st	Sentencia abierta de la BD
-	 */
-	public static void cerrarBD( Connection con, Statement st ) {
-		try {
-			if (st!=null) st.close();
-			if (con!=null) con.close();
-			log( Level.INFO, "Cierre de base de datos", null );
-		} catch (SQLException e) {
-			lastError = e;
-			log( Level.SEVERE, "Error en cierre de base de datos", e );
-			e.printStackTrace();
-		}
-	}
-	
-	
-	/** Devuelve la informacion de excepcion del ultimo error producido por cualquiera 
-	 * de los metodos de gestion de base de datos
-	 */
-	public static Exception getLastError() {
-		return lastError;
-	}
-	
-	/////////////////////////////////////////////////////////////////////
-	//                      Operaciones con Empleados                  //
-	/////////////////////////////////////////////////////////////////////
-	
-	public static boolean InsertarEmpleado(TEmpleado objEmp) {
-		String sentSQL = "";
-		try {
-			sentSQL = "insert into empleados values(" +
-					""+ objEmp.getCodEmpleado() + "," +
-					"'" + objEmp.getNombre() + "'," +
-					"'" + objEmp.getApell() + "'," +
-					"'" + objEmp.getTelefono() + "'," +
-					"" + objEmp.getNomina() + ")";
-			
-			Statement st = initBD("data/NominaEmpleado.db");
-			int val = st.executeUpdate( sentSQL );
-			log( Level.INFO, "BD tabla empleados anyadida " + val + " fila\t" + sentSQL, null );
-			if (val!=1) {  // Se tiene que anyadir 1 - error si no
-				log( Level.SEVERE, "Error en insert de BD\t" + sentSQL, null );
-				return false;  
-			}
-			return true;
-		} catch (SQLException e) {
-			log( Level.SEVERE, "Error en BD\t" + sentSQL, e );
-			lastError = e;
-			e.printStackTrace();
-			return false;
-		}		
-	}
-	
-	public static boolean InsertarPagoNomina(TPagoNomina objPagoNom) {
-		String sentSQL = "";
-		try {
-			sentSQL = "insert into pagoEmpleado values(" +
-					""+ objPagoNom.getCodNomina() + "" +
-					"" + objPagoNom.getValorMensual() + "," +					
-					"" + objPagoNom.getCodEmpleadoFK() + ")";
-			
-			Statement st = initBD("data/NominaEmpleado.db");
-			int val = st.executeUpdate( sentSQL );
-			log( Level.INFO, "BD tabla pagoEmpleado añadida " + val + " fila\t" + sentSQL, null );
-			if (val!=1) {  // Se tiene que anyadir 1 - error si no
-				log( Level.SEVERE, "Error en insert de BD\t" + sentSQL, null );
-				return false;  
-			}
-			return true;
-		} catch (SQLException e) {
-			log( Level.SEVERE, "Error en BD\t" + sentSQL, e );
-			lastError = e;
-			e.printStackTrace();
-			return false;
-		}		
-	}
-	
-	public static ArrayList<TEmpleado> getEmpleados(){
-		String sentSQL = "";
-		ArrayList<TEmpleado> lsEmpleado = new ArrayList<TEmpleado>();
-		try {
-			 Statement st = initBD("data/NominaEmpleado.db");
-			 sentSQL = "Select * from empleados";
-			 ResultSet rs = st.executeQuery(sentSQL);
-		
-			 while (rs.next()) {
-				TEmpleado objEmp = new TEmpleado(rs.getInt( "codEmpleados" ), rs.getString( "nombre" ), rs.getString( "apellido" ), rs.getInt( "telefono" ), rs.getDouble( "pagoNomina" ), null);
-				lsEmpleado.add(objEmp);
-			}
-			rs.close();
-			log( Level.INFO, "BD\t" + sentSQL, null );
-			return lsEmpleado;
-			
-			
-		} catch (SQLException e) {
-			log( Level.SEVERE, "Error en BD\t" + sentSQL, e );
-			lastError = e;
-			e.printStackTrace();
-			return null;
+
+	// Exportar datos de registro referentes a la tabla de clientes
+	public void exportarClienteToDataBase(Cliente cliente) throws SQLException {
+		try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO Cliente Values(?, ?, ?)")) {
+			//stmt.setInt(1, cliente.getId_Cliente());
+			stmt.setString(2, cliente.getUsuario());
+			stmt.setInt(3, 0);
+			stmt.executeUpdate();
 		}
 
 	}
-	
-	public static ArrayList<TPagoNomina> getPagoNomina(){
-		
-		String sentSQL = "";
-		ArrayList<TPagoNomina> lsP = new ArrayList<TPagoNomina>();
-		try {
-			 Statement st = initBD("data/NominaEmpleado.db");
-			 sentSQL = "Select * from pagoEmpleado";
-			 ResultSet rs = st.executeQuery(sentSQL);
-		
-			 while (rs.next()) 
-			 {
-				 TPagoNomina objP = new TPagoNomina();
-				 objP.setCodNomina(rs.getInt("codPago"));
-				 objP.setValorMensual(rs.getDouble("valorMensual"));
-				 objP.setCodEmpleadoFK(rs.getInt("codEmpleadoFK"));
-				 lsP.add(objP);
-			 }
-			 rs.close();
-			 log( Level.INFO, "BD\t" + sentSQL, null );
-			 return lsP;
-			
-			
-		} catch (SQLException e) {
-			log( Level.SEVERE, "Error en BD\t" + sentSQL, e );
-			lastError = e;
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
-	public static boolean ModificarEmpleado(TEmpleado objEmp)
-	{
-			return false;
-			
-	}
-	
-	/////////////////////////////////////////////////////////////////////
-	//                      Metodos privados                           //
-	/////////////////////////////////////////////////////////////////////
 
-	// Devuelve el string "securizado" para volcarlo en SQL
-	// (Implementacion 1) Sustituye ' por '' y quita saltos de l�nea
-	// (Implementacion 2) Mantiene solo los caracteres seguros en espa�ol
-	private static String secu( String string ) {
-		// Implementacion (1)
-		// return string.replaceAll( "'",  "''" ).replaceAll( "\\n", "" );
-		// Implementacion (2)
-		StringBuffer ret = new StringBuffer();
-		for (char c : string.toCharArray()) {
-			if ("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.,:;-_(){}[]-+*=<>'\"!&%$@#/\\0123456789".indexOf(c)>=0) ret.append(c);
-		}
-		return ret.toString();
-	}
-		
-	
-	/////////////////////////////////////////////////////////////////////
-	//                      Logging                                    //
-	/////////////////////////////////////////////////////////////////////
-	
-	public static Logger logger = null;  // cambio en tarea 2 para poderlo utilizar desde alli
-	// Metodo publico para asignar un logger externo
-	/** Asigna un logger ya creado para que se haga log de las operaciones de base de datos
-	 * @param logger	Logger ya creado
-	 */
-	public static void setLogger( Logger logger ) {
-		BD.logger = logger;
-	}
-	// Metodo local para loggear (si no se asigna un logger externo, se asigna uno local)
-	private static void log( Level level, String msg, Throwable excepcion ) {
-		if (logger==null) {  // Logger por defecto local:
-			logger = Logger.getLogger( BD.class.getName() );  // Nombre del logger - el de la clase
-			logger.setLevel( Level.ALL );  // Loguea todos los niveles
-			try {
-				// logger.addHandler( new FileHandler( "bd-" + System.currentTimeMillis() + ".log.xml" ) );  // Y saca el log a fichero xml
-				logger.addHandler( new FileHandler( "bd.log.xml", true ) );  // Y saca el log a fichero xml
-			} catch (Exception e) {
-				logger.log( Level.SEVERE, "No se pudo crear fichero de log", e );
+	// Importar los datos de los clientes para el inicio de sesion
+	public List<Cuenta> importarCuentaToDataBase() throws SQLException {
+		List<Cuenta> cuentas = new ArrayList<>();
+		try (Statement stmt = conn.createStatement()){
+			ResultSet rs = stmt.executeQuery("SELECT * FROM Usuario");
+			while(rs.next()) {
+				Cuenta cuenta = new Cuenta(
+						rs.getInt("id_usuario"),
+						rs.getString("usuario"),
+						rs.getString("nombre"),
+						rs.getString("apellidos"),
+						rs.getString("dni"),
+						rs.getString("correo"),
+						rs.getString("contrasenya"),
+						rs.getInt("telefono"),
+						rs.getString("direccion"),
+						rs.getString("conexion"),
+						rs.getInt("peliculasAlquiladas"),
+						rs.getInt("rol")
+						);
+					cuentas.add(cuenta);	
 			}
 		}
-		if (excepcion==null)
-			logger.log( level, msg );
-		else
-			logger.log( level, msg, excepcion );
+		return cuentas;
 	}
 	
-
+	public void loggin(String usuario, String contrasenya) throws SQLException {
+		try (Statement stmt = conn.createStatement()){
+			ResultSet rsLog = stmt.executeQuery("SELECT * FROM Usuario WHERE usuario = ? AND contrasenya = ?");
+				rsLog.getString(usuario);
+				rsLog.getString(contrasenya);
+			if(rsLog.next()) {
+				Cuenta cuenta = new Cuenta(rsLog.getInt(0), rsLog.getString(1), rsLog.getString(2), rsLog.getString(3), rsLog.getString(4), rsLog.getString(5), rsLog.getString(6), rsLog.getInt(7) , rsLog.getString(8), rsLog.getString(9), rsLog.getInt(10), rsLog.getInt(11));
+//				if(cuenta.getRol()==2) {
+//					
+//				}
+			}
+			//ResulSet rsRol = stmt.
+				
+		}
+	}
 }

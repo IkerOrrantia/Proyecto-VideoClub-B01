@@ -12,13 +12,14 @@ public class Cuenta {
 	private int Telefono;
 	private String Direccion;
 	private String Conexion;
+	private int PeliculasAlquiladas;
 	private int Rol;
 	
 	
 	//Constructor
 	
 	public Cuenta(int id, String usuario, String nombre, String apellidos, String dni, String correo, String contrasenya,
-			int telefono, String direccion, String conexion, int rol) {
+			int telefono, String direccion, String conexion, int peliculasAlquiladas,  int rol) {
 		super();
 		Id = id;
 		Usuario = usuario;
@@ -30,7 +31,9 @@ public class Cuenta {
 		Telefono = telefono;
 		Direccion = direccion;
 		Conexion  = conexion;
+		PeliculasAlquiladas = peliculasAlquiladas;
 		Rol= rol;
+		
 	}
 
 	public Cuenta(int id2, String usuario2) {
@@ -137,12 +140,14 @@ public class Cuenta {
 	public void setRol(int rol) {
 		Rol = rol;
 	}
+	
+	
 
 	//ToString
 	@Override
 	public String toString() {
 		return "Cuenta [ Id=" + Id +" , Usuario=" + Usuario + " , Nombre=" + Nombre + " , Apellidos=" + Apellidos + " , DNI=" + DNI + " , Correo=" + Correo
-				+ " , Contrasenya=" + Contrasenya + " , Telefono=" + Telefono + " , Direccion=" + Direccion + " , Conexion=" + Conexion + " , Rol=" + Rol + "]";
+				+ " , Contrasenya=" + Contrasenya + " , Telefono=" + Telefono + " , Direccion=" + Direccion + " , Conexion=" + Conexion + " , PeliculasAlquiladas=" + PeliculasAlquiladas + " , Rol=" + Rol + "]";
 	}
 	
 	

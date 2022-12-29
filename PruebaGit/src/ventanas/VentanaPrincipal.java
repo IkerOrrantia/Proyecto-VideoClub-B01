@@ -113,14 +113,14 @@ public class VentanaPrincipal extends JFrame{
 	    };*/
 	    // creacion de tabla de productos
 	    // Establecemos los detalles de la conexion a la base de datos
-	    String url = "data/Peliculas.db";
+//	    String url = "data/Peliculas.db";
 
 	    try {
 	      // establecemos la conexion a la base de datos
-	      java.sql.Statement st = BD.initBD("data/Peliculas.db");
+	      java.sql.Statement st = BD.initBD("data/VideoClub.db");
 
 	      // creamos una consulta SQL para obtener los datos para transferir
-	      String query = "SELECT id, titulo, director, genero, anyo, precio FROM VideoClub";
+	      String query = "SELECT id, nombre, director, genero, anyo, precio, cantidad, descripcion FROM Peliculas";
 	      // java.sql.Statement stmt = conn.createStatement();
 	      ResultSet rs = st.executeQuery(query);
 	      
@@ -133,6 +133,8 @@ public class VentanaPrincipal extends JFrame{
 	        Genero generoP = Genero.ACCION;
 	        int anyo = rs.getInt("Anyo");
 	        double precio = rs.getDouble("Precio");
+	        int cantidad = rs.getInt("cantidad");
+	        String descripcion = rs.getString("descripcion");
 	        
 	        switch (genero) {
 			case "ANIMACION":
@@ -161,7 +163,7 @@ public class VentanaPrincipal extends JFrame{
 				throw new IllegalArgumentException("Unexpected value: " + rs.getString("Genero"));
 			}
 	        
-	        Pelicula p = new Pelicula(id, nombre, director, generoP, anyo, precio);
+	        Pelicula p = new Pelicula(id, nombre, director, generoP, anyo, precio, cantidad, descripcion);
 	        // codigo para insertar estos datos en la tabla
 	        tablePeli.add(p);
 	        
