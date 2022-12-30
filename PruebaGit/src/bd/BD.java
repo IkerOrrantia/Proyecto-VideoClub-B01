@@ -39,8 +39,9 @@ public class BD {
 
 	// Exportar datos de registro
 	public void exportCuentaToDataBase(Cuenta cuenta) throws SQLException {
-		try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO Usuario (usuario, nombre, apellidos, dni, correo, contrasenya, telefono, direccion, conexion, peliculasAlquiladas, rol) Values( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
-//			stmt.setInt(1, 0);
+		try (PreparedStatement stmt = conn.prepareStatement(
+				"INSERT INTO Usuario (usuario, nombre, apellidos, dni, correo, contrasenya, telefono, direccion, conexion, peliculasAlquiladas, rol) Values( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
+			// stmt.setInt(1, 0);
 			stmt.setString(1, cuenta.getUsuario());
 			stmt.setString(2, cuenta.getNombre());
 			stmt.setString(3, cuenta.getApellidos());
@@ -59,7 +60,7 @@ public class BD {
 	// Exportar datos de registro referentes a la tabla de clientes
 	public void exportarClienteToDataBase(Cliente cliente) throws SQLException {
 		try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO Cliente Values(?, ?, ?)")) {
-			//stmt.setInt(1, cliente.getId_Cliente());
+			// stmt.setInt(1, cliente.getId_Cliente());
 			stmt.setString(2, cliente.getUsuario());
 			stmt.setInt(3, 0);
 			stmt.executeUpdate();
@@ -70,42 +71,34 @@ public class BD {
 	// Importar los datos de los clientes para el inicio de sesion
 	public List<Cuenta> importarCuentaToDataBase() throws SQLException {
 		List<Cuenta> cuentas = new ArrayList<>();
-		try (Statement stmt = conn.createStatement()){
+		try (Statement stmt = conn.createStatement()) {
 			ResultSet rs = stmt.executeQuery("SELECT * FROM Usuario");
-			while(rs.next()) {
-				Cuenta cuenta = new Cuenta(
-						rs.getInt("id_usuario"),
-						rs.getString("usuario"),
-						rs.getString("nombre"),
-						rs.getString("apellidos"),
-						rs.getString("dni"),
-						rs.getString("correo"),
-						rs.getString("contrasenya"),
-						rs.getInt("telefono"),
-						rs.getString("direccion"),
-						rs.getString("conexion"),
-						rs.getInt("peliculasAlquiladas"),
-						rs.getInt("rol")
-						);
-					cuentas.add(cuenta);	
+			while (rs.next()) {
+				Cuenta cuenta = new Cuenta(rs.getInt("id_usuario"), rs.getString("usuario"), rs.getString("nombre"),
+						rs.getString("apellidos"), rs.getString("dni"), rs.getString("correo"),
+						rs.getString("contrasenya"), rs.getInt("telefono"), rs.getString("direccion"),
+						rs.getString("conexion"), rs.getInt("peliculasAlquiladas"), rs.getInt("rol"));
+				cuentas.add(cuenta);
 			}
 		}
 		return cuentas;
 	}
-	
-	public void loggin(String usuario, String contrasenya) throws SQLException {
-		try (Statement stmt = conn.createStatement()){
-			ResultSet rsLog = stmt.executeQuery("SELECT * FROM Usuario WHERE usuario = ? AND contrasenya = ?");
-				rsLog.getString(usuario);
-				rsLog.getString(contrasenya);
-			if(rsLog.next()) {
-				Cuenta cuenta = new Cuenta(rsLog.getInt(0), rsLog.getString(1), rsLog.getString(2), rsLog.getString(3), rsLog.getString(4), rsLog.getString(5), rsLog.getString(6), rsLog.getInt(7) , rsLog.getString(8), rsLog.getString(9), rsLog.getInt(10), rsLog.getInt(11));
-//				if(cuenta.getRol()==2) {
-//					
-//				}
-			}
-			//ResulSet rsRol = stmt.
-				
+
+	public Cuenta loggin(String usuario, String contrasenya) throws SQLException {
+		Cuenta cuenta = null;
+		try (PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM Usuario WHERE usuario = ? AND contrasenya = ?")){
+				pstmt.setString(1, usuario);
+				pstmt.setString(2, contrasenya);
+				ResultSet rsLog = pstmt.executeQuery();
+				if (rsLog.next()) {
+				  cuenta = new Cuenta(rsLog.getInt(1), rsLog.getString(2), rsLog.getString(3), rsLog.getString(4),
+				      rsLog.getString(5), rsLog.getString(6), rsLog.getString(7), rsLog.getInt(8), rsLog.getString(9),
+				      rsLog.getString(10), rsLog.getInt(11), rsLog.getInt(12));
+				}
+				pstmt.close();
+				rsLog.close();
 		}
+		return cuenta;
 	}
+
 }

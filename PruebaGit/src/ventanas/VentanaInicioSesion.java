@@ -103,46 +103,26 @@ public class VentanaInicioSesion extends JFrame {
 					BD.connect();
 					String usuario = TextUsuario.getText();
 					String contrasenya = String.valueOf(TextContrasenya.getPassword());
-					BD.loggin(usuario, contrasenya);
+					Cuenta cuenta = BD.loggin(usuario, contrasenya);
+					if(cuenta != null) {
+						if(cuenta.getRol() == 1){
+							JOptionPane.showMessageDialog(null, "Inicio de sesión de admin válido.", "Confirmacion", 1, null);
+							VentanaAdmin vAdmin = new VentanaAdmin();
+							vAdmin.setVisible(true);
+							dispose();
 
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "Inicio de sesión válido.", "Confirmacion", 1, null);
+							VentanaPrincipal ventanaprincipal = new VentanaPrincipal();
+							ventanaprincipal.setVisible(true);
+						}
+					}
 				} catch (SQLException | ClassNotFoundException e1) {
-					logger.log(Level.SEVERE, "Error al conectarse a la base de datos", e1);
-				}
-
-				;
-
-				boolean acceso = false;
-				
-				
-
-				for (Cliente c : clientes) {
-
-					// Compobar si la contraseña y usuario coinciden con lo q esta guardado en el
-					// txt
-//					if (c.getUsuario().equals(usuario) && c.getContrasenya().equals(myPass)
-//							|| c.getCorreo().equals(usuario) && c.getContrasenya().equals(myPass)) {
-						acceso = true;
-						c.setConexion("En linea");
-
-						// clientes.add(c);
-						// ctxt.exportarClientes(clientes);
-
-//					}
-				}
-				// Ventana de mensaje java
-				// 0=Error 1=Informacion 2=warning 3=Question 4=Message
-				// Asi es true !acceso seria false
-				if (acceso) {
-					JOptionPane.showMessageDialog(null, "Inicio de sesión válido.", "Confirmacion", 1, null);
-
-					VentanaPrincipal ventanaprincipal = new VentanaPrincipal();
-					ventanaprincipal.setVisible(true);
-					setVisible(false);
-				} else {
-
 					JOptionPane.showMessageDialog(null, "No se encuentra el usuario o la contraseña es incorrecta.",
 							"Error", 0, null);
-				}
+					logger.log(Level.SEVERE, "Error al conectarse a la base de datos", e1);
+				}				
 			}
 		});
 
