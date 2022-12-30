@@ -111,8 +111,7 @@ public class VideoClub {
 			while(sc.hasNextLine()) {
 				String linea = sc.nextLine();
 				String[] campos = linea.split(";");
-				int pos = Arrays.asList(genero).indexOf(campos[3]);
-				Pelicula nueva = new Pelicula(Integer.parseInt(campos[0]), campos[1], campos[2], Genero.values()[pos], Integer.parseInt(campos[4]), Double.parseDouble(campos[5]));
+				Pelicula nueva = new Pelicula(Integer.parseInt(campos[0]), campos[1], campos[2], campos[3], Integer.parseInt(campos[4]), Double.parseDouble(campos[5]), Integer.parseInt(campos[6]), campos[7]);
 				this.productos.add(nueva);
 				muebles.add(nueva);
 			}

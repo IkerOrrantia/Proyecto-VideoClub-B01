@@ -3,7 +3,7 @@ package clases;
 import java.io.Serializable;
 
 public class Pelicula extends Producto implements Pagable, Serializable {
-	protected Genero genero;
+	protected String genero;
 	protected double precio;
 	protected String director;
 	protected int anyo;
@@ -18,7 +18,7 @@ public class Pelicula extends Producto implements Pagable, Serializable {
 	 * @param categoria del mueble
 	 * @param precio    del mueble
 	 */
-	public Pelicula(int id, String nombre, String director, Genero genero, int anyo, double precio, int cantidad, String descripcion) {
+	public Pelicula(int id, String nombre, String director, String genero, int anyo, double precio, int cantidad, String descripcion) {
 		super(id, nombre);
 		this.director = director;
 		this.genero = genero;
@@ -30,11 +30,10 @@ public class Pelicula extends Producto implements Pagable, Serializable {
 
 	/**
 	 * Constructor por defecto, crea una pelicula con id -1, "Sin nombre" de Genero
-	 * Accion y precio 0
+	 * precio 0
 	 */
 	public Pelicula() {
 		super();
-		this.genero = Genero.ACCION;
 		this.setPrecio(0);
 	}
 
@@ -46,11 +45,11 @@ public class Pelicula extends Producto implements Pagable, Serializable {
 		this.director = director;
 	}
 
-	public Genero getGenero() {
+	public String getGenero() {
 		return genero;
 	}
 
-	public void setGenero(Genero genero) {
+	public void setGenero(String genero) {
 		this.genero = genero;
 	}
 

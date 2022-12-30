@@ -13,6 +13,11 @@ public class Cuenta {
 	private String Direccion;
 	private String Conexion;
 	private int PeliculasAlquiladas;
+
+
+
+
+
 	private int Rol;
 	
 	
@@ -40,11 +45,11 @@ public class Cuenta {
 	}
 
 	// Getters Y Setters
-	public int getId_Usuario() {
+	public int getId() {
 		return Id;
 	}
 
-	public void setId_Usuario(int id) {
+	public void setId(int id) {
 		Id = id;
 	}
 	
@@ -131,7 +136,14 @@ public class Cuenta {
 	public void setConexion(String conexion) {
 		Conexion = conexion;
 	}
-	
+
+	public int getPeliculasAlquiladas() {
+		return PeliculasAlquiladas;
+	}
+
+	public void setPeliculasAlquiladas(int peliculasAlquiladas) {
+		PeliculasAlquiladas = peliculasAlquiladas;
+	}	
 
 	public int getRol() {
 		return Rol;
@@ -140,8 +152,6 @@ public class Cuenta {
 	public void setRol(int rol) {
 		Rol = rol;
 	}
-	
-	
 
 	//ToString
 	@Override
@@ -149,9 +159,5 @@ public class Cuenta {
 		return "Cuenta [ Id=" + Id +" , Usuario=" + Usuario + " , Nombre=" + Nombre + " , Apellidos=" + Apellidos + " , DNI=" + DNI + " , Correo=" + Correo
 				+ " , Contrasenya=" + Contrasenya + " , Telefono=" + Telefono + " , Direccion=" + Direccion + " , Conexion=" + Conexion + " , PeliculasAlquiladas=" + PeliculasAlquiladas + " , Rol=" + Rol + "]";
 	}
-	
-	
-
-
 
 }
