@@ -129,7 +129,7 @@ public ArrayList<Pelicula>importarPeliculas(){
 				int id = Integer.parseInt(palabras[0]);
 				String nombre = palabras[1];
 				String director = palabras[2];
-				Genero genero = Genero.valueOf(palabras[3]);
+				String genero = palabras[3];
 			    int anyo = Integer.parseInt(palabras[4]);
 			    double precio = Double.parseDouble(palabras[5]);
 			    
