@@ -68,7 +68,7 @@ public class BD {
 
 	}
 
-	// Importar los datos de los clientes para el inicio de sesion
+	// Importar los datos de los clientes 
 	public List<Cuenta> importarCuentaToDataBase() throws SQLException {
 		List<Cuenta> cuentas = new ArrayList<>();
 		try (Statement stmt = conn.createStatement()) {
@@ -83,7 +83,8 @@ public class BD {
 		}
 		return cuentas;
 	}
-
+	
+	// Metodo para comprobar en la base de datos si los datos son correctos 
 	public Cuenta loggin(String usuario, String contrasenya) throws SQLException {
 		Cuenta cuenta = null;
 		try (PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM Usuario WHERE usuario = ? AND contrasenya = ?")){
@@ -100,5 +101,6 @@ public class BD {
 		}
 		return cuenta;
 	}
-
+	
+	
 }

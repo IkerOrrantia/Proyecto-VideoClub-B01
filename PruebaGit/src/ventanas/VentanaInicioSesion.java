@@ -114,6 +114,7 @@ public class VentanaInicioSesion extends JFrame {
 						}
 						else {
 							JOptionPane.showMessageDialog(null, "Inicio de sesión válido.", "Confirmacion", 1, null);
+							cuenta.setConexion("Conectado");
 							VentanaPrincipal ventanaprincipal = new VentanaPrincipal();
 							ventanaprincipal.setVisible(true);
 						}
