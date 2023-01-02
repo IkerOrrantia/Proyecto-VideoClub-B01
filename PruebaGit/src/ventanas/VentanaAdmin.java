@@ -13,6 +13,19 @@ public class VentanaAdmin extends JFrame{
     private JButton btnOrders = new JButton("Gestionar pedidos");
     private JButton btnLogout = new JButton("Cerrar sesión");
     
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					VentanaAdmin ventanainiciosesion = new VentanaAdmin();
+					ventanainiciosesion.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+    
     public VentanaAdmin() {
         // Establecemos el título de la ventana
         setTitle("Administrador");

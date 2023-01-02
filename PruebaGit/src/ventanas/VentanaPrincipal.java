@@ -90,7 +90,6 @@ public class VentanaPrincipal extends JFrame{
 	    filtros = new JComboBox();
 	    JButton aceptarBusqueda = new JButton("Filtrar");
 	    
-	    filtros.addItem("ID");
 	    filtros.addItem("Nombre");
 	    filtros.addItem("Director");
 	    filtros.addItem("Precio");
@@ -100,7 +99,20 @@ public class VentanaPrincipal extends JFrame{
 	    panelFiltros.add(filtros);
 	    panelFiltros.add(campoBuscador);
 	    panelFiltros.add(aceptarBusqueda);
-
+	    
+	    if (filtros.getSelectedItem().equals("Nombre")) {
+	    	
+	    }else if (filtros.getSelectedItem().equals("Director")) {
+	    	
+	    }else if (filtros.getSelectedItem().equals("Precio")) {
+	    	
+	    }else if (filtros.getSelectedItem().equals("Genero")) {
+	    	
+	    }else if (filtros.getSelectedItem().equals("Anyo")) {
+	    	
+	    }else {
+	    	
+	    }
 	    
 	    // creacion de tabla de productos
 	   /* String[] columnas = {"ID", "Titulo", "Director", "Genero", "Anyo", "Precio"};
