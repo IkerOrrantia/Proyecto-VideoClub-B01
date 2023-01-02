@@ -117,7 +117,7 @@ public class VentanaPrincipal extends JFrame{
 
 	    try {
 	      // establecemos la conexion a la base de datos
-	      java.sql.Statement st = BD.initBD("data/VideoClub.db");
+	      java.sql.Statement st = BD.initBD("data/VideoClub.db"); //CAMBIAR A lA NUEVA INICIALIZACION      
 
 	      // creamos una consulta SQL para obtener los datos para transferir
 	      String query = "SELECT id, nombre, director, genero, anyo, precio, cantidad, descripcion FROM Peliculas";
@@ -130,40 +130,12 @@ public class VentanaPrincipal extends JFrame{
 	        String nombre = rs.getString("nombre");
 	        String director = rs.getString("Director");
 	        String genero = rs.getString("Genero");
-	        Genero generoP = Genero.ACCION;
 	        int anyo = rs.getInt("Anyo");
 	        double precio = rs.getDouble("Precio");
 	        int cantidad = rs.getInt("cantidad");
 	        String descripcion = rs.getString("descripcion");
 	        
-	        switch (genero) {
-			case "ANIMACION":
-				generoP = Genero.ANIMACION;
-				
-				break
-			;
-			case "TERROR":
-				generoP = Genero.TERROR;
-				break
-			;
-			case "ROMANTICA":
-				generoP = Genero.ROMANTICA;
-				break
-			;
-			case "ACCION":
-				generoP = Genero.ACCION;
-				break
-			;
-			case "CIENCIAFICCION":
-				generoP = Genero.CIENCIAFICCION;
-				break
-			;
-			
-			default:
-				throw new IllegalArgumentException("Unexpected value: " + rs.getString("Genero"));
-			}
-	        
-	        Pelicula p = new Pelicula(id, nombre, director, generoP, anyo, precio, cantidad, descripcion);
+	        Pelicula p = new Pelicula(id, nombre, director, genero, anyo, precio, cantidad, descripcion);
 	        // codigo para insertar estos datos en la tabla
 	        tablePeli.add(p);
 	        
