@@ -104,6 +104,7 @@ public class VentanaInicioSesion extends JFrame {
 					String usuario = TextUsuario.getText();
 					String contrasenya = String.valueOf(TextContrasenya.getPassword());
 					Cuenta cuenta = BD.loggin(usuario, contrasenya);
+
 					if(cuenta != null) {
 						if(cuenta.getRol() == 1){
 							JOptionPane.showMessageDialog(null, "Inicio de sesión de admin válido.", "Confirmacion", 1, null);
@@ -112,20 +113,31 @@ public class VentanaInicioSesion extends JFrame {
 							dispose();
 
 						}
-						else {
+						else if(cuenta.getRol() == 2) {
 							JOptionPane.showMessageDialog(null, "Inicio de sesión válido.", "Confirmacion", 1, null);
 							cuenta.setConexion("Conectado");
 							VentanaPrincipal ventanaprincipal = new VentanaPrincipal();
 							ventanaprincipal.setVisible(true);
 						}
+						else {
+							JOptionPane.showMessageDialog(null, "Este usuario ya no esta disponible.",
+									"Error", 0, null);
+						}
 					}
-				} catch (SQLException | ClassNotFoundException e1) {
-					JOptionPane.showMessageDialog(null, "No se encuentra el usuario o la contraseña es incorrecta.",
-							"Error", 0, null);
-					logger.log(Level.SEVERE, "Error al conectarse a la base de datos", e1);
-				}				
-			}
-		});
+					else {
+							JOptionPane.showMessageDialog(null, "No se encuentra el usuario o la contraseña es incorrecta.",
+									"Error", 0, null);
+						}
+					
+				
+
+			} catch (SQLException | ClassNotFoundException e1) {
+
+				logger.log(Level.SEVERE, "Error al conectarse a la base de datos", e1);
+			}				
+		}
+
+	});
 
 		// Se anyaden botones y textos a su correspondiente panel && anyadimos cada
 		// panel a su correspondiente posicion en el frame
@@ -146,5 +158,5 @@ public class VentanaInicioSesion extends JFrame {
 		setResizable(false);
 		pack();
 
-	}
+}
 }

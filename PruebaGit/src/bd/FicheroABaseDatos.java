@@ -25,13 +25,13 @@ public class FicheroABaseDatos {
 	public static void main(String[] args) throws Exception {
 		Class.forName("org.sqlite.JDBC");
 
-		try (Connection conn = DriverManager.getConnection("jdbc:sqlite:data/VideoClub.db")) {
+		try (Connection conn = DriverManager.getConnection("jdbc:sqlite:Data/VideoClub.db")) {
 			try (Statement stmt = conn.createStatement()) {
-				stmt.executeUpdate("DROP TABLE IF EXISTS series");
-				stmt.executeUpdate("CREATE TABLE series (id_serie INT NOT NULL UNIQUE, nombre TEXT, creador TEXT, anyo INT, temporadas INT, id_genero INT, precio DOUBLE, cantidad INT, descripcion TEXT)");				
+				stmt.executeUpdate("DROP TABLE IF EXISTS Series");
+				stmt.executeUpdate("CREATE TABLE Series (id_serie INT NOT NULL UNIQUE, nombre TEXT, creador TEXT, anyo INT, temporadas INT, id_genero INT, precio DOUBLE, cantidad INT, descripcion TEXT)");				
 			}
 
-			try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO series (id_serie, nombre, creador, anyo, temporadas, id_genero, precio, cantidad, descripcion) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
+			try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO Series (id_serie, nombre, creador, anyo, temporadas, id_genero, precio, cantidad, descripcion) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
 				try (BufferedReader reader = new BufferedReader(new FileReader("Data/Series.csv"))) {
 					reader.readLine();
 					reader.readLine();
@@ -69,7 +69,8 @@ public class FicheroABaseDatos {
 						}
 					}
 				}
-
+				stmt.close();
+				conn.close();
 			}
 		}
 	}

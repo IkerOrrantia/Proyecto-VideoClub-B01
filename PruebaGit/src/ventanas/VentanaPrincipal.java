@@ -12,12 +12,18 @@ import java.util.Locale;
 import java.util.Vector;
 import java.util.spi.CurrencyNameProvider;
 import java.sql.*;
+import java.util.List;
 
+import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
@@ -25,22 +31,29 @@ import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
-import bd.BD;
+import bd.*;
 import clases.*;
 import ventanas.*;
 
 public class VentanaPrincipal extends JFrame{
+	private DefaultListModel<Pelicula> mPeliculas = new DefaultListModel<>();
+	private JList<Pelicula> lPeliculas = new JList<>(mPeliculas);
+	private DefaultListModel<Serie> mSeries = new DefaultListModel<>();
+	private JList<Serie> lSeries = new JList<>(mSeries);
+	private BD BD;
 	private JPanel panelCatalogo;
 	private JTextField campoBuscador;
 	private JComboBox filtros;
 	private JTable tablaProductos;
 	private DefaultTableModel modeloDatos;
 	private ArrayList<Pelicula> tablePeli = new ArrayList<Pelicula>();
+	private JLabelAjustado lFoto = new JLabelAjustado( null );
+	private JButton bAlquilar = new JButton( "Alquilar producto" );
 
 	TableRowSorter<DefaultTableModel> sorter;
 	
 	private void initTables (){
-		Vector<String> cabecera = new Vector<String>(Arrays.asList("ID", "NOMBRE", "DIRECTOR", "GENERO", "ANYO", "PRECIO"));
+		Vector<String> cabecera = new Vector<String>(Arrays.asList("ID", "NOMBRE", "DIRECTOR", "GENERO", "ANYO", "PRECIO", "CANTIDAD", "DESCRIPCION"));
 		// creamos modelo de datos
 		this.modeloDatos = new DefaultTableModel(new Vector<Vector<Object>>(), cabecera);
 		// se crea tabla utilizado el modelo
@@ -70,18 +83,68 @@ public class VentanaPrincipal extends JFrame{
 		}
 	}
 	
-	public VentanaPrincipal() {
+	public VentanaPrincipal() throws SQLException {
 		
 	    // configuraci�n de la ventana
 	    setTitle("Catalogo de productos");
-	    setSize(600, 400);
+	    setSize(900, 600);
 	    setLocationRelativeTo(null);
-	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+	    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	    
+	    JPanel pNorte = new JPanel(); // Panel norte
+		//pNorte.add(  );
+		getContentPane().add( pNorte, BorderLayout.NORTH );
+		JSplitPane pOeste = new JSplitPane( JSplitPane.VERTICAL_SPLIT ); // Listas oeste
+		JPanel pPeliculas = new JPanel( new BorderLayout() );
+		pPeliculas.add( new JLabel( "Peliculas:" ), BorderLayout.NORTH );
+		pPeliculas.add( new JScrollPane(lPeliculas), BorderLayout.CENTER );
+		pOeste.setTopComponent( pPeliculas );
+		JPanel pSeries = new JPanel( new BorderLayout() );
+		pSeries.add( new JLabel( "Series:" ), BorderLayout.NORTH );
+		pSeries.add( new JScrollPane(lSeries), BorderLayout.CENTER );
+		pOeste.setBottomComponent(pSeries);
+		getContentPane().add( pOeste, BorderLayout.WEST ); 
+	JPanel pPrincipal = new JPanel( new BorderLayout() ); // Panel central (tabla)
+		pPrincipal.add( new JLabel( "Datos del Productp:" ), BorderLayout.NORTH );
+		pPrincipal.add( new JScrollPane( tablaProductos ), BorderLayout.CENTER );
+		getContentPane().add( pPrincipal, BorderLayout.CENTER );
+	getContentPane().add( lFoto, BorderLayout.EAST );  // Foto este
+	JPanel pBotonera = new JPanel(); // Panel inferior (botonera)
+		pBotonera.add( bAlquilar );
+		getContentPane().add( pBotonera, BorderLayout.SOUTH );
 	    // creacion de panel principal
 	    panelCatalogo = new JPanel();
 	    panelCatalogo.setLayout(new BorderLayout());
-
+	    
+	    //
+	    BD = new BD();
+	    try {
+			BD.connect();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	    
+	    List<String> nombresP = BD.importarNombresPelicula();
+	    
+	  
+	    for (String p: nombresP) {
+	        mPeliculas.addElement(BD.importarDatosPelicula(p));;
+	    }
+	    
+	    List<String> nombresS = BD.importarNombresSerie();
+	    List<Serie> series = new ArrayList<>();
+	    for (String nombre : nombresS) {
+	    	Serie serie = new Serie(/* id, creador, id_genero, anyo, temporada,precio, cantidad, descripcion */);
+	    	serie.setNombre(nombre);
+	        series.add(serie);
+	    }
+	    
+	    List<Serie> lS = series;
+	    for (Serie s: lS) {
+	    	mSeries.addElement(s);
+	    }
+	    
+	    
 	    // creacion de campo de busqueda y filtros
 	    JPanel panelFiltros = new JPanel();
 	    panelFiltros.setLayout(new FlowLayout());
@@ -113,52 +176,7 @@ public class VentanaPrincipal extends JFrame{
 	    }else {
 	    	
 	    }
-	    
-	    // creacion de tabla de productos
-	   /* String[] columnas = {"ID", "Titulo", "Director", "Genero", "Anyo", "Precio"};
-	    String[][] datos = {
-	        {"1", "Pelicula 1", "Director 1", "Genero 1", "2001", "10.00"},
-	        {"2", "Pelicula 2", "Director 2", "Genero 2", "2002", "20.00"},
-	        {"3", "Pelicula 3", "Director 3", "Genero 3", "2003", "30.00"},
-	        {"4", "Pelicula 4", "Director 4", "Genero 4", "2004", "40.00"},
-	        {"5", "Pelicula 5", "Director 5", "Genero 5", "2005", "50.00"}
-	    };*/
-	    // creacion de tabla de productos
-	    // Establecemos los detalles de la conexion a la base de datos
-//	    String url = "data/Peliculas.db";
-
-	    try {
-	      // establecemos la conexion a la base de datos
-	      java.sql.Statement st = BD.initBD("data/VideoClub.db"); //CAMBIAR A lA NUEVA INICIALIZACION      
-
-	      // creamos una consulta SQL para obtener los datos para transferir
-	      String query = "SELECT id, nombre, director, genero, anyo, precio, cantidad, descripcion FROM Peliculas";
-	      // java.sql.Statement stmt = conn.createStatement();
-	      ResultSet rs = st.executeQuery(query);
-	      
-	      // iteramos sobre los resultados de la consulta y los transferimos a la tabla
-	      while (rs.next()) {
-	        int id = rs.getInt("ID");
-	        String nombre = rs.getString("nombre");
-	        String director = rs.getString("Director");
-	        String genero = rs.getString("Genero");
-	        int anyo = rs.getInt("Anyo");
-	        double precio = rs.getDouble("Precio");
-	        int cantidad = rs.getInt("cantidad");
-	        String descripcion = rs.getString("descripcion");
-	        
-	        Pelicula p = new Pelicula(id, nombre, director, genero, anyo, precio, cantidad, descripcion);
-	        // codigo para insertar estos datos en la tabla
-	        tablePeli.add(p);
-	        
-	      }
-
-	      // cerramos la conexion
-	      st.close();
-	    } catch (SQLException ex) {
-	      // en caso de error, imprimimos un mensaje de error en la consola
-	      System.out.println("Error al transferir los datos: " + ex.getMessage());
-	    }
+	   
 	  
 	    initTables();
 	    loadTables();
@@ -170,5 +188,52 @@ public class VentanaPrincipal extends JFrame{
 	    // agregar panel principal a la ventana
 	    add(panelCatalogo);
 	    
+	}
+	
+	private static class JLabelAjustado extends JLabel {
+		private ImageIcon imagen; 
+		private int tamX;
+		private int tamY;
+		/** Crea un jlabel que ajusta una imagen cualquiera con fondo blanco a su tamaño (a la que ajuste más de las dos escalas, horizontal o vertical)
+		 * @param imagen	Imagen a visualizar en el label
+		 */
+		public JLabelAjustado( ImageIcon imagen ) {
+			setImagen( imagen );
+		}
+		/** Modifica la imagen
+		 * @param imagen	Nueva imagen a visualizar en el label
+		 */
+		public void setImagen( ImageIcon imagen ) {
+			this.imagen = imagen;
+			if (imagen==null) {
+				tamX = 0;
+				tamY = 0;
+			} else {
+				this.tamX = imagen.getIconWidth();
+				this.tamY = imagen.getIconHeight();
+			}
+		}
+		protected void paintComponent(Graphics g) {
+			Graphics2D g2 = (Graphics2D) g;  // El Graphics realmente es Graphics2D
+			g2.setColor( Color.WHITE );
+			g2.fillRect( 0, 0, getWidth(), getHeight() );
+			if (imagen!=null && tamX>0 && tamY>0) {
+				g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+				g2.setRenderingHint(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_QUALITY);
+				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);	
+				double escalaX = 1.0 * getWidth() / tamX;
+				double escalaY = 1.0 * getHeight() / tamY;
+				double escala = escalaX;
+				int x = 0;
+				int y = 0;
+				if (escalaY < escala) {
+					escala = escalaY;
+					x = (int) ((getWidth() - (tamX * escala)) / 2);
+				} else {
+					y = (int) ((getHeight() - (tamY * escala)) / 2);
+				}
+		        g2.drawImage( imagen.getImage(), x, y, (int) (tamX*escala), (int) (tamY*escala), null );
+			}
+		}
 	}
 }

@@ -14,7 +14,6 @@ import java.util.Scanner;
 
 public class VideoClub {
 	protected ArrayList<Pedido> pedidos;
-	protected ArrayList<Producto> productos;
 	private HashMap<Estado, ArrayList<Pedido>> pedidosPorEstado;
 	
 	/** Constructor con argumentos
@@ -22,11 +21,10 @@ public class VideoClub {
 	 * @param productos disponibles
 	 * @param pedidosPorEstado pedidos clasificados por su estado
 	 */
-	public VideoClub(ArrayList<Pedido> pedidos, ArrayList<Producto> productos,
+	public VideoClub(ArrayList<Pedido> pedidos,
 			HashMap<Estado, ArrayList<Pedido>> pedidosPorEstado) {
 		super();
 		this.setPedidos(pedidos);
-		this.setProductos(productos);
 		this.setPedidosPorEstado(pedidosPorEstado);
 	}
 	
@@ -35,7 +33,6 @@ public class VideoClub {
 	public VideoClub() {
 		super();
 		this.pedidos = new ArrayList<Pedido>();
-		this.productos = new ArrayList<Producto>();
 		this.pedidosPorEstado = new HashMap<Estado, ArrayList<Pedido>>();
 		for (Estado estado : Estado.values()) {
 			this.pedidosPorEstado.put(estado, new ArrayList<Pedido>());
@@ -58,21 +55,6 @@ public class VideoClub {
 		}
 	}
 
-	/**
-	 * @return productos disponibles
-	 */
-	public ArrayList<Producto> getProductos() {
-		return productos;
-	}
-
-	/**
-	 * @param productos disponibles
-	 */
-	public void setProductos(ArrayList<Producto> productos) {
-		if (pedidos != null) {
-			this.productos = productos;
-		}
-	}
 
 	/**
 	 * @return pedidosPorEstado pedidos clasificados por su estado
@@ -94,7 +76,7 @@ public class VideoClub {
 	 */
 	@Override
 	public String toString() {
-		return "VideoClub [pedidos=" + pedidos + ", productos=" + productos + ", pedidosPorEstado=" + pedidosPorEstado + "]";
+		return "VideoClub [pedidos=" + pedidos + ", pedidosPorEstado=" + pedidosPorEstado + "]";
 	}
 	
 	/**
@@ -111,8 +93,8 @@ public class VideoClub {
 			while(sc.hasNextLine()) {
 				String linea = sc.nextLine();
 				String[] campos = linea.split(";");
-				Pelicula nueva = new Pelicula(Integer.parseInt(campos[0]), campos[1], campos[2], campos[3], Integer.parseInt(campos[4]), Double.parseDouble(campos[5]), Integer.parseInt(campos[6]), campos[7]);
-				this.productos.add(nueva);
+				Pelicula nueva = new Pelicula(Integer.parseInt(campos[0]), campos[1], campos[2], Integer.parseInt(campos[3]), Integer.parseInt(campos[4]), Double.parseDouble(campos[5]), Integer.parseInt(campos[6]), campos[7]);
+
 				muebles.add(nueva);
 			}
 			

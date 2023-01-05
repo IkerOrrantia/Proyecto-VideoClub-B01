@@ -2,12 +2,13 @@ package clases;
 
 import java.io.Serializable;
 
-public class Pelicula implements Pagable, Serializable {
+public class Serie implements Pagable, Serializable {
 	protected int id;
 	protected String nombre;
 	protected int id_genero;
+	protected int temporadas;
 	protected double precio;
-	protected String director;
+	protected String creador;
 	protected int anyo;
 	protected int cantidad;
 	protected String descripcion;
@@ -20,10 +21,11 @@ public class Pelicula implements Pagable, Serializable {
 	 * @param categoria del mueble
 	 * @param precio    del mueble
 	 */
-	public Pelicula(int id, String nombre, String director, int id_genero, int anyo, double precio, int cantidad, String descripcion) {
+	public Serie(int id, String nombre, String creador, int anyo, int temporadas, int id_genero, double precio, int cantidad, String descripcion) {
 		this.id = id;
 		this.nombre = nombre;
-		this.director = director;
+		this.creador = creador;
+		this.temporadas = temporadas;
 		this.id_genero = id_genero;
 		this.anyo = anyo;
 		this.setPrecio(precio);
@@ -35,12 +37,12 @@ public class Pelicula implements Pagable, Serializable {
 	 * Constructor por defecto, crea una pelicula con id -1, "Sin nombre" de Genero
 	 * precio 0
 	 */
-	public Pelicula() {
+	public Serie() {
 		super();
 		this.setPrecio(0);
 	}
-	
 
+	//Getter y setter
 	public int getId() {
 		return id;
 	}
@@ -56,21 +58,37 @@ public class Pelicula implements Pagable, Serializable {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-
-	public String getDirector() {
-		return director;
-	}
-
-	public void setDirector(String director) {
-		this.director = director;
-	}
-
-	public int getGenero() {
+	
+	public int getId_genero() {
 		return id_genero;
 	}
 
-	public void setGenero(int id_genero) {
+	public void setId_genero(int id_genero) {
 		this.id_genero = id_genero;
+	}
+
+	public int getTemporadas() {
+		return temporadas;
+	}
+
+	public void setTemporadas(int temporadas) {
+		this.temporadas = temporadas;
+	}
+
+	public double getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(double precio) {
+		this.precio = precio;
+	}
+
+	public String getCreador() {
+		return creador;
+	}
+
+	public void setCreador(String creador) {
+		this.creador = creador;
 	}
 
 	public int getAnyo() {
@@ -81,16 +99,6 @@ public class Pelicula implements Pagable, Serializable {
 		this.anyo = anyo;
 	}
 
-	public double getPrecio() {
-		return precio;
-	}
-
-	public void setPrecio(double precio) {
-		if (precio >= 0) {
-			this.precio = precio;
-		}
-	}
-	
 	public int getCantidad() {
 		return cantidad;
 	}
@@ -109,7 +117,13 @@ public class Pelicula implements Pagable, Serializable {
 
 	@Override
 	public String toString() {
-		return nombre ;
+		return nombre;
 	}
+
+	//To String
+	
+	
+
+	
 
 }

@@ -96,11 +96,69 @@ public class BD {
 				      rsLog.getString(5), rsLog.getString(6), rsLog.getString(7), rsLog.getInt(8), rsLog.getString(9),
 				      rsLog.getString(10), rsLog.getInt(11), rsLog.getInt(12));
 				}
+				
 				pstmt.close();
 				rsLog.close();
 		}
 		return cuenta;
 	}
 	
+	//importamos todos los nombres de las peliculas y los guardamos en una lista
+	public List<String> importarNombresPelicula() throws SQLException {
+		List<String> NPelicula = new ArrayList<>();
+		try(PreparedStatement pstmt = conn.prepareStatement("SELECT nombre FROM Peliculas")){
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				NPelicula.add(rs.getString("nombre"));
+			}
+			pstmt.close();
+			rs.close();
+		}
+		return NPelicula;
+	}
+	
+	//importamos todos los nombres de las series y los guardamos en una lista
+	public List<String> importarNombresSerie() throws SQLException {
+		List<String> NSerie = new ArrayList<>();
+		try(PreparedStatement pstmt = conn.prepareStatement("SELECT nombre FROM Series")){
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				NSerie.add(rs.getString("nombre"));
+			}
+			pstmt.close();
+			rs.close();
+		}
+		return NSerie;
+	}
+	
+	//Importamos datos de una pelicula en concreto
+	public Pelicula importarDatosPelicula(String nombre) throws SQLException {
+		Pelicula pelicula = null;
+		try(PreparedStatement pstmt = conn.prepareStatement("SELECT * From Peliculas WHERE nombre = ?")){
+			pstmt.setString(1, nombre);
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) {
+				pelicula = new Pelicula(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getDouble(6), rs.getInt(7), rs.getString(8));
+			}
+			pstmt.close();
+			rs.close();
+	}
+	return pelicula;
+	}
+	
+	//Importamos datos de una serie en concreto
+	public Serie importarDatosSerie(String nombre) throws SQLException {
+		Serie serie = null;
+		try(PreparedStatement pstmt = conn.prepareStatement("SELECT * From Series WHERE nombre = ?")){
+			pstmt.setString(1, nombre);
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) {
+				serie = new Serie(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getDouble(7), rs.getInt(8), rs.getString(9));
+			}
+			pstmt.close();
+			rs.close();
+	}
+	return serie;
+	}
 	
 }
