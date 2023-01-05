@@ -35,11 +35,13 @@ import bd.*;
 import clases.*;
 import ventanas.*;
 
-public class VentanaPrincipal extends JFrame{
+public class VentanaPrincipal extends JFrame {
 	private DefaultListModel<Pelicula> mPeliculas = new DefaultListModel<>();
 	private JList<Pelicula> lPeliculas = new JList<>(mPeliculas);
 	private DefaultListModel<Serie> mSeries = new DefaultListModel<>();
 	private JList<Serie> lSeries = new JList<>(mSeries);
+	private DefaultListModel<String> mNombresP = new DefaultListModel<>();
+	private DefaultListModel<String> mNombresS = new DefaultListModel<>();
 	private BD BD;
 	private JPanel panelCatalogo;
 	private JTextField campoBuscadorP;
@@ -77,9 +79,10 @@ public class VentanaPrincipal extends JFrame{
 		}
 	}
 	
-	public void filterP() {
+	public void filterP() throws SQLException{
 		String filter = campoBuscadorP.getText();
-	    filterModelP(mPeliculas, filter);
+		mNombresP.addAll(BD.importarNombresPelicula());
+	    filterModelP(mNombresP, filter);
 	}
 	
 	public void filterModelP(DefaultListModel<String> model, String filter) {
@@ -96,9 +99,10 @@ public class VentanaPrincipal extends JFrame{
 	    }
 	}
 	
-	public void filterS() {
+	public void filterS() throws SQLException {
 		String filter = campoBuscadorS.getText();
-	    filterModelS(mPeliculas, filter);
+		mNombresS.addAll(BD.importarNombresSerie());
+	    filterModelS(mNombresS, filter);
 	}
 	
 	public void filterModelS(DefaultListModel<String> model, String filter) {
@@ -156,24 +160,16 @@ public class VentanaPrincipal extends JFrame{
 			// TODO: handle exception
 		}
 	    
-	    List<String> nombresP = BD.importarNombresPelicula();
 	    
-	  
+	    
+	    List<String> nombresP = BD.importarNombresPelicula();
 	    for (String p: nombresP) {
 	        mPeliculas.addElement(BD.importarDatosPelicula(p));;
 	    }
 	    
 	    List<String> nombresS = BD.importarNombresSerie();
-	    List<Serie> series = new ArrayList<>();
-	    for (String nombre : nombresS) {
-	    	Serie serie = new Serie(/* id, creador, id_genero, anyo, temporada,precio, cantidad, descripcion */);
-	    	serie.setNombre(nombre);
-	        series.add(serie);
-	    }
-	    
-	    List<Serie> lS = series;
-	    for (Serie s: lS) {
-	    	mSeries.addElement(s);
+	    for (String s: nombresS) {
+	        mSeries.addElement(BD.importarDatosSerie(s));
 	    }
 	    
 	    
