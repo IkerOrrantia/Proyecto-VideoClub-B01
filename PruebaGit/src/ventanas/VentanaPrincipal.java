@@ -42,15 +42,17 @@ public class VentanaPrincipal extends JFrame{
 	private JList<Serie> lSeries = new JList<>(mSeries);
 	private BD BD;
 	private JPanel panelCatalogo;
-	private JTextField campoBuscador;
-	private JComboBox filtros;
+	private JTextField campoBuscadorP;
+	private JTextField campoBuscadorS;
 	private JTable tablaProductos;
 	private DefaultTableModel modeloDatos;
 	private ArrayList<Pelicula> tablePeli = new ArrayList<Pelicula>();
 	private JLabelAjustado lFoto = new JLabelAjustado( null );
 	private JButton bAlquilar = new JButton( "Alquilar producto" );
-
 	TableRowSorter<DefaultTableModel> sorter;
+	private List<String> nombresP;
+	private List<String> nombresS;
+	
 	
 	private void initTables (){
 		Vector<String> cabecera = new Vector<String>(Arrays.asList("ID", "NOMBRE", "DIRECTOR", "GENERO", "ANYO", "PRECIO", "CANTIDAD", "DESCRIPCION"));
@@ -75,12 +77,42 @@ public class VentanaPrincipal extends JFrame{
 		}
 	}
 	
-	public void filter() {
-		try {
-			sorter.setRowFilter(RowFilter.regexFilter("?i"));
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
+	public void filterP() {
+		String filter = campoBuscadorP.getText();
+	    filterModelP(mPeliculas, filter);
+	}
+	
+	public void filterModelP(DefaultListModel<String> model, String filter) {
+	    for (String s : nombresP) {
+	        if (!s.startsWith(filter)) {
+	            if (model.contains(s)) {
+	                model.removeElement(s);
+	            }
+	        } else {
+	            if (!model.contains(s)) {
+	                model.addElement(s);
+	            }
+	        }
+	    }
+	}
+	
+	public void filterS() {
+		String filter = campoBuscadorS.getText();
+	    filterModelS(mPeliculas, filter);
+	}
+	
+	public void filterModelS(DefaultListModel<String> model, String filter) {
+	    for (String s : nombresS) {
+	        if (!s.startsWith(filter)) {
+	            if (model.contains(s)) {
+	                model.removeElement(s);
+	            }
+	        } else {
+	            if (!model.contains(s)) {
+	                model.addElement(s);
+	            }
+	        }
+	    }
 	}
 	
 	public VentanaPrincipal() throws SQLException {
@@ -149,33 +181,12 @@ public class VentanaPrincipal extends JFrame{
 	    JPanel panelFiltros = new JPanel();
 	    panelFiltros.setLayout(new FlowLayout());
 
-	    campoBuscador = new JTextField(20);
-	    filtros = new JComboBox();
+	    campoBuscadorP = new JTextField(20);
 	    JButton aceptarBusqueda = new JButton("Filtrar");
 	    
-	    filtros.addItem("Nombre");
-	    filtros.addItem("Director");
-	    filtros.addItem("Precio");
-	    filtros.addItem("Genero");
-	    filtros.addItem("Anyo");
-	    
-	    panelFiltros.add(filtros);
-	    panelFiltros.add(campoBuscador);
+	    panelFiltros.add(campoBuscadorP);
 	    panelFiltros.add(aceptarBusqueda);
-	    
-	    if (filtros.getSelectedItem().equals("Nombre")) {
-	    	
-	    }else if (filtros.getSelectedItem().equals("Director")) {
-	    	
-	    }else if (filtros.getSelectedItem().equals("Precio")) {
-	    	
-	    }else if (filtros.getSelectedItem().equals("Genero")) {
-	    	
-	    }else if (filtros.getSelectedItem().equals("Anyo")) {
-	    	
-	    }else {
-	    	
-	    }
+	    panelFiltros.add(campoBuscadorS);
 	   
 	  
 	    initTables();
