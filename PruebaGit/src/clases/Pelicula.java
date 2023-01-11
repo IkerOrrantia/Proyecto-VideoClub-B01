@@ -11,16 +11,14 @@ public class Pelicula implements Pagable, Serializable {
 	protected int anyo;
 	protected int cantidad;
 	protected String descripcion;
+	protected String imagen;
 
 	/**
 	 * Constructor con argumentos
 	 * 
-	 * @param id        identificativo único
-	 * @param nombre    del producto
-	 * @param categoria del mueble
-	 * @param precio    del mueble
 	 */
-	public Pelicula(int id, String nombre, String director, int id_genero, int anyo, double precio, int cantidad, String descripcion) {
+	
+	public Pelicula(int id, String nombre, String director, int id_genero, int anyo, double precio, int cantidad, String descripcion, String imagen) {
 		this.id = id;
 		this.nombre = nombre;
 		this.director = director;
@@ -29,11 +27,11 @@ public class Pelicula implements Pagable, Serializable {
 		this.setPrecio(precio);
 		this.cantidad = cantidad;
 		this.descripcion = descripcion;
+		this.imagen = imagen;
 	}
 
 	/**
-	 * Constructor por defecto, crea una pelicula con id -1, "Sin nombre" de Genero
-	 * precio 0
+	 * Constructor por defecto, crea una pelicula con precio 0
 	 */
 	public Pelicula() {
 		super();
@@ -65,11 +63,11 @@ public class Pelicula implements Pagable, Serializable {
 		this.director = director;
 	}
 
-	public int getGenero() {
+	public int getId_genero() {
 		return id_genero;
 	}
 
-	public void setGenero(int id_genero) {
+	public void setId_genero(int id_genero) {
 		this.id_genero = id_genero;
 	}
 
@@ -106,7 +104,17 @@ public class Pelicula implements Pagable, Serializable {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
+	
 
+	public String getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
+	}
+	
+	
 	@Override
 	public String toString() {
 		return nombre ;
