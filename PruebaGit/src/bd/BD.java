@@ -67,9 +67,29 @@ public class BD {
 		}
 
 	}
+	
+	public void borrarCuentaExportada(Cuenta cuenta) throws SQLException{
+		try(PreparedStatement stmt = conn.prepareStatement("DELETE FROM Usuario WHERE usuario = ?")) {
+	        stmt.setString(1, cuenta.getUsuario());
+	        stmt.executeUpdate();
+	        stmt.close();
+			
+		}
+	}
+	
+	public void borrarClienteExportado(Cliente cliente) throws SQLException {
+		// Borrar datos añadidos en la base de datos después de ejecutar cada test
+    	try(PreparedStatement stmt = conn.prepareStatement("DELETE FROM Cliente WHERE usuario = ?")) {
+    		  stmt.setString(1, cliente.getUsuario());
+    		  stmt.executeUpdate();
+    		  stmt.close();
+    	}
+
+    	  
+	}
 
 	// Importar los datos de los clientes 
-	public List<Cuenta> importarCuentaToDataBase() throws SQLException {
+	public List<Cuenta> importarCuentaFromDataBase() throws SQLException {
 		List<Cuenta> cuentas = new ArrayList<>();
 		try (Statement stmt = conn.createStatement()) {
 			ResultSet rs = stmt.executeQuery("SELECT * FROM Usuario");
@@ -83,7 +103,17 @@ public class BD {
 		}
 		return cuentas;
 	}
-	
+	public List<Cliente> importarClienteFromDataBase() throws SQLException { 
+		List<Cliente> clientes = new ArrayList<>();
+		try(Statement stmt = conn.createStatement()) {
+			ResultSet rs = stmt.executeQuery("SELECT * FROM Cliente");
+			while (rs.next()) {
+				Cliente cliente = new Cliente(rs.getInt("id_cliente"), rs.getString("usuario"), rs.getInt("num_pedidos"));
+				clientes.add(cliente);
+			}
+		}
+		return clientes;
+	}
 	// Metodo para comprobar en la base de datos si los datos son correctos 
 	public Cuenta loggin(String usuario, String contrasenya) throws SQLException {
 		Cuenta cuenta = null;
@@ -138,7 +168,7 @@ public class BD {
 			pstmt.setString(1, nombre);
 			ResultSet rs = pstmt.executeQuery();
 			if(rs.next()) {
-				pelicula = new Pelicula(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getDouble(6), rs.getInt(7), rs.getString(8));
+				pelicula = new Pelicula(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getDouble(6), rs.getInt(7), rs.getString(8), rs.getString(9));
 			}
 			pstmt.close();
 			rs.close();
@@ -153,7 +183,7 @@ public class BD {
 			pstmt.setString(1, nombre);
 			ResultSet rs = pstmt.executeQuery();
 			if(rs.next()) {
-				serie = new Serie(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getDouble(7), rs.getInt(8), rs.getString(9));
+				serie = new Serie(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getDouble(7), rs.getInt(8), rs.getString(9), rs.getString(10));
 			}
 			pstmt.close();
 			rs.close();
