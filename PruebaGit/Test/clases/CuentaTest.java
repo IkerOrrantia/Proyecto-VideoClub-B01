@@ -8,7 +8,6 @@ import org.junit.Test;
 
 import clases.Cuenta;
 import clases.Genero;
-import clases.Producto;
 
 public class CuentaTest {
 
@@ -71,7 +70,7 @@ public class CuentaTest {
 	
 	@Test
 	public void testtoString() {
-		String esperado = "Cuenta [ Id=8 , Usuario=Fermin101 , Nombre=Fermin, Apellidos=Garcia, DNI=21304542A, Correo=Fermin@gmail.com, Contrasenya=Perro33, Telefono=688925075, Direccion=Calle el Redentor, Conexion=Desconectado, PeliculasAlquiladas=0, Rol=2]";
+		String esperado = "Cuenta [ Id=8 , Usuario=Fermin101, Nombre=Fermin, Apellidos=Garcia, DNI=21304542A, Correo=Fermin@gmail.com, Contrasenya=Perro33, Telefono=688925075, Direccion=Calle el Redentor, Conexion=Desconectado, PeliculasAlquiladas=0, Rol=2]";
 		assertEquals(esperado, p.toString());
 	}
 	

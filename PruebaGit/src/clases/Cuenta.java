@@ -156,8 +156,8 @@ public class Cuenta {
 	//ToString
 	@Override
 	public String toString() {
-		return "Cuenta [ Id=" + Id +" , Usuario=" + Usuario + " , Nombre=" + Nombre + " , Apellidos=" + Apellidos + " , DNI=" + DNI + " , Correo=" + Correo
-				+ " , Contrasenya=" + Contrasenya + " , Telefono=" + Telefono + " , Direccion=" + Direccion + " , Conexion=" + Conexion + " , PeliculasAlquiladas=" + PeliculasAlquiladas + " , Rol=" + Rol + "]";
+		return "Cuenta [ Id=" + Id +" , Usuario=" + Usuario + ", Nombre=" + Nombre + ", Apellidos=" + Apellidos + ", DNI=" + DNI + ", Correo=" + Correo
+				+ ", Contrasenya=" + Contrasenya + ", Telefono=" + Telefono + ", Direccion=" + Direccion + ", Conexion=" + Conexion + ", PeliculasAlquiladas=" + PeliculasAlquiladas + ", Rol=" + Rol + "]";
 	}
 
 }
