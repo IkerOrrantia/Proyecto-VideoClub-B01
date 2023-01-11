@@ -12,6 +12,7 @@ public class Serie implements Pagable, Serializable {
 	protected int anyo;
 	protected int cantidad;
 	protected String descripcion;
+	protected String imagen;
 
 	/**
 	 * Constructor con argumentos
@@ -21,7 +22,7 @@ public class Serie implements Pagable, Serializable {
 	 * @param categoria del mueble
 	 * @param precio    del mueble
 	 */
-	public Serie(int id, String nombre, String creador, int anyo, int temporadas, int id_genero, double precio, int cantidad, String descripcion) {
+	public Serie(int id, String nombre, String creador, int anyo, int temporadas, int id_genero, double precio, int cantidad, String descripcion, String imagen) {
 		this.id = id;
 		this.nombre = nombre;
 		this.creador = creador;
@@ -31,6 +32,7 @@ public class Serie implements Pagable, Serializable {
 		this.setPrecio(precio);
 		this.cantidad = cantidad;
 		this.descripcion = descripcion;
+		this.imagen = imagen;
 	}
 
 	/**
@@ -115,15 +117,18 @@ public class Serie implements Pagable, Serializable {
 		this.descripcion = descripcion;
 	}
 
+	public String getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
+	}
+	
+	//To String
 	@Override
 	public String toString() {
 		return nombre;
 	}
-
-	//To String
-	
-	
-
-	
 
 }
