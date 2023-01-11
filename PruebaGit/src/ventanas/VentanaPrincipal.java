@@ -1,6 +1,10 @@
 package ventanas;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.beans.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -26,9 +30,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import bd.*;
@@ -40,8 +49,6 @@ public class VentanaPrincipal extends JFrame {
 	private JList<Pelicula> lPeliculas = new JList<>(mPeliculas);
 	private DefaultListModel<Serie> mSeries = new DefaultListModel<>();
 	private JList<Serie> lSeries = new JList<>(mSeries);
-	private DefaultListModel<String> mNombresP = new DefaultListModel<>();
-	private DefaultListModel<String> mNombresS = new DefaultListModel<>();
 	private BD BD;
 	private JPanel panelCatalogo;
 	private JTextField campoBuscadorP;
@@ -52,9 +59,6 @@ public class VentanaPrincipal extends JFrame {
 	private JLabelAjustado lFoto = new JLabelAjustado( null );
 	private JButton bAlquilar = new JButton( "Alquilar producto" );
 	TableRowSorter<DefaultTableModel> sorter;
-	private List<String> nombresP;
-	private List<String> nombresS;
-	
 	
 	private void initTables (){
 		Vector<String> cabecera = new Vector<String>(Arrays.asList("ID", "NOMBRE", "DIRECTOR", "GENERO", "ANYO", "PRECIO", "CANTIDAD", "DESCRIPCION"));
@@ -65,59 +69,29 @@ public class VentanaPrincipal extends JFrame {
 		this.tablaProductos.setAutoCreateRowSorter(true);
 		// modificamos para seleccionar una fila
 		this.tablaProductos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		sorter = new TableRowSorter<>(this.modeloDatos);
+		// Crea un TableRowSorter y asigna el modelo de datos de tu JTable
+		sorter = new TableRowSorter<>(modeloDatos);
+		tablaProductos.setRowSorter(sorter);
+
+		// Crea un RowFilter utilizando el texto del campo de búsqueda
+		RowFilter<DefaultTableModel, Object> filter = RowFilter.regexFilter(campoBuscadorP.getText(), 1);
+
+		// Actualiza el filtro del TableRowSorter
+		sorter.setRowFilter(filter);
 		// pasar render
 		this.tablaProductos.setDefaultRenderer(Object.class, null);
 	}
+	
 	
 	private void loadTables (){
 		// borrar datos
 		this.modeloDatos.setRowCount(0);
 		// aÃ±adir fila por peli
 		for (Pelicula p : this.tablePeli) {
-			this.modeloDatos.addRow(new Object[] {p.getId(), p.getNombre(), p.getDirector(), p.getGenero(),p.getAnyo(),p.getPrecio()});
+			this.modeloDatos.addRow(new Object[] { p.getNombre()});
 		}
 	}
-	
-	public void filterP() throws SQLException{
-		String filter = campoBuscadorP.getText();
-		mNombresP.addAll(BD.importarNombresPelicula());
-	    filterModelP(mNombresP, filter);
-	}
-	
-	public void filterModelP(DefaultListModel<String> model, String filter) {
-	    for (String s : nombresP) {
-	        if (!s.startsWith(filter)) {
-	            if (model.contains(s)) {
-	                model.removeElement(s);
-	            }
-	        } else {
-	            if (!model.contains(s)) {
-	                model.addElement(s);
-	            }
-	        }
-	    }
-	}
-	
-	public void filterS() throws SQLException {
-		String filter = campoBuscadorS.getText();
-		mNombresS.addAll(BD.importarNombresSerie());
-	    filterModelS(mNombresS, filter);
-	}
-	
-	public void filterModelS(DefaultListModel<String> model, String filter) {
-	    for (String s : nombresS) {
-	        if (!s.startsWith(filter)) {
-	            if (model.contains(s)) {
-	                model.removeElement(s);
-	            }
-	        } else {
-	            if (!model.contains(s)) {
-	                model.addElement(s);
-	            }
-	        }
-	    }
-	}
+
 	
 	public VentanaPrincipal() throws SQLException {
 		
@@ -130,25 +104,34 @@ public class VentanaPrincipal extends JFrame {
 	    JPanel pNorte = new JPanel(); // Panel norte
 		//pNorte.add(  );
 		getContentPane().add( pNorte, BorderLayout.NORTH );
+		
 		JSplitPane pOeste = new JSplitPane( JSplitPane.VERTICAL_SPLIT ); // Listas oeste
+		
 		JPanel pPeliculas = new JPanel( new BorderLayout() );
+		
 		pPeliculas.add( new JLabel( "Peliculas:" ), BorderLayout.NORTH );
 		pPeliculas.add( new JScrollPane(lPeliculas), BorderLayout.CENTER );
 		pOeste.setTopComponent( pPeliculas );
+		
 		JPanel pSeries = new JPanel( new BorderLayout() );
 		pSeries.add( new JLabel( "Series:" ), BorderLayout.NORTH );
 		pSeries.add( new JScrollPane(lSeries), BorderLayout.CENTER );
+		
 		pOeste.setBottomComponent(pSeries);
 		getContentPane().add( pOeste, BorderLayout.WEST ); 
-	JPanel pPrincipal = new JPanel( new BorderLayout() ); // Panel central (tabla)
+		
+		JPanel pPrincipal = new JPanel( new BorderLayout() ); // Panel central (tabla)
 		pPrincipal.add( new JLabel( "Datos del Productp:" ), BorderLayout.NORTH );
 		pPrincipal.add( new JScrollPane( tablaProductos ), BorderLayout.CENTER );
+		
 		getContentPane().add( pPrincipal, BorderLayout.CENTER );
-	getContentPane().add( lFoto, BorderLayout.EAST );  // Foto este
-	JPanel pBotonera = new JPanel(); // Panel inferior (botonera)
+		getContentPane().add( lFoto, BorderLayout.EAST );  // Foto este
+		
+		JPanel pBotonera = new JPanel(); // Panel inferior (botonera)
 		pBotonera.add( bAlquilar );
 		getContentPane().add( pBotonera, BorderLayout.SOUTH );
-	    // creacion de panel principal
+	   
+		// creacion de panel principal
 	    panelCatalogo = new JPanel();
 	    panelCatalogo.setLayout(new BorderLayout());
 	    
@@ -176,15 +159,71 @@ public class VentanaPrincipal extends JFrame {
 	    // creacion de campo de busqueda y filtros
 	    JPanel panelFiltros = new JPanel();
 	    panelFiltros.setLayout(new FlowLayout());
-
-	    campoBuscadorP = new JTextField(20);
-	    JButton aceptarBusqueda = new JButton("Filtrar");
 	    
-	    panelFiltros.add(campoBuscadorP);
-	    panelFiltros.add(aceptarBusqueda);
-	    panelFiltros.add(campoBuscadorS);
+	    JLabel labelPelicula = new JLabel("Filtrar Pelicula: ");
+	    campoBuscadorP = new JTextField(20);
 	   
-	  
+	    
+	    
+        campoBuscadorP.addKeyListener(new KeyAdapter() {
+            
+            @Override
+            public void keyReleased(KeyEvent e) {//Se ejecuta cuando se libera una tecla
+                JTextField textField = (JTextField) e.getSource();
+                //obtiene contenido del textfield
+                String text = textField.getText();
+                if (text.trim().length() > 0) {
+                    //nuevo Model temporal
+                    DefaultListModel<Pelicula> tmp = new DefaultListModel();
+                    for (int i = 0; i < mPeliculas.getSize(); i++) {//recorre Model original
+                        //si encuentra coincidencias agrega a model temporal
+                        if (mPeliculas.getElementAt(i).getNombre().toLowerCase().contains(text.toLowerCase())) {
+                            tmp.addElement(mPeliculas.getElementAt(i));
+                        }
+                    }
+                    //agrega nuevo modelo a JList
+                    lPeliculas.setModel(tmp);
+                } else {//si esta vacio muestra el Model original
+                    lPeliculas.setModel(mPeliculas);
+                }
+            }
+            
+        });
+	    
+	    JLabel labelSerie = new JLabel("Filtrar Serie: ");
+	    campoBuscadorS = new JTextField(20);
+	    
+        campoBuscadorS.addKeyListener(new KeyAdapter() {
+            
+            @Override
+            public void keyReleased(KeyEvent e) {//Se ejecuta cuando se libera una tecla
+                JTextField textField = (JTextField) e.getSource();
+                //obtiene contenido del textfield
+                String text = textField.getText();
+                if (text.trim().length() > 0) {
+                    //nuevo Model temporal
+                    DefaultListModel<Serie> tmp = new DefaultListModel();
+                    for (int i = 0; i < mSeries.getSize(); i++) {//recorre Model original
+                        //si encuentra coincidencias agrega a model temporal
+                        if (mSeries.getElementAt(i).getNombre().toLowerCase().contains(text.toLowerCase())) {
+                            tmp.addElement(mSeries.getElementAt(i));
+                        }
+                    }
+                    //agrega nuevo modelo a JList
+                    lSeries.setModel(tmp);
+                } else {//si esta vacio muestra el Model original
+                    lSeries.setModel(mSeries);
+                }
+            }
+            
+        });
+	    
+	    panelFiltros.add(labelPelicula);
+	    panelFiltros.add(campoBuscadorP);
+	    panelFiltros.add(labelSerie);
+	    panelFiltros.add(campoBuscadorS);
+	    
+
 	    initTables();
 	    loadTables();
 
