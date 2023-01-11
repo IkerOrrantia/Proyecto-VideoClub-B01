@@ -28,10 +28,10 @@ public class FicheroABaseDatos {
 		try (Connection conn = DriverManager.getConnection("jdbc:sqlite:Data/VideoClub.db")) {
 			try (Statement stmt = conn.createStatement()) {
 				stmt.executeUpdate("DROP TABLE IF EXISTS Series");
-				stmt.executeUpdate("CREATE TABLE Series (id_serie INT NOT NULL UNIQUE, nombre TEXT, creador TEXT, anyo INT, temporadas INT, id_genero INT, precio DOUBLE, cantidad INT, descripcion TEXT)");				
+				stmt.executeUpdate("CREATE TABLE Series (id_serie INT NOT NULL UNIQUE, nombre TEXT, creador TEXT, anyo INT, temporadas INT, id_genero INT, precio DOUBLE, cantidad INT, descripcion TEXT, imagen TEXT)");				
 			}
 
-			try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO Series (id_serie, nombre, creador, anyo, temporadas, id_genero, precio, cantidad, descripcion) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
+			try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO Series (id_serie, nombre, creador, anyo, temporadas, id_genero, precio, cantidad, descripcion, imagen) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
 				try (BufferedReader reader = new BufferedReader(new FileReader("Data/Series.csv"))) {
 					reader.readLine();
 					reader.readLine();
@@ -52,6 +52,7 @@ public class FicheroABaseDatos {
 							double precio = colupna[7].isEmpty() ? 0 : Double.parseDouble(colupna[7]);
 							int cantidad = colupna[8].isEmpty() ? 0 : Integer.parseInt(colupna[8]);
 							String descripcion = colupna[9];
+							String imagen = colupna[10];
 
 							stmt.setInt(1, id_serie);
 							stmt.setString(2, nombre);
@@ -62,6 +63,7 @@ public class FicheroABaseDatos {
 							stmt.setDouble(7, precio);
 							stmt.setInt(8, cantidad);
 							stmt.setString(9, descripcion);
+							stmt.setString(10, imagen);
 							
 							stmt.executeUpdate();
 						} catch (DateTimeParseException e) {
