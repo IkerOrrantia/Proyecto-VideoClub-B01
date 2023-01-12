@@ -1,9 +1,13 @@
 package ventanas;
 
 import javax.swing.*;
+
+import clases.VideoClub;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class VentanaAdmin extends JFrame{
 	// Creamos los componentes de la ventana
@@ -26,11 +30,14 @@ public class VentanaAdmin extends JFrame{
 		});
 	}
     
-    public VentanaAdmin() {
+    public VentanaAdmin() throws SQLException{
         // Establecemos el título de la ventana
         setTitle("Administrador");
         // Establecemos el tamaño de la ventana
-        setSize(400, 300);
+        setBounds(650, 350, 600, 300); // (Posicion x, Posicion Y, Anchura, Altura)
+        
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        
         // Establecemos el layout de la ventana
         setLayout(new BorderLayout());
 
@@ -61,19 +68,30 @@ public class VentanaAdmin extends JFrame{
         btnUsers.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(VentanaAdmin.this, "Gestión de usuarios");
+            	VentanaGestionUsuarios ventana;
+				try {
+					ventana = new VentanaGestionUsuarios();
+					ventana.setVisible(true);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+            	
             }
         });
         btnProducts.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(VentanaAdmin.this, "Gestión de productos");
+            	VentanaGestionProductos ventana = new VentanaGestionProductos();
+            	ventana.setVisible(true);
             }
         });
         btnOrders.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(VentanaAdmin.this, "Gestión de pedidos");
+            	
+            	VentanaGestionPedidos ventana = new VentanaGestionPedidos(null);
+            	ventana.setVisible(true);
             }
         });
     }

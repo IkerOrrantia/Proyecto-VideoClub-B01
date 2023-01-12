@@ -7,7 +7,6 @@ import javax.swing.event.*;
 
 
 import clases.*;
-import ventanas.*;
 
 public class VentanaGestionPedidos extends JFrame {
 	protected VideoClub datos;
@@ -84,7 +83,7 @@ public class VentanaGestionPedidos extends JFrame {
 
 		this.setTitle("Gestion de pedidos");
 		this.setSize(800, 600);
-		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setVisible(false);
 	}
 }
