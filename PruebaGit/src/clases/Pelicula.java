@@ -2,40 +2,19 @@ package clases;
 
 import java.io.Serializable;
 
-public class Pelicula implements Pagable, Serializable {
+public class Pelicula extends Producto {
 	protected int id;
-	protected String nombre;
-	protected int id_genero;
-	protected double precio;
-	protected String director;
-	protected int anyo;
-	protected int cantidad;
-	protected String descripcion;
-	protected String imagen;
+
 
 	/**
 	 * Constructor con argumentos
 	 * 
 	 */
 	
-	public Pelicula(int id, String nombre, String director, int id_genero, int anyo, double precio, int cantidad, String descripcion, String imagen) {
+	public Pelicula(int id, int id_producto, String nombre, String director, int id_genero, int anyo, double precio, int cantidad, String descripcion, String imagen) {
+		super(id_producto , nombre, director, id_genero, anyo, precio, cantidad, descripcion, imagen);
 		this.id = id;
-		this.nombre = nombre;
-		this.director = director;
-		this.id_genero = id_genero;
-		this.anyo = anyo;
-		this.setPrecio(precio);
-		this.cantidad = cantidad;
-		this.descripcion = descripcion;
-		this.imagen = imagen;
-	}
-
-	/**
-	 * Constructor por defecto, crea una pelicula con precio 0
-	 */
-	public Pelicula() {
-		super();
-		this.setPrecio(0);
+		
 	}
 	
 
@@ -47,6 +26,14 @@ public class Pelicula implements Pagable, Serializable {
 		this.id = id;
 	}
 
+	public int getId_producto() {
+		return id_producto;
+	}
+
+	public void setId_producto(int id_producto) {
+		this.id_producto = id_producto;
+	}
+	
 	public String getNombre() {
 		return nombre;
 	}

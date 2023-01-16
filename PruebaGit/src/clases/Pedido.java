@@ -25,14 +25,14 @@ public class Pedido implements Serializable {
 		this.estado = estado;
 	}
 	
-	/** Constructor por defecto, crea un pedido sin tarjeta, hoy, sin elementos y en PREPARACIÓN
+	/** Constructor por defecto, crea un pedido sin tarjeta, hoy, sin elementos
 	 */
 	public Pedido() {
 		super();
 		this.cliente = new Cliente(cliente.getId_Cliente(), cliente.getUsuario(), 0);
 		this.fecha = new Date();
 		this.elementos = new ArrayList<Pagable>();
-		this.estado = Estado.PREPARACION;
+		this.estado = Estado.PENDIENTE;
 	}
 
 	/**

@@ -2,17 +2,9 @@ package clases;
 
 import java.io.Serializable;
 
-public class Serie implements Pagable, Serializable {
+public class Serie extends Producto {
 	protected int id;
-	protected String nombre;
-	protected int id_genero;
 	protected int temporadas;
-	protected double precio;
-	protected String creador;
-	protected int anyo;
-	protected int cantidad;
-	protected String descripcion;
-	protected String imagen;
 
 	/**
 	 * Constructor con argumentos
@@ -22,27 +14,13 @@ public class Serie implements Pagable, Serializable {
 	 * @param categoria del mueble
 	 * @param precio    del mueble
 	 */
-	public Serie(int id, String nombre, String creador, int anyo, int temporadas, int id_genero, double precio, int cantidad, String descripcion, String imagen) {
+	public Serie(int id, int id_producto, String nombre, String director, int id_genero, int anyo, int temporadas, double precio, int cantidad, String descripcion, String imagen) {
+		super(id_producto, nombre, director, id_genero, anyo, precio, cantidad, descripcion, imagen);
 		this.id = id;
-		this.nombre = nombre;
-		this.creador = creador;
 		this.temporadas = temporadas;
-		this.id_genero = id_genero;
-		this.anyo = anyo;
-		this.setPrecio(precio);
-		this.cantidad = cantidad;
-		this.descripcion = descripcion;
-		this.imagen = imagen;
+	
 	}
 
-	/**
-	 * Constructor por defecto, crea una pelicula con id -1, "Sin nombre" de Genero
-	 * precio 0
-	 */
-	public Serie() {
-		super();
-		this.setPrecio(0);
-	}
 
 	//Getter y setter
 	public int getId() {
@@ -85,12 +63,12 @@ public class Serie implements Pagable, Serializable {
 		this.precio = precio;
 	}
 
-	public String getCreador() {
-		return creador;
+	public String getDirector() {
+		return director;
 	}
 
-	public void setCreador(String creador) {
-		this.creador = creador;
+	public void setDirector(String director) {
+		this.director = director;
 	}
 
 	public int getAnyo() {

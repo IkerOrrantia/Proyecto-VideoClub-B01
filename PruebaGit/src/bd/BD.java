@@ -67,25 +67,25 @@ public class BD {
 		}
 
 	}
-	
+
 	public void borrarCuentaExportada(Cuenta cuenta) throws SQLException{
 		try(PreparedStatement stmt = conn.prepareStatement("DELETE FROM Usuario WHERE usuario = ?")) {
-	        stmt.setString(1, cuenta.getUsuario());
-	        stmt.executeUpdate();
-	        stmt.close();
-			
+			stmt.setString(1, cuenta.getUsuario());
+			stmt.executeUpdate();
+			stmt.close();
+
 		}
 	}
-	
+
 	public void borrarClienteExportado(Cliente cliente) throws SQLException {
 		// Borrar datos añadidos en la base de datos después de ejecutar cada test
-    	try(PreparedStatement stmt = conn.prepareStatement("DELETE FROM Cliente WHERE usuario = ?")) {
-    		  stmt.setString(1, cliente.getUsuario());
-    		  stmt.executeUpdate();
-    		  stmt.close();
-    	}
+		try(PreparedStatement stmt = conn.prepareStatement("DELETE FROM Cliente WHERE usuario = ?")) {
+			stmt.setString(1, cliente.getUsuario());
+			stmt.executeUpdate();
+			stmt.close();
+		}
 
-    	  
+
 	}
 
 	// Importar los datos de los clientes 
@@ -118,21 +118,21 @@ public class BD {
 	public Cuenta loggin(String usuario, String contrasenya) throws SQLException {
 		Cuenta cuenta = null;
 		try (PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM Usuario WHERE usuario = ? AND contrasenya = ?")){
-				pstmt.setString(1, usuario);
-				pstmt.setString(2, contrasenya);
-				ResultSet rsLog = pstmt.executeQuery();
-				if (rsLog.next()) {
-				  cuenta = new Cuenta(rsLog.getInt(1), rsLog.getString(2), rsLog.getString(3), rsLog.getString(4),
-				      rsLog.getString(5), rsLog.getString(6), rsLog.getString(7), rsLog.getInt(8), rsLog.getString(9),
-				      rsLog.getString(10), rsLog.getInt(11), rsLog.getInt(12));
-				}
-				
-				pstmt.close();
-				rsLog.close();
+			pstmt.setString(1, usuario);
+			pstmt.setString(2, contrasenya);
+			ResultSet rsLog = pstmt.executeQuery();
+			if (rsLog.next()) {
+				cuenta = new Cuenta(rsLog.getInt(1), rsLog.getString(2), rsLog.getString(3), rsLog.getString(4),
+						rsLog.getString(5), rsLog.getString(6), rsLog.getString(7), rsLog.getInt(8), rsLog.getString(9),
+						rsLog.getString(10), rsLog.getInt(11), rsLog.getInt(12));
+			}
+
+			pstmt.close();
+			rsLog.close();
 		}
 		return cuenta;
 	}
-	
+
 	//importamos todos los nombres de las peliculas y los guardamos en una lista
 	public List<String> importarNombresPelicula() throws SQLException {
 		List<String> NPelicula = new ArrayList<>();
@@ -146,7 +146,7 @@ public class BD {
 		}
 		return NPelicula;
 	}
-	
+
 	//importamos todos los nombres de las series y los guardamos en una lista
 	public List<String> importarNombresSerie() throws SQLException {
 		List<String> NSerie = new ArrayList<>();
@@ -160,7 +160,7 @@ public class BD {
 		}
 		return NSerie;
 	}
-	
+
 	//Importamos datos de una pelicula en concreto
 	public Pelicula importarDatosPelicula(String nombre) throws SQLException {
 		Pelicula pelicula = null;
@@ -168,14 +168,14 @@ public class BD {
 			pstmt.setString(1, nombre);
 			ResultSet rs = pstmt.executeQuery();
 			if(rs.next()) {
-				pelicula = new Pelicula(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getDouble(6), rs.getInt(7), rs.getString(8), rs.getString(9));
+				pelicula = new Pelicula(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getDouble(7), rs.getInt(8), rs.getString(9), rs.getString(10));
 			}
 			pstmt.close();
 			rs.close();
+		}
+		return pelicula;
 	}
-	return pelicula;
-	}
-	
+
 	//Importamos datos de una serie en concreto
 	public Serie importarDatosSerie(String nombre) throws SQLException {
 		Serie serie = null;
@@ -183,12 +183,12 @@ public class BD {
 			pstmt.setString(1, nombre);
 			ResultSet rs = pstmt.executeQuery();
 			if(rs.next()) {
-				serie = new Serie(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getDouble(7), rs.getInt(8), rs.getString(9), rs.getString(10));
+				serie = new Serie(rs.getInt(1), rs.getInt(2) , rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getDouble(8), rs.getInt(9), rs.getString(10), rs.getString(11));
 			}
 			pstmt.close();
 			rs.close();
+		}
+		return serie;
 	}
-	return serie;
-	}
-	
+
 }
