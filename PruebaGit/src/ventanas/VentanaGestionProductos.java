@@ -8,23 +8,18 @@ import java.awt.*;
 public class VentanaGestionProductos extends JFrame implements ActionListener {
 
 	private JButton botonPeli, botonSerie;
-	private ImageIcon imageP, imageS;
 
 	public VentanaGestionProductos() {
 		setLayout(new FlowLayout());
 
-		botonPeli = new JButton();
+		botonPeli = new JButton("Peliculas");
 		add(botonPeli);
 		botonPeli.setSize(400,400);
-		imageP = new ImageIcon(getClass().getResource("git/Proyecto-VideoClub-B01/PruebaGit/img/peli.jpg")); // MIRAR PORQUE NO VA LA CARPETA IMG
-		botonPeli.setIcon(imageP);
 		botonPeli.addActionListener(this);
 
-		botonSerie = new JButton();
+		botonSerie = new JButton("Series");
 		add(botonSerie);
 		botonSerie.setSize(400,400);
-		imageS = new ImageIcon(getClass().getResource("git/Proyecto-VideoClub-B01/PruebaGit/img/series.jpg")); // MIRAR PORQUE NO VA LA CARPETA IMG
-		botonSerie.setIcon(imageS);
 		botonSerie.addActionListener(this);
 
 
@@ -55,7 +50,7 @@ public class VentanaGestionProductos extends JFrame implements ActionListener {
 		VentanaGestionProductos gui = new VentanaGestionProductos();
 		gui.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		gui.pack();
-		gui.setTitle("VentanaGestionProductos");
+		gui.setTitle("Ventana Gestion Productos");
 		gui.setVisible(true);
 	}
 	@Override

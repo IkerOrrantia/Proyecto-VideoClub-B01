@@ -54,13 +54,16 @@ public class VentanaGestionPeliculas extends JFrame{
 		bd = new BD();
 		try {
 			bd.connect();
-			listaPeliculas = listaPeliculas;
+		       List<String> nPeliculas = bd.importarNombresPelicula();
+	            for(String s : nPeliculas) {
+	                listaPeliculas.add(bd.importarDatosPelicula(s));
+	            }
 			for (Pelicula p : listaPeliculas) {
 				modeloTabla.addRow(new Object[] {
 						p.getId(),
 						p.getNombre(),
 						p.getDirector(),
-						// p.getId_genero(),
+						p.getId_genero(),
 						p.getAnyo(),
 						p.getPrecio(),
 						p.getCantidad(),
