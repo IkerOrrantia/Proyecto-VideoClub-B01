@@ -41,7 +41,7 @@ public class VentanaGestionSeries extends JFrame {
 	TableRowSorter<DefaultTableModel> sorter;
 
 	private void initTables (){
-		Vector<String> cabecera = new Vector<String>(Arrays.asList("NOMBRE", "DIRECTOR", "GENERO", "ANYO", "PRECIO", "CANTIDAD", "DESCRIPCION"));
+		Vector<String> cabecera = new Vector<String>(Arrays.asList("NOMBRE", "DIRECTOR", "GENERO", "ANYO", "TEMPORADA" ,"PRECIO", "CANTIDAD", "DESCRIPCION"));
 		// creamos modelo de datos
 		this.modeloDatos = new DefaultTableModel(new Vector<Vector<Object>>(), cabecera);
 		// se crea tabla utilizado el modelo
@@ -52,7 +52,8 @@ public class VentanaGestionSeries extends JFrame {
 		tablaProductos.getColumnModel().getColumn(3).setPreferredWidth(50);
 		tablaProductos.getColumnModel().getColumn(4).setPreferredWidth(50);
 		tablaProductos.getColumnModel().getColumn(5).setPreferredWidth(50);
-		tablaProductos.getColumnModel().getColumn(6).setPreferredWidth(300);
+		tablaProductos.getColumnModel().getColumn(6).setPreferredWidth(50);
+		tablaProductos.getColumnModel().getColumn(7).setPreferredWidth(300);
 		this.tablaProductos.setAutoCreateRowSorter(true);
 		tablaProductos.setFont(tablaProductos.getFont().deriveFont(12f));
 
@@ -93,26 +94,13 @@ public class VentanaGestionSeries extends JFrame {
 
 
 	private void loadTables (){
-		for (int i = 0; i < tablaProductos.getColumnCount(); i++) {
-			DefaultTableColumnModel colModel = (DefaultTableColumnModel) tablaProductos.getColumnModel();
-			TableColumn col = colModel.getColumn(i);
-			int width = 0;
-			TableCellRenderer renderer = col.getHeaderRenderer();
-			if (renderer == null) {
-				renderer = tablaProductos.getTableHeader().getDefaultRenderer();
-			}
-			Component comp = renderer.getTableCellRendererComponent(tablaProductos, col.getHeaderValue(), false, false, 0, 0);
-			width = comp.getPreferredSize().width;
-			for (int r = 0; r < tablaProductos.getRowCount(); r++) {
-				renderer = tablaProductos.getCellRenderer(r, i);
-				comp = renderer.getTableCellRendererComponent(tablaProductos, tablaProductos.getValueAt(r, i), false, false, r, i);
-				width = Math.max(width, comp.getPreferredSize().width);
-			}
-			col.setPreferredWidth(width + 10);
-		}
+		this.tablaProductos.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		this.tablaProductos.setAutoCreateColumnsFromModel(true);
+		tablaProductos.sizeColumnsToFit(-1);
 
-
+		tablaProductos.setRowHeight(150);
 		tablaProductos.setDefaultRenderer(Object.class, new MultiLineCellRenderer());
+		tablaProductos.setPreferredSize(new Dimension(1000, 150));
 		// borrar datos
 		//this.modeloDatos.setRowCount(0);
 		// añadir fila por peli
@@ -123,8 +111,10 @@ public class VentanaGestionSeries extends JFrame {
 	public class MultiLineCellRenderer extends DefaultTableCellRenderer {
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 			JTextArea textArea = new JTextArea();
+			textArea.setLineWrap(true);
 			textArea.setWrapStyleWord(true);
-			textArea.setText(value.toString());
+			textArea.setEditable(false);
+			textArea.setText(table.getValueAt(row, column).toString());
 			return textArea;
 		}
 	}
@@ -199,7 +189,14 @@ public class VentanaGestionSeries extends JFrame {
 					Serie seleccionada = (Serie) lSeries.getSelectedValue();
 					if(seleccionada != ultimaselec){
 						modeloDatos.setRowCount(0);
-						modeloDatos.addRow(new Object[] { seleccionada.getNombre(), seleccionada.getDirector(), seleccionada.getId_genero(), seleccionada.getAnyo(), seleccionada.getPrecio(), seleccionada.getCantidad(), seleccionada.getDescripcion(), seleccionada.getImagen()});
+						String nombreGeneroS = null;
+						try {
+							nombreGeneroS = (BD.importarNombreGenero(seleccionada.getId_genero())).getNombre_genero();
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						modeloDatos.addRow(new Object[] { seleccionada.getNombre(), seleccionada.getDirector(), nombreGeneroS, seleccionada.getAnyo(), seleccionada.getTemporadas(),seleccionada.getPrecio(), seleccionada.getCantidad(), seleccionada.getDescripcion(), seleccionada.getImagen()});
 						ultimaselec = seleccionada;
 					}
 				}

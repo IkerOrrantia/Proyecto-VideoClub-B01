@@ -3,6 +3,7 @@ package ventanas;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -115,26 +116,14 @@ public class VentanaGestionPeliculas extends JFrame{
 
 
 	private void loadTables (){
-		for (int i = 0; i < tablaProductos.getColumnCount(); i++) {
-			DefaultTableColumnModel colModel = (DefaultTableColumnModel) tablaProductos.getColumnModel();
-			TableColumn col = colModel.getColumn(i);
-			int width = 0;
-			TableCellRenderer renderer = col.getHeaderRenderer();
-			if (renderer == null) {
-				renderer = tablaProductos.getTableHeader().getDefaultRenderer();
-			}
-			Component comp = renderer.getTableCellRendererComponent(tablaProductos, col.getHeaderValue(), false, false, 0, 0);
-			width = comp.getPreferredSize().width;
-			for (int r = 0; r < tablaProductos.getRowCount(); r++) {
-				renderer = tablaProductos.getCellRenderer(r, i);
-				comp = renderer.getTableCellRendererComponent(tablaProductos, tablaProductos.getValueAt(r, i), false, false, r, i);
-				width = Math.max(width, comp.getPreferredSize().width);
-			}
-			col.setPreferredWidth(width + 10);
-		}
+		this.tablaProductos.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		this.tablaProductos.setAutoCreateColumnsFromModel(true);
+		tablaProductos.sizeColumnsToFit(-1);
 
-
+		tablaProductos.setRowHeight(150);
 		tablaProductos.setDefaultRenderer(Object.class, new MultiLineCellRenderer());
+		tablaProductos.setPreferredSize(new Dimension(1000, 150));
+		
 		// borrar datos
 		//this.modeloDatos.setRowCount(0);
 		// añadir fila por peli
@@ -145,8 +134,10 @@ public class VentanaGestionPeliculas extends JFrame{
 	public class MultiLineCellRenderer extends DefaultTableCellRenderer {
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 			JTextArea textArea = new JTextArea();
+			textArea.setLineWrap(true);
 			textArea.setWrapStyleWord(true);
-			textArea.setText(value.toString());
+			textArea.setEditable(false);
+			textArea.setText(table.getValueAt(row, column).toString());
 			return textArea;
 		}
 	}
@@ -222,7 +213,14 @@ public class VentanaGestionPeliculas extends JFrame{
 					Pelicula seleccionada = (Pelicula) lPeliculas.getSelectedValue();
 					if(seleccionada != ultimaselec){
 						modeloDatos.setRowCount(0);
-						modeloDatos.addRow(new Object[] { seleccionada.getNombre(), seleccionada.getDirector(), seleccionada.getId_genero(), seleccionada.getAnyo(), seleccionada.getPrecio(), seleccionada.getCantidad(), seleccionada.getDescripcion(), seleccionada.getImagen()});
+						String nombreGeneroP = null;
+						try {
+							nombreGeneroP = (BD.importarNombreGenero(seleccionada.getId_genero())).getNombre_genero();
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						modeloDatos.addRow(new Object[] { seleccionada.getNombre(), seleccionada.getDirector(), nombreGeneroP , seleccionada.getAnyo(), seleccionada.getPrecio(), seleccionada.getCantidad(), seleccionada.getDescripcion(), seleccionada.getImagen()});
 						ultimaselec = seleccionada;
 					}
 				}

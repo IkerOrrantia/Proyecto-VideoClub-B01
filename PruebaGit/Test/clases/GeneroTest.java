@@ -12,7 +12,7 @@ public class GeneroTest {
         String nombre_genero = "Accion";
         String descripcion = "Peliculas de accion";
         
-        Genero genero = new Genero();
+        Genero genero = new Genero(id_genero, nombre_genero, descripcion);
         genero.setId_genero(id_genero);
         genero.setNombre_genero(nombre_genero);
         genero.setDescripcion(descripcion);
@@ -28,7 +28,7 @@ public class GeneroTest {
         String nombre_genero = "Accion";
         String descripcion = "Peliculas de accion";
         
-        Genero genero = new Genero();
+        Genero genero = new Genero(id_genero, nombre_genero, descripcion);
         genero.setId_genero(id_genero);
         genero.setNombre_genero(nombre_genero);
         genero.setDescripcion(descripcion);

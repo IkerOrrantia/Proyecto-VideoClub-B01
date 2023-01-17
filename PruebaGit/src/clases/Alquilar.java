@@ -3,34 +3,20 @@ package clases;
 public class Alquilar {
 	private int id_alquiler;
 	private int id_cliente;
-	private int id_pelicula;
-	private int id_serie;
+	private int id_producto;
 	private String fecha_alquiler;
 	private String fecha_devolucion;
 	private Estado estado;
 	
-	public Alquilar(int id_alquiler, int id_cliente, int id_pelicula, int id_serie, String fecha_alquiler, String fecha_devolucion, Estado estado) {
+	public Alquilar(int id_alquiler, int id_cliente, int id_producto, String fecha_alquiler, String fecha_devolucion, Estado estado) {
 		this.id_alquiler=id_alquiler;
 		this.id_cliente=id_cliente;
-		this.id_pelicula=id_pelicula;
-		this.id_serie=id_serie;
+		this.id_producto=id_producto;
 		this.fecha_alquiler=fecha_alquiler;
 		this.fecha_devolucion=fecha_devolucion;
 		this.estado=estado;
 
 		
-	}
-	//Contructor por defecto de Alquiler con pelicula
-	
-	public Alquilar(int id_alquiler, int id_cliente, int id_pelicula, String fecha_alquiler, String fecha_devolucion,
-			Estado estado) {
-		super();
-		this.id_alquiler = id_alquiler;
-		this.id_cliente = id_cliente;
-		this.id_pelicula = id_pelicula;
-		this.fecha_alquiler = fecha_alquiler;
-		this.fecha_devolucion = fecha_devolucion;
-		this.estado = estado;
 	}
 	
 	
@@ -51,21 +37,15 @@ public class Alquilar {
 		this.id_cliente = id_cliente;
 	}
 
-	public int getId_pelicula() {
-		return id_pelicula;
+	public int getId_producto() {
+		return id_producto;
 	}
 
-	public void setId_pelicula(int id_pelicula) {
-		this.id_pelicula = id_pelicula;
+
+	public void setId_producto(int id_producto) {
+		this.id_producto = id_producto;
 	}
 
-	public int getId_serie() {
-		return id_serie;
-	}
-
-	public void setId_serie(int id_serie) {
-		this.id_serie = id_serie;
-	}
 
 	public String getFecha_alquiler() {
 		return fecha_alquiler;
@@ -93,8 +73,8 @@ public class Alquilar {
 
 	@Override
 	public String toString() {
-		return "Alquilar [id_alquiler=" + id_alquiler + ", id_cliente=" + id_cliente + ", id_pelicula=" + id_pelicula
-				+ ", id_serie=" + id_serie + ", fecha_alquiler=" + fecha_alquiler + ", fecha_devolucion="
+		return "Alquilar [id_alquiler=" + id_alquiler + ", id_cliente=" + id_cliente + ", id_producto=" + id_producto
+				+ ", fecha_alquiler=" + fecha_alquiler + ", fecha_devolucion="
 				+ fecha_devolucion + ", estado=" + estado + "]";
 	}
 	
