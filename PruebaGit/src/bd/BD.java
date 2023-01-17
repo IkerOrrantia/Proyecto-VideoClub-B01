@@ -168,8 +168,7 @@ public class BD {
 			pstmt.setString(1, nombre);
 			ResultSet rs = pstmt.executeQuery();
 			if(rs.next()) {
-				pelicula = new Pelicula(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getDouble(7), rs.getInt(8), rs.getString(9), rs.getString(10));
-			}
+				pelicula = new Pelicula(rs.getInt("id_pelicula"), rs.getInt("id_producto"), rs.getString("nombre"), rs.getString("director"), rs.getInt("id_genero"), rs.getInt("anyo"), rs.getDouble("precio"), rs.getInt("cantidad"), rs.getString("descripcion"), rs.getString("imagen"));			}
 			pstmt.close();
 			rs.close();
 		}

@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Vector;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.spi.CurrencyNameProvider;
 import java.sql.*;
 import java.util.List;
@@ -29,14 +32,20 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -58,20 +67,26 @@ public class VentanaPrincipal extends JFrame {
 	private ArrayList<Pelicula> tablePeli = new ArrayList<Pelicula>();
 	private JLabelAjustado lFoto = new JLabelAjustado( null );
 	private JButton bAlquilar = new JButton( "Alquilar producto" );
+	private Pelicula ultimaselec;
 	TableRowSorter<DefaultTableModel> sorter;
 	
 	private void initTables (){
-		Vector<String> cabecera = new Vector<String>(Arrays.asList("ID", "NOMBRE", "DIRECTOR", "GENERO", "ANYO", "PRECIO", "CANTIDAD", "DESCRIPCION"));
+		Vector<String> cabecera = new Vector<String>(Arrays.asList("NOMBRE", "DIRECTOR", "GENERO", "ANYO", "PRECIO", "CANTIDAD", "DESCRIPCION"));
 		// creamos modelo de datos
 		this.modeloDatos = new DefaultTableModel(new Vector<Vector<Object>>(), cabecera);
 		// se crea tabla utilizado el modelo
 		this.tablaProductos = new JTable(this.modeloDatos);
 		this.tablaProductos.setAutoCreateRowSorter(true);
+		tablaProductos.setFont(tablaProductos.getFont().deriveFont(12f));
+		
+		
 		// modificamos para seleccionar una fila
 		this.tablaProductos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		// Crea un TableRowSorter y asigna el modelo de datos de tu JTable
 		sorter = new TableRowSorter<>(modeloDatos);
 		tablaProductos.setRowSorter(sorter);
+		
+		
 
 		// Crea un RowFilter utilizando el texto del campo de b�squeda
 		RowFilter<DefaultTableModel, Object> filter = RowFilter.regexFilter(campoBuscadorP.getText(), 1);
@@ -79,18 +94,48 @@ public class VentanaPrincipal extends JFrame {
 		// Actualiza el filtro del TableRowSorter
 		sorter.setRowFilter(filter);
 		// pasar render
-		this.tablaProductos.setDefaultRenderer(Object.class, null);
-	}
+		this.tablaProductos.setDefaultRenderer(Object.class, new DefaultTableCellRenderer());
+		}
 	
 	
 	private void loadTables (){
-		// borrar datos
-		this.modeloDatos.setRowCount(0);
-		// añadir fila por peli
-		for (Pelicula p : this.tablePeli) {
-			this.modeloDatos.addRow(new Object[] { p.getNombre()});
+		for (int i = 0; i < tablaProductos.getColumnCount(); i++) {
+		    DefaultTableColumnModel colModel = (DefaultTableColumnModel) tablaProductos.getColumnModel();
+		    TableColumn col = colModel.getColumn(i);
+		    int width = 0;
+		    TableCellRenderer renderer = col.getHeaderRenderer();
+		    if (renderer == null) {
+		        renderer = tablaProductos.getTableHeader().getDefaultRenderer();
+		    }
+		    Component comp = renderer.getTableCellRendererComponent(tablaProductos, col.getHeaderValue(), false, false, 0, 0);
+		    width = comp.getPreferredSize().width;
+		    for (int r = 0; r < tablaProductos.getRowCount(); r++) {
+		        renderer = tablaProductos.getCellRenderer(r, i);
+		        comp = renderer.getTableCellRendererComponent(tablaProductos, tablaProductos.getValueAt(r, i), false, false, r, i);
+		        width = Math.max(width, comp.getPreferredSize().width);
+		    }
+		    col.setPreferredWidth(width + 10);
 		}
+		
+		
+	tablaProductos.setDefaultRenderer(Object.class, new MultiLineCellRenderer());
+		// borrar datos
+		//this.modeloDatos.setRowCount(0);
+		// añadir fila por peli
+//		for (Pelicula p : this.tablePeli) {
+//			this.modeloDatos.addRow(new Object[] { p.getNombre(), p.getDirector(), p.getId_genero(), p.getAnyo(), p.getPrecio(), p.getCantidad(), p.getDescripcion(), p.getImagen()});
+//		}
 	}
+	public class MultiLineCellRenderer extends DefaultTableCellRenderer {
+	    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+	        JTextArea textArea = new JTextArea();
+	        textArea.setWrapStyleWord(true);
+	        textArea.setText(value.toString());
+	        return textArea;
+	    }
+	}
+
+
 
 	
 	public VentanaPrincipal() throws SQLException {
@@ -164,6 +209,23 @@ public class VentanaPrincipal extends JFrame {
 	    campoBuscadorP = new JTextField(20);
 	   
 	    
+	    ultimaselec = null;
+	    lPeliculas.addListSelectionListener(new ListSelectionListener() {
+	            public void valueChanged(ListSelectionEvent evt) {
+	                if (!evt.getValueIsAdjusting()) {
+	                    tablaProductos.clearSelection();
+	                    Pelicula seleccionada = (Pelicula) lPeliculas.getSelectedValue();
+	                    if(seleccionada != ultimaselec){
+	                        modeloDatos.setRowCount(0);
+	                        modeloDatos.addRow(new Object[] { seleccionada.getNombre(), seleccionada.getDirector(), seleccionada.getId_genero(), seleccionada.getAnyo(), seleccionada.getPrecio(), seleccionada.getCantidad(), seleccionada.getDescripcion(), seleccionada.getImagen()});
+	                        ultimaselec = seleccionada;
+	                    }
+	                }
+	            }
+	        });
+	    
+
+	    
 	    
         campoBuscadorP.addKeyListener(new KeyAdapter() {
             
@@ -226,6 +288,9 @@ public class VentanaPrincipal extends JFrame {
 
 	    initTables();
 	    loadTables();
+	    
+	    ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+	    executor.scheduleAtFixedRate(() -> loadTables(), 0, 3, TimeUnit.SECONDS);
 
 	    // agregar componentes al panel principal
 	    panelCatalogo.add(panelFiltros, BorderLayout.NORTH);
