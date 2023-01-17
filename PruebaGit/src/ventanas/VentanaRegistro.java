@@ -23,7 +23,7 @@ import javax.swing.JTextField;
 import bd.BD;
 import clases.*;
 import ventanas.*;
-import means.*;
+
 
 import javax.swing.*;
 

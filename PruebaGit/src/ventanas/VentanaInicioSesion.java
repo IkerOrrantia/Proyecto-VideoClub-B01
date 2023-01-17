@@ -13,7 +13,6 @@ import javax.swing.*;
 import bd.BD;
 import clases.*;
 import ventanas.*;
-import means.*;
 
 public class VentanaInicioSesion extends JFrame {
 	private static Logger logger = Logger.getLogger(VentanaInicioSesion.class.getName());
@@ -34,9 +33,6 @@ public class VentanaInicioSesion extends JFrame {
 	}
 
 	public VentanaInicioSesion() {
-		ControladorDeTxt ctxt = new ControladorDeTxt();
-		// Metemos el controlador en el Arraylist de clientes
-		ArrayList<Cliente> clientes = ctxt.importarClientes();
 
 		// Creamos un nuevo frame y definimos su tamaño, posicion, nombre y cuando ha de
 		// cerrarse
