@@ -44,8 +44,15 @@ public class VentanaGestionProductos extends JFrame implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				VentanaGestionSeries ventana = new VentanaGestionSeries();
-				ventana.setVisible(true);
+				VentanaGestionSeries ventana;
+				try {
+					ventana = new VentanaGestionSeries();
+					ventana.setVisible(true);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
 			}
 		});
 		
