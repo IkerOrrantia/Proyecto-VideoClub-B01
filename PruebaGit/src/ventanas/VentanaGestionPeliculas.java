@@ -1,82 +1,320 @@
 package ventanas;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Vector;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
+import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableRowSorter;
 
 import bd.BD;
 import clases.Cuenta;
 import clases.Pelicula;
+import clases.Serie;
+import ventanas.VentanaPrincipal.MultiLineCellRenderer;
 
 public class VentanaGestionPeliculas extends JFrame{
+	private DefaultListModel<Pelicula> mPeliculas = new DefaultListModel<>();
+	private JList<Pelicula> lPeliculas = new JList<>(mPeliculas);
+	private BD BD;
+	private JPanel panelCatalogo;
+	private JTextField campoBuscadorP;
+	private JTable tablaProductos;
+	private DefaultTableModel modeloDatos;
+	private ArrayList<Pelicula> tablePeli = new ArrayList<Pelicula>();
+	private JLabelAjustado lFoto = new JLabelAjustado( null );
+	private JButton bAumentarStock = new JButton( "Aumentar Stock" );
+	private Pelicula ultimaselec;
+	TableRowSorter<DefaultTableModel> sorter;
 
-	private JTable tablaPeliculas;
-	private DefaultTableModel modeloTabla;
-	private JButton btnEliminar;
-	private List<Pelicula> listaPeliculas;
-	private BD bd;
-	private Pelicula peliculaAnyadir;
-	// FALTA TRAER LOS DATOS DE USUARIOS DE LA BASE DE DATOS
-	public VentanaGestionPeliculas() throws SQLException{
-		// Configura la ventana
-		setTitle("Ventana Gestión de Usuarios");
-		setBounds(525, 250, 900, 600); // (Posicion x, Posicion Y, Anchura, Altura)
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	private void initTables (){
+		Vector<String> cabecera = new Vector<String>(Arrays.asList("NOMBRE", "DIRECTOR", "GENERO", "ANYO", "PRECIO", "CANTIDAD", "DESCRIPCION"));
+		// creamos modelo de datos
+		this.modeloDatos = new DefaultTableModel(new Vector<Vector<Object>>(), cabecera);
+		// se crea tabla utilizado el modelo
+		this.tablaProductos = new JTable(this.modeloDatos);
+		this.tablaProductos.setAutoCreateRowSorter(true);
+		tablaProductos.setFont(tablaProductos.getFont().deriveFont(12f));
 
-		// Crea el modelo de la tabla
-		modeloTabla = new DefaultTableModel();
-		modeloTabla.addColumn("ID");
-		modeloTabla.addColumn("Nombre");
-		modeloTabla.addColumn("Director");
-		modeloTabla.addColumn("Genero");
-		modeloTabla.addColumn("Anyo");
-		modeloTabla.addColumn("Precio");
-		modeloTabla.addColumn("Cantidad");
-		modeloTabla.addColumn("Descripcion");
 
-		// Crea la tabla
-		tablaPeliculas = new JTable(modeloTabla);
+		// modificamos para seleccionar una fila
+		this.tablaProductos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		// Crea un TableRowSorter y asigna el modelo de datos de tu JTable
+		sorter = new TableRowSorter<>(modeloDatos);
+		tablaProductos.setRowSorter(sorter);
 
-		// Agrega la tabla a un scroll pane y lo agrega a la ventana
-		JScrollPane scrollPane = new JScrollPane(tablaPeliculas);
-		add(scrollPane);
 
-	
-		// Carga los datos de la base de datos en la tabla
 
-		setVisible(true);
-		bd = new BD();
-		try {
-			bd.connect();
-		       List<String> nPeliculas = bd.importarNombresPelicula();
-	            for(String s : nPeliculas) {
-	                listaPeliculas.add(bd.importarDatosPelicula(s));
-	            }
-			for (Pelicula p : listaPeliculas) {
-				modeloTabla.addRow(new Object[] {
-						p.getId(),
-						p.getNombre(),
-						p.getDirector(),
-						p.getId_genero(),
-						p.getAnyo(),
-						p.getPrecio(),
-						p.getCantidad(),
-						p.getDescripcion()
-				});
+		// Crea un RowFilter utilizando el texto del campo de búsqueda
+		RowFilter<DefaultTableModel, Object> filter = RowFilter.regexFilter(campoBuscadorP.getText(), 1);
+
+		// Actualiza el filtro del TableRowSorter
+		sorter.setRowFilter(filter);
+		// pasar render
+		this.tablaProductos.setDefaultRenderer(Object.class, new DefaultTableCellRenderer());
+
+		bAumentarStock.addActionListener(e -> {
+			//mostrar ventana emergente
+			String input = JOptionPane.showInputDialog("Introduce la cantidad a aumentar:");
+			//validar que el input no sea vacío o cancelado
+			if(input != null && !input.isEmpty()){
+				try{
+					//convertir input a entero
+					int cantidad = Integer.parseInt(input);
+					//actualizar la cantidad en la tabla
+					ultimaselec.setCantidad(ultimaselec.getCantidad() + cantidad);
+					modeloDatos.setValueAt(ultimaselec.getCantidad(), tablaProductos.getSelectedRow(), 5);
+				}catch(NumberFormatException ex){
+					JOptionPane.showMessageDialog(this, "Por favor, introduce un número válido.");
+				}
 			}
-		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		});	
+	}
+
+
+	private void loadTables (){
+		for (int i = 0; i < tablaProductos.getColumnCount(); i++) {
+			DefaultTableColumnModel colModel = (DefaultTableColumnModel) tablaProductos.getColumnModel();
+			TableColumn col = colModel.getColumn(i);
+			int width = 0;
+			TableCellRenderer renderer = col.getHeaderRenderer();
+			if (renderer == null) {
+				renderer = tablaProductos.getTableHeader().getDefaultRenderer();
+			}
+			Component comp = renderer.getTableCellRendererComponent(tablaProductos, col.getHeaderValue(), false, false, 0, 0);
+			width = comp.getPreferredSize().width;
+			for (int r = 0; r < tablaProductos.getRowCount(); r++) {
+				renderer = tablaProductos.getCellRenderer(r, i);
+				comp = renderer.getTableCellRendererComponent(tablaProductos, tablaProductos.getValueAt(r, i), false, false, r, i);
+				width = Math.max(width, comp.getPreferredSize().width);
+			}
+			col.setPreferredWidth(width + 10);
 		}
 
-		
-		// Agrega cada fila de resultados al modelo de la tabla
+
+		tablaProductos.setDefaultRenderer(Object.class, new MultiLineCellRenderer());
+		// borrar datos
+		//this.modeloDatos.setRowCount(0);
+		// aÃ±adir fila por peli
+		//		for (Pelicula p : this.tablePeli) {
+		//			this.modeloDatos.addRow(new Object[] { p.getNombre(), p.getDirector(), p.getId_genero(), p.getAnyo(), p.getPrecio(), p.getCantidad(), p.getDescripcion(), p.getImagen()});
+		//		}
+	}
+	public class MultiLineCellRenderer extends DefaultTableCellRenderer {
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+			JTextArea textArea = new JTextArea();
+			textArea.setWrapStyleWord(true);
+			textArea.setText(value.toString());
+			return textArea;
+		}
+	}
+
+
+
+
+	public VentanaGestionPeliculas() throws SQLException {
+
+		// configuraciï¿½n de la ventana
+		setTitle("Gestion Peliculas");
+		setSize(900, 600);
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+		JPanel pNorte = new JPanel(); // Panel norte
+		//pNorte.add(  );
+		getContentPane().add( pNorte, BorderLayout.NORTH );
+
+		JSplitPane pOeste = new JSplitPane( JSplitPane.VERTICAL_SPLIT ); // Listas oeste
+
+		JPanel pPeliculas = new JPanel( new BorderLayout() );
+
+		pPeliculas.add( new JLabel( "Peliculas:" ), BorderLayout.NORTH );
+		pPeliculas.add( new JScrollPane(lPeliculas), BorderLayout.CENTER );
+		pOeste.setTopComponent( pPeliculas );
+		getContentPane().add( pOeste, BorderLayout.WEST ); 
+
+		JPanel pPrincipal = new JPanel( new BorderLayout() ); // Panel central (tabla)
+		pPrincipal.add( new JLabel( "Datos del Productp:" ), BorderLayout.NORTH );
+		pPrincipal.add( new JScrollPane( tablaProductos ), BorderLayout.CENTER );
+
+		getContentPane().add( pPrincipal, BorderLayout.CENTER );
+		getContentPane().add( lFoto, BorderLayout.EAST );  // Foto este
+
+		JPanel pBotonera = new JPanel(); // Panel inferior (botonera)
+		pBotonera.add( bAumentarStock );
+		getContentPane().add( pBotonera, BorderLayout.SOUTH );
+
+		// creacion de panel principal
+		panelCatalogo = new JPanel();
+		panelCatalogo.setLayout(new BorderLayout());
+
+		//
+		BD = new BD();
+		try {
+			BD.connect();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+
+
+		List<String> nombresP = BD.importarNombresPelicula();
+		for (String p: nombresP) {
+			mPeliculas.addElement(BD.importarDatosPelicula(p));;
+		}
+
+
+		// creacion de campo de busqueda y filtros
+		JPanel panelFiltros = new JPanel();
+		panelFiltros.setLayout(new FlowLayout());
+
+		JLabel labelPelicula = new JLabel("Filtrar Pelicula: ");
+		campoBuscadorP = new JTextField(20);
+
+
+		ultimaselec = null;
+		lPeliculas.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent evt) {
+				if (!evt.getValueIsAdjusting()) {
+					tablaProductos.clearSelection();
+					Pelicula seleccionada = (Pelicula) lPeliculas.getSelectedValue();
+					if(seleccionada != ultimaselec){
+						modeloDatos.setRowCount(0);
+						modeloDatos.addRow(new Object[] { seleccionada.getNombre(), seleccionada.getDirector(), seleccionada.getId_genero(), seleccionada.getAnyo(), seleccionada.getPrecio(), seleccionada.getCantidad(), seleccionada.getDescripcion(), seleccionada.getImagen()});
+						ultimaselec = seleccionada;
+					}
+				}
+			}
+		});
+
+
+
+
+		campoBuscadorP.addKeyListener(new KeyAdapter() {
+
+			@Override
+			public void keyReleased(KeyEvent e) {//Se ejecuta cuando se libera una tecla
+				JTextField textField = (JTextField) e.getSource();
+				//obtiene contenido del textfield
+				String text = textField.getText();
+				if (text.trim().length() > 0) {
+					//nuevo Model temporal
+					DefaultListModel<Pelicula> tmp = new DefaultListModel();
+					for (int i = 0; i < mPeliculas.getSize(); i++) {//recorre Model original
+						//si encuentra coincidencias agrega a model temporal
+						if (mPeliculas.getElementAt(i).getNombre().toLowerCase().contains(text.toLowerCase())) {
+							tmp.addElement(mPeliculas.getElementAt(i));
+						}
+					}
+					//agrega nuevo modelo a JList
+					lPeliculas.setModel(tmp);
+				} else {//si esta vacio muestra el Model original
+					lPeliculas.setModel(mPeliculas);
+				}
+			}
+
+		});
+
+
+		panelFiltros.add(labelPelicula);
+		panelFiltros.add(campoBuscadorP);
+
+
+		initTables();
+		loadTables();
+
+		ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+		executor.scheduleAtFixedRate(() -> loadTables(), 0, 3, TimeUnit.SECONDS);
+
+		// agregar componentes al panel principal
+		panelCatalogo.add(panelFiltros, BorderLayout.NORTH);
+		panelCatalogo.add(new JScrollPane(tablaProductos), BorderLayout.CENTER);
+
+		// agregar panel principal a la ventana
+		add(panelCatalogo);
+
+	}
+
+	private static class JLabelAjustado extends JLabel {
+		private ImageIcon imagen; 
+		private int tamX;
+		private int tamY;
+		/** Crea un jlabel que ajusta una imagen cualquiera con fondo blanco a su tamaÃ±o (a la que ajuste mÃ¡s de las dos escalas, horizontal o vertical)
+		 * @param imagen	Imagen a visualizar en el label
+		 */
+		public JLabelAjustado( ImageIcon imagen ) {
+			setImagen( imagen );
+		}
+		/** Modifica la imagen
+		 * @param imagen	Nueva imagen a visualizar en el label
+		 */
+		public void setImagen( ImageIcon imagen ) {
+			this.imagen = imagen;
+			if (imagen==null) {
+				tamX = 0;
+				tamY = 0;
+			} else {
+				this.tamX = imagen.getIconWidth();
+				this.tamY = imagen.getIconHeight();
+			}
+		}
+		protected void paintComponent(Graphics g) {
+			Graphics2D g2 = (Graphics2D) g;  // El Graphics realmente es Graphics2D
+			g2.setColor( Color.WHITE );
+			g2.fillRect( 0, 0, getWidth(), getHeight() );
+			if (imagen!=null && tamX>0 && tamY>0) {
+				g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+				g2.setRenderingHint(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_QUALITY);
+				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);	
+				double escalaX = 1.0 * getWidth() / tamX;
+				double escalaY = 1.0 * getHeight() / tamY;
+				double escala = escalaX;
+				int x = 0;
+				int y = 0;
+				if (escalaY < escala) {
+					escala = escalaY;
+					x = (int) ((getWidth() - (tamX * escala)) / 2);
+				} else {
+					y = (int) ((getHeight() - (tamY * escala)) / 2);
+				}
+				g2.drawImage( imagen.getImage(), x, y, (int) (tamX*escala), (int) (tamY*escala), null );
+			}
+		}
 	}
 }
 

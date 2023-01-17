@@ -8,8 +8,7 @@ import java.util.Vector;
 
 public class VentanaGestionSeries extends JFrame {
     private JTable tablaSeries;
-    private DefaultTableModel modeloDatos;
-
+	private DefaultTableModel modeloTabla;
     public VentanaGestionSeries() {
         // Configuración de la ventana
         this.setTitle("Gestión de Series");
@@ -18,9 +17,16 @@ public class VentanaGestionSeries extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Creación de la tabla
-        Vector<String> cabecera = new Vector<>(Arrays.asList("ID", "NOMBRE", "CREADOR", "TEMPORADAS", "ID GENERO", "PRECIO", "CANTIDAD", "DESCRIPCION"));
-        this.modeloDatos = new DefaultTableModel(new Vector<Vector<Object>>(), cabecera);
-        this.tablaSeries = new JTable(modeloDatos);
+		modeloTabla = new DefaultTableModel();
+		modeloTabla.addColumn("ID");
+		modeloTabla.addColumn("Nombre");
+		modeloTabla.addColumn("Director");
+		modeloTabla.addColumn("ID Genero");
+		modeloTabla.addColumn("Anyo");
+		modeloTabla.addColumn("Precio");
+		modeloTabla.addColumn("Cantidad");
+		modeloTabla.addColumn("Descripcion");
+		modeloTabla.addColumn("Imagen");
 
         // Añadir la tabla a un panel con scroll
         JPanel panelTabla = new JPanel();

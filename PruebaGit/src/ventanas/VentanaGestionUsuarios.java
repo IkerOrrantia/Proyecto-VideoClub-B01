@@ -46,12 +46,37 @@ public class VentanaGestionUsuarios extends JFrame {
 		// Agrega la tabla a un scroll pane y lo agrega a la ventana
 		JScrollPane scrollPane = new JScrollPane(tablaUsuarios);
 		add(scrollPane);
-
+		
+		JPanel panelInferior = new JPanel();
+		
 		btnEliminar = new JButton("Eliminar");
 		btnEliminar.addActionListener(new EliminarUsuarioListener());
-		add(btnEliminar, BorderLayout.SOUTH);
+		panelInferior.add(btnEliminar);
+		add(panelInferior, BorderLayout.SOUTH);
+		
+		
+		JButton botonVolver = new JButton("Volver");
+		panelInferior.add(botonVolver);
+		add(panelInferior, BorderLayout.SOUTH);
+		
 		// Carga los datos de la base de datos en la tabla
 
+		botonVolver.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		        
+				try {
+					VentanaAdmin ventana = new VentanaAdmin(); 
+					ventana.setVisible(true);
+					setVisible(false); // Oculta la ventana actual
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+		       
+		    }
+		});
+		
 		setVisible(true);
 		bd = new BD();
 		try {
@@ -129,5 +154,7 @@ public class VentanaGestionUsuarios extends JFrame {
 			}
 		}
 
+
+		
 	}
 }
