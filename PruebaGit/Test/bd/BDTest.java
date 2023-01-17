@@ -169,7 +169,7 @@ public class BDTest {
         assertNotNull(serie);
         assertEquals(1, serie.getId());
         assertEquals("1899", serie.getNombre());
-        assertEquals("Baran bo Odar, Jantje Friese", serie.getCreador()); 
+        assertEquals("Baran bo Odar, Jantje Friese", serie.getDirector()); 
         assertEquals(1, serie.getTemporadas());
         assertEquals(2022, serie.getAnyo());       
         assertEquals(7, serie.getId_genero());
