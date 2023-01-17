@@ -8,7 +8,6 @@ import javax.swing.JOptionPane;
 
 import clases.*;
 import ventanas.*;
-import means.*;
 
 public class BD {
 	private Connection conn; // conexión a la base de datos
