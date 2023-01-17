@@ -68,6 +68,13 @@ public class VentanaGestionPeliculas extends JFrame{
 		this.modeloDatos = new DefaultTableModel(new Vector<Vector<Object>>(), cabecera);
 		// se crea tabla utilizado el modelo
 		this.tablaProductos = new JTable(this.modeloDatos);
+		tablaProductos.getColumnModel().getColumn(0).setPreferredWidth(100);
+		tablaProductos.getColumnModel().getColumn(1).setPreferredWidth(75);
+		tablaProductos.getColumnModel().getColumn(2).setPreferredWidth(50);
+		tablaProductos.getColumnModel().getColumn(3).setPreferredWidth(50);
+		tablaProductos.getColumnModel().getColumn(4).setPreferredWidth(50);
+		tablaProductos.getColumnModel().getColumn(5).setPreferredWidth(50);
+		tablaProductos.getColumnModel().getColumn(6).setPreferredWidth(300);
 		this.tablaProductos.setAutoCreateRowSorter(true);
 		tablaProductos.setFont(tablaProductos.getFont().deriveFont(12f));
 
@@ -274,7 +281,7 @@ public class VentanaGestionPeliculas extends JFrame{
 		private ImageIcon imagen; 
 		private int tamX;
 		private int tamY;
-		/** Crea un jlabel que ajusta una imagen cualquiera con fondo blanco a su tama√±o (a la que ajuste m√°s de las dos escalas, horizontal o vertical)
+		/** Crea un jlabel que ajusta una imagen cualquiera con fondo blanco a su tamaÒo (a la que ajuste m·s de las dos escalas, horizontal o vertical)
 		 * @param imagen	Imagen a visualizar en el label
 		 */
 		public JLabelAjustado( ImageIcon imagen ) {
