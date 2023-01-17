@@ -5,7 +5,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.beans.Statement;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -21,6 +24,7 @@ import java.util.spi.CurrencyNameProvider;
 import java.sql.*;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -70,28 +74,21 @@ public class VentanaPrincipal extends JFrame {
 	private JButton bAlquilar = new JButton( "Alquilar producto" );
 	private Pelicula ultimaselecP;
 	private Serie ultimaselecS;
-	TableRowSorter<DefaultTableModel> sorter;
+	private TableRowSorter<DefaultTableModel> sorter;
+	private boolean Pselect = false;
 
 	private void initTables (){
-		Vector<String> cabecera = new Vector<String>(Arrays.asList("NOMBRE", "DIRECTOR", "GENERO", "ANYO", "PRECIO", "CANTIDAD", "DESCRIPCION"));
 		// creamos modelo de datos
-		this.modeloDatos = new DefaultTableModel(new Vector<Vector<Object>>(), cabecera);
+		this.modeloDatos = new DefaultTableModel(new Vector<Vector<Object>>(), new Vector<Vector<String>>());
 		// se crea tabla utilizado el modelo
 		this.tablaProductos = new JTable(this.modeloDatos);
-		tablaProductos.getColumnModel().getColumn(0).setPreferredWidth(100);
-		tablaProductos.getColumnModel().getColumn(1).setPreferredWidth(75);
-		tablaProductos.getColumnModel().getColumn(2).setPreferredWidth(50);
-		tablaProductos.getColumnModel().getColumn(3).setPreferredWidth(50);
-		tablaProductos.getColumnModel().getColumn(4).setPreferredWidth(50);
-		tablaProductos.getColumnModel().getColumn(5).setPreferredWidth(50);
-		tablaProductos.getColumnModel().getColumn(6).setPreferredWidth(300);
 		this.tablaProductos.setAutoCreateRowSorter(true);
 		tablaProductos.setFont(tablaProductos.getFont().deriveFont(12f));
 
 
 		// modificamos para seleccionar una fila
 		this.tablaProductos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		
+
 		// Crea un TableRowSorter y asigna el modelo de datos de tu JTable
 		sorter = new TableRowSorter<>(modeloDatos);
 		tablaProductos.setRowSorter(sorter);
@@ -111,34 +108,36 @@ public class VentanaPrincipal extends JFrame {
 		this.tablaProductos.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		this.tablaProductos.setAutoCreateColumnsFromModel(true);
 		tablaProductos.sizeColumnsToFit(-1);
-		
-//		for (int i = 0; i < tablaProductos.getColumnCount(); i++) {
-//			DefaultTableColumnModel colModel = (DefaultTableColumnModel) tablaProductos.getColumnModel();
-//			TableColumn col = colModel.getColumn(i);
-//			int width = 0;
-//			TableCellRenderer renderer = col.getHeaderRenderer();
-//			if (renderer == null) {
-//				renderer = tablaProductos.getTableHeader().getDefaultRenderer();
-//			}
-//			Component comp = renderer.getTableCellRendererComponent(tablaProductos, col.getHeaderValue(), false, false, 0, 0);
-//			width = comp.getPreferredSize().width;
-//			for (int r = 0; r < tablaProductos.getRowCount(); r++) {
-//				renderer = tablaProductos.getCellRenderer(r, i);
-//				comp = renderer.getTableCellRendererComponent(tablaProductos, tablaProductos.getValueAt(r, i), false, false, r, i);
-//				width = Math.max(width, comp.getPreferredSize().width);
-//			}
-//			col.setPreferredWidth(width + 10);
-//		}
 
-		tablaProductos.setRowHeight(100);
+		tablaProductos.setRowHeight(150);
 		tablaProductos.setDefaultRenderer(Object.class, new MultiLineCellRenderer());
-		tablaProductos.setPreferredSize(new Dimension(1000, 100));
-		// borrar datos
-		//this.modeloDatos.setRowCount(0);
-		// aÃ±adir fila por peli
-		//		for (Pelicula p : this.tablePeli) {
-		//			this.modeloDatos.addRow(new Object[] { p.getNombre(), p.getDirector(), p.getId_genero(), p.getAnyo(), p.getPrecio(), p.getCantidad(), p.getDescripcion(), p.getImagen()});
-		//		}
+		tablaProductos.setPreferredSize(new Dimension(1000, 150));
+		
+		if(Pselect == false) {
+			modeloDatos.setColumnIdentifiers(new Object[] {"Nombre", "Director", "Genero", "Año", "Precio", "Cantidad", "Descripcion"});
+			tablaProductos.getColumnModel().getColumn(0).setPreferredWidth(50);
+			tablaProductos.getColumnModel().getColumn(1).setPreferredWidth(50);
+			tablaProductos.getColumnModel().getColumn(2).setPreferredWidth(25);
+			tablaProductos.getColumnModel().getColumn(3).setPreferredWidth(25);
+			tablaProductos.getColumnModel().getColumn(4).setPreferredWidth(25);
+			tablaProductos.getColumnModel().getColumn(5).setPreferredWidth(25);
+			tablaProductos.getColumnModel().getColumn(6).setPreferredWidth(300);
+			tablaProductos.setDefaultRenderer(Object.class, new MultiLineCellRenderer());
+			tablaProductos.setPreferredSize(new Dimension(1000, 150));
+		}else {
+			modeloDatos.setColumnIdentifiers(new Object[] {"Nombre", "Director", "Genero", "Año", "Temporadas", "Precio", "Cantidad", "Descripcion"});
+			tablaProductos.getColumnModel().getColumn(0).setPreferredWidth(50);
+			tablaProductos.getColumnModel().getColumn(1).setPreferredWidth(50);
+			tablaProductos.getColumnModel().getColumn(2).setPreferredWidth(25);
+			tablaProductos.getColumnModel().getColumn(3).setPreferredWidth(25);
+			tablaProductos.getColumnModel().getColumn(4).setPreferredWidth(25);
+			tablaProductos.getColumnModel().getColumn(5).setPreferredWidth(25);
+			tablaProductos.getColumnModel().getColumn(6).setPreferredWidth(25);
+			tablaProductos.getColumnModel().getColumn(7).setPreferredWidth(300);
+			tablaProductos.setDefaultRenderer(Object.class, new MultiLineCellRenderer());
+			tablaProductos.setPreferredSize(new Dimension(1000, 150));
+		}
+
 	}
 	public class MultiLineCellRenderer extends DefaultTableCellRenderer {
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
@@ -185,7 +184,7 @@ public class VentanaPrincipal extends JFrame {
 		pPrincipal.add( new JLabel( "Datos del Producto:" ), BorderLayout.NORTH );
 		JScrollPane scrollPane = new JScrollPane(tablaProductos);
 		pPrincipal.add(scrollPane, BorderLayout.CENTER);
-//		pPrincipal.add(new JScrollPane(foto) , BorderLayout.SOUTH);
+		//		pPrincipal.add(new JScrollPane(foto) , BorderLayout.SOUTH);
 
 		getContentPane().add( pPrincipal, BorderLayout.CENTER );
 		getContentPane().add( foto, BorderLayout.EAST );  // Foto este
@@ -225,19 +224,41 @@ public class VentanaPrincipal extends JFrame {
 
 		JLabel labelPelicula = new JLabel("Filtrar Pelicula: ");
 		campoBuscadorP = new JTextField(20);
-		
-		foto.setPreferredSize( new Dimension( 200, 300 ) );  // Para que la foto tenga 200 pÃ­xeles de ancho
+
+		//		foto.setPreferredSize( new Dimension( 200, 300 ) );  // Para que la foto tenga 200 pÃ­xeles de ancho
 
 		ultimaselecP = null;
 		lPeliculas.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent evt) {
 				if (!evt.getValueIsAdjusting()) {
 					tablaProductos.clearSelection();
+					Pselect = false;
 					Pelicula seleccionada = (Pelicula) lPeliculas.getSelectedValue();
 					if(seleccionada != ultimaselecP){
 						modeloDatos.setRowCount(0);
-						modeloDatos.addRow(new Object[] { seleccionada.getNombre(), seleccionada.getDirector(), seleccionada.getId_genero(), seleccionada.getAnyo(), seleccionada.getPrecio(), seleccionada.getCantidad(), seleccionada.getDescripcion(), seleccionada.getImagen()});
-						foto.setIcon(new ImageIcon(seleccionada.getImagen()));
+						modeloDatos.setColumnIdentifiers(new Object[] {"Nombre", "Director", "Genero", "Año", "Precio", "Cantidad", "Descripcion"});
+						String nombreGeneroP = null;
+						try {
+							nombreGeneroP = (BD.importarNombreGenero(seleccionada.getId_genero())).getNombre_genero();
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						modeloDatos.addRow(new Object[] { seleccionada.getNombre(), seleccionada.getDirector(),  nombreGeneroP , seleccionada.getAnyo(), seleccionada.getPrecio(), seleccionada.getCantidad(), seleccionada.getDescripcion(), seleccionada.getImagen()});
+						BufferedImage originalImagen;
+						try {
+							originalImagen = ImageIO.read(new File(seleccionada.getImagen()));
+							BufferedImage imagenAjustada = new BufferedImage(200, 300, originalImagen.getType());
+							Graphics2D g = imagenAjustada.createGraphics();
+							g.drawImage(originalImagen, 0, 0, 200, 300, null);
+							g.dispose();
+							foto.setIcon(new ImageIcon(imagenAjustada));
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+
 						ultimaselecP = seleccionada;
 					}
 				}
@@ -248,12 +269,32 @@ public class VentanaPrincipal extends JFrame {
 			public void valueChanged(ListSelectionEvent evt) {
 				if (!evt.getValueIsAdjusting()) {
 					tablaProductos.clearSelection();
+					Pselect = true;
 					Serie seleccionada = (Serie) lSeries.getSelectedValue();
 					if(seleccionada != ultimaselecS){
 						modeloDatos.setRowCount(0);
-						modeloDatos.addRow(new Object[] { seleccionada.getNombre(), seleccionada.getDirector(), seleccionada.getId_genero(), seleccionada.getAnyo(), seleccionada.getPrecio(), seleccionada.getCantidad(), seleccionada.getDescripcion(), seleccionada.getImagen()});
+						modeloDatos.setColumnIdentifiers(new Object[] {"Nombre", "Director", "Genero", "Año", "Temporadas", "Precio", "Cantidad", "Descripcion"});
+						String nombreGeneroP = null;
+						try {
+							nombreGeneroP = (BD.importarNombreGenero(seleccionada.getId_genero())).getNombre_genero();
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						modeloDatos.addRow(new Object[] { seleccionada.getNombre(), seleccionada.getDirector(), nombreGeneroP , seleccionada.getAnyo(), seleccionada.getTemporadas(), seleccionada.getPrecio(), seleccionada.getCantidad(), seleccionada.getDescripcion(), seleccionada.getImagen()});
 						ultimaselecS = seleccionada;
-						foto.setIcon(new ImageIcon(seleccionada.getImagen()));
+						BufferedImage originalImagen;
+						try {
+							originalImagen = ImageIO.read(new File(seleccionada.getImagen()));
+							BufferedImage imagenAjustada = new BufferedImage(200, 300, originalImagen.getType());
+							Graphics2D g = imagenAjustada.createGraphics();
+							g.drawImage(originalImagen, 0, 0, 200, 300, null);
+							g.dispose();
+							foto.setIcon(new ImageIcon(imagenAjustada));
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 				}
 			}
@@ -324,7 +365,7 @@ public class VentanaPrincipal extends JFrame {
 		loadTables();
 
 		ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-		executor.scheduleAtFixedRate(() -> loadTables(), 0, 3, TimeUnit.SECONDS);
+		executor.scheduleAtFixedRate(() -> loadTables(), 0, 100, TimeUnit.MILLISECONDS);
 
 		// agregar componentes al panel principal
 		panelCatalogo.add(panelFiltros, BorderLayout.NORTH);

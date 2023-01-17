@@ -132,7 +132,23 @@ public class BD {
 		}
 		return cuenta;
 	}
-
+	//Cambiamos el valor de id de los generos a un valor string con su nombre
+	public Genero importarNombreGenero(int id_genero) throws SQLException {
+		Genero genero = null;
+		try(PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Genero WHERE id_genero = ?")){
+			stmt.setInt(1, id_genero);
+			ResultSet rs = stmt.executeQuery();
+			if(rs.next()) {
+				genero = new Genero(id_genero, rs.getString("nombre_genero"), rs.getString("descripcion"));
+			}
+			stmt.close();
+			rs.close();
+		}
+		return genero;
+		
+	}
+	
+	
 	//importamos todos los nombres de las peliculas y los guardamos en una lista
 	public List<String> importarNombresPelicula() throws SQLException {
 		List<String> NPelicula = new ArrayList<>();

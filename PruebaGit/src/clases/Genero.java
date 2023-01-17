@@ -6,6 +6,12 @@ public class Genero {
 	private String nombre_genero;
 	private String descripcion;
 	
+	
+	public Genero(int id_genero, String nombre_genro, String descripcion) {
+		this.id_genero = id_genero;
+		this.nombre_genero = nombre_genro;
+		this.descripcion = descripcion;
+	}
 	@Override
 	public String toString() {
 		return "Genero [id_genero=" + id_genero + ", nombre_genero=" + nombre_genero + ", descripcion=" + descripcion
