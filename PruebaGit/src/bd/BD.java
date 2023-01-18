@@ -274,8 +274,8 @@ public class BD {
 			id_cliente = importarIdCliente();
 			stmt.setInt(1, id_cliente);
 			stmt.setInt(2, alquiler.getId_producto());
-			stmt.setString(3, alquiler.getFecha_alquiler());
-			stmt.setString(4, alquiler.getFecha_devolucion());
+			stmt.setString(3, new java.sql.Date(alquiler.getFecha_alquiler().getTime()));
+			stmt.setString(4, new java.sql.Date(alquiler.getFecha_devolucion().getTime()));
 			stmt.setString(5, alquiler.getEstado().toString());
 			stmt.executeUpdate();
 			try(PreparedStatement ustmt = conn.prepareStatement("UPDATE Cliente SET num_pedidos = ? WHERE usuario = ?")){
