@@ -15,6 +15,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Vector;
 import java.util.concurrent.Executors;
@@ -192,7 +194,9 @@ public class VentanaPrincipal extends JFrame {
 		JPanel pBotonera = new JPanel(); // Panel inferior (botonera)
 		pBotonera.add( bAlquilar );
 		getContentPane().add( pBotonera, BorderLayout.SOUTH );
-
+		
+		
+		
 		// creacion de panel principal
 		panelCatalogo = new JPanel();
 		panelCatalogo.setLayout(new BorderLayout());
@@ -227,6 +231,29 @@ public class VentanaPrincipal extends JFrame {
 
 		//		foto.setPreferredSize( new Dimension( 200, 300 ) );  // Para que la foto tenga 200 píxeles de ancho
 
+		bAlquilar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				VentanaAlquilar ventana;
+				try {
+					if(Pselect == false) {
+						Alquilar alquilar = new Alquilar(0, 0, lPeliculas.getSelectedValue().getId_producto(), Calendar.getInstance().getTime(), sumarDias(7), Estado.PENDIENTE);
+					}
+					
+					
+					ventana = new VentanaAlquilar();
+					ventana.setVisible(true);
+					
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+		
 		ultimaselecP = null;
 		lPeliculas.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent evt) {
@@ -365,7 +392,7 @@ public class VentanaPrincipal extends JFrame {
 		loadTables();
 
 		ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-		executor.scheduleAtFixedRate(() -> loadTables(), 0, 100, TimeUnit.MILLISECONDS);
+		executor.scheduleAtFixedRate(() -> loadTables(), 0, 200, TimeUnit.MILLISECONDS);
 
 		// agregar componentes al panel principal
 		panelCatalogo.add(panelFiltros, BorderLayout.NORTH);
@@ -421,5 +448,13 @@ public class VentanaPrincipal extends JFrame {
 				g2.drawImage( imagen.getImage(), x, y, (int) (tamX*escala), (int) (tamY*escala), null );
 			}
 		}
+	}
+	
+	public Date sumarDias (int dias) {
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DAY_OF_YEAR, dias);
+		return calendar.getTime();
+		
 	}
 }

@@ -101,7 +101,7 @@ public class VentanaGestionProductos extends JFrame implements ActionListener {
 	public static void main(String[] args) {
 		VentanaGestionProductos gui = new VentanaGestionProductos();
 		gui.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		gui.setTitle("Ventana Gestion Productos");
+		gui.setTitle("Gestion Productos");
 		gui.setVisible(true);
 	}
 	@Override

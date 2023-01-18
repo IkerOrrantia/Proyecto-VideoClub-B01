@@ -61,7 +61,7 @@ public class VentanaGestionPeliculas extends JFrame{
 	private JLabelAjustado lFoto = new JLabelAjustado( null );
 	private JButton bAumentarStock = new JButton( "Aumentar Stock" );
 	private Pelicula ultimaselec;
-	TableRowSorter<DefaultTableModel> sorter;
+	private TableRowSorter<DefaultTableModel> sorter;
 
 	private void initTables (){
 		Vector<String> cabecera = new Vector<String>(Arrays.asList("NOMBRE", "DIRECTOR", "GENERO", "ANYO", "PRECIO", "CANTIDAD", "DESCRIPCION"));
@@ -88,7 +88,7 @@ public class VentanaGestionPeliculas extends JFrame{
 
 
 
-		// Crea un RowFilter utilizando el texto del campo de búsqueda
+		// Crea un RowFilter utilizando el texto del campo de busqueda
 		RowFilter<DefaultTableModel, Object> filter = RowFilter.regexFilter(campoBuscadorP.getText(), 1);
 
 		// Actualiza el filtro del TableRowSorter
@@ -99,7 +99,7 @@ public class VentanaGestionPeliculas extends JFrame{
 		bAumentarStock.addActionListener(e -> {
 			//mostrar ventana emergente
 			String input = JOptionPane.showInputDialog("Introduce la cantidad a aumentar:");
-			//validar que el input no sea vacío o cancelado
+			//validar que el input no sea vacio o cancelado
 			if(input != null && !input.isEmpty()){
 				try{
 					//convertir input a entero
@@ -108,7 +108,7 @@ public class VentanaGestionPeliculas extends JFrame{
 					ultimaselec.setCantidad(ultimaselec.getCantidad() + cantidad);
 					modeloDatos.setValueAt(ultimaselec.getCantidad(), tablaProductos.getSelectedRow(), 5);
 				}catch(NumberFormatException ex){
-					JOptionPane.showMessageDialog(this, "Por favor, introduce un número válido.");
+					JOptionPane.showMessageDialog(this, "Por favor, introduce un numero valido.");
 				}
 			}
 		});	
@@ -126,7 +126,7 @@ public class VentanaGestionPeliculas extends JFrame{
 		
 		// borrar datos
 		//this.modeloDatos.setRowCount(0);
-		// aÃ±adir fila por peli
+		// añadir fila por peli
 		//		for (Pelicula p : this.tablePeli) {
 		//			this.modeloDatos.addRow(new Object[] { p.getNombre(), p.getDirector(), p.getId_genero(), p.getAnyo(), p.getPrecio(), p.getCantidad(), p.getDescripcion(), p.getImagen()});
 		//		}
@@ -147,7 +147,7 @@ public class VentanaGestionPeliculas extends JFrame{
 
 	public VentanaGestionPeliculas() throws SQLException {
 
-		// configuraciï¿½n de la ventana
+		// configuracion de la ventana
 		setTitle("Gestion Peliculas");
 		setSize(900, 600);
 		setLocationRelativeTo(null);
@@ -167,7 +167,7 @@ public class VentanaGestionPeliculas extends JFrame{
 		getContentPane().add( pOeste, BorderLayout.WEST ); 
 
 		JPanel pPrincipal = new JPanel( new BorderLayout() ); // Panel central (tabla)
-		pPrincipal.add( new JLabel( "Datos del Productp:" ), BorderLayout.NORTH );
+		pPrincipal.add( new JLabel( "Datos del Producto:" ), BorderLayout.NORTH );
 		pPrincipal.add( new JScrollPane( tablaProductos ), BorderLayout.CENTER );
 
 		getContentPane().add( pPrincipal, BorderLayout.CENTER );
@@ -279,7 +279,7 @@ public class VentanaGestionPeliculas extends JFrame{
 		private ImageIcon imagen; 
 		private int tamX;
 		private int tamY;
-		/** Crea un jlabel que ajusta una imagen cualquiera con fondo blanco a su tamaño (a la que ajuste más de las dos escalas, horizontal o vertical)
+		/** Crea un jlabel que ajusta una imagen cualquiera con fondo blanco a su tamanyo (a la que ajustemos de las dos escalas, horizontal o vertical)
 		 * @param imagen	Imagen a visualizar en el label
 		 */
 		public JLabelAjustado( ImageIcon imagen ) {
@@ -322,4 +322,3 @@ public class VentanaGestionPeliculas extends JFrame{
 		}
 	}
 }
-
