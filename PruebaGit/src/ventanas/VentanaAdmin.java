@@ -2,8 +2,6 @@ package ventanas;
 
 import javax.swing.*;
 
-import clases.VideoClub;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -90,7 +88,7 @@ public class VentanaAdmin extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
             	
-            	VentanaGestionPedidos ventana = new VentanaGestionPedidos(null);
+            	VentanaGestionPedidos ventana = new VentanaGestionPedidos();
             	ventana.setVisible(true);
             }
         });

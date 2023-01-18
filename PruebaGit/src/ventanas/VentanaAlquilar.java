@@ -165,6 +165,7 @@ public class VentanaAlquilar extends JFrame implements ActionListener {
 				// TODO Auto-generated method stub
 				
 				setVisible(false); // Oculta la ventana actual
+				
 			}
 		});
 		
@@ -175,6 +176,7 @@ public class VentanaAlquilar extends JFrame implements ActionListener {
 				// TODO Auto-generated method stub
 				
 				setVisible(false);
+				
 			}
 		});
 		

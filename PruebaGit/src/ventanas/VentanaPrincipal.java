@@ -240,8 +240,9 @@ public class VentanaPrincipal extends JFrame {
 				try {
 					if(Pselect == false) {
 						Alquilar alquilar = new Alquilar(0, 0, lPeliculas.getSelectedValue().getId_producto(), Calendar.getInstance().getTime(), sumarDias(7), Estado.PENDIENTE);
+						BD bd = new BD();
+						bd.importarAlquilarBD(alquilar);
 					}
-					
 					
 					ventana = new VentanaAlquilar();
 					ventana.setVisible(true);
