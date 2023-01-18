@@ -2,6 +2,9 @@ package clases;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,10 +15,12 @@ public class AlquilarTest {
 	        int id_alquiler = 1;
 	        int id_cliente = 2;
 	        int id_producto = 3;
-	        String fecha_alquiler = "01/01/2020";
-	        String fecha_devolucion = "01/01/2021";
+	        Calendar calendar = Calendar.getInstance();
+	        Date fecha_alquiler = calendar.getTime();
+	        calendar.add(Calendar.DATE, 7);
+	        Date fecha_devolucion = calendar.getTime();
 	        
-	        Alquilar alquiler = new Alquilar(id_alquiler,id_cliente,id_producto, fecha_devolucion, fecha_devolucion, null);
+	        Alquilar alquiler = new Alquilar(id_alquiler,id_cliente,id_producto, fecha_alquiler, fecha_devolucion, null);
 	        alquiler.setId_alquiler(id_alquiler);
 	        alquiler.setId_cliente(id_cliente);
 	        alquiler.setId_producto(id_producto);
@@ -34,11 +39,14 @@ public class AlquilarTest {
 	        int id_alquiler = 1;
 	        int id_cliente = 2;
 	        int id_producto = 3;
-	        String fecha_alquiler = "01/01/2020";
-	        String fecha_devolucion = "01/01/2021";
+	        Calendar calendar = Calendar.getInstance();
+	        Date fecha_alquiler = calendar.getTime();
+	        calendar.add(Calendar.DATE, 7);
+	        Date fecha_devolucion = calendar.getTime();
+
 	        Estado estado = null;
 	        
-	        Alquilar alquiler = new Alquilar(id_alquiler,id_cliente,id_producto, fecha_devolucion, fecha_devolucion, null);
+	        Alquilar alquiler = new Alquilar(id_alquiler,id_cliente,id_producto, fecha_alquiler, fecha_devolucion, null);
 	        alquiler.setId_alquiler(id_alquiler);
 	        alquiler.setId_cliente(id_cliente);
 	        alquiler.setId_producto(id_producto);
