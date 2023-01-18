@@ -146,6 +146,15 @@ public class VentanaAlquilar extends JFrame implements ActionListener {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+		try {
+			List<Alquilar> lAlquilar = BD.cargarAlquilerBD(BD.importarIdCliente());
+			for (Alquilar alq : lAlquilar) {
+				modeloDatos.addRow(new Object[] { alq.getId_alquiler(), alq.getId_cliente(), alq.getId_producto(), alq.getFecha_alquiler(), alq.getFecha_devolucion(), alq.getEstado()});
+			}
+					
+		}catch (Exception e){
+			
+		}
 		
 		
 		botonCancelar.addActionListener(new ActionListener() {
@@ -155,7 +164,7 @@ public class VentanaAlquilar extends JFrame implements ActionListener {
 				dispose();
 
 			}
-
+			
 		});
 		
 		botonSeguirAlquiler.addActionListener(new ActionListener() {

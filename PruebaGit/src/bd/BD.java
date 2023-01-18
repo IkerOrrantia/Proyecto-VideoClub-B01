@@ -3,7 +3,10 @@ package bd;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Date;
 import java.util.logging.*;
 
 import javax.swing.JOptionPane;
@@ -274,8 +277,11 @@ public class BD {
 			id_cliente = importarIdCliente();
 			stmt.setInt(1, id_cliente);
 			stmt.setInt(2, alquiler.getId_producto());
-			stmt.setString(3, new java.sql.Date(alquiler.getFecha_alquiler().getTime()));
-			stmt.setString(4, new java.sql.Date(alquiler.getFecha_devolucion().getTime()));
+			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+			String fecha_ini = formatter.format(alquiler.getFecha_alquiler().getTime());			
+			String fecha_dev = formatter.format(alquiler.getFecha_alquiler().getTime());
+			stmt.setString(3, fecha_ini);
+			stmt.setString(4, fecha_dev);
 			stmt.setString(5, alquiler.getEstado().toString());
 			stmt.executeUpdate();
 			try(PreparedStatement ustmt = conn.prepareStatement("UPDATE Cliente SET num_pedidos = ? WHERE usuario = ?")){
@@ -295,4 +301,25 @@ public class BD {
 		}
 		
 	}
+	
+	public List<Alquilar> cargarAlquilerBD(int id_cliente) throws SQLException, ParseException{
+		List<Alquilar> lAlquiler = new ArrayList<>();
+		Alquilar alquilar = null;
+		try(PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Alquiler WHERE id_cliente = ?")){
+			stmt.setInt(1, id_cliente);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+				Date fecha_ini = formatter.parse(rs.getString("fecha_alquiler"));
+				Date fecha_dev = formatter.parse(rs.getString("fecha_devolucion"));
+				Estado estado = Estado.valueOf(rs.getString("estado"));
+
+				alquilar = new Alquilar(rs.getInt("id_alquiler"), id_cliente, rs.getInt("id_producto"), fecha_ini, fecha_dev, estado);
+				lAlquiler.add(alquilar);
+			}
+		}
+		return lAlquiler;
+	}
+	
+	
 }
