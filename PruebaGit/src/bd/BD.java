@@ -1,16 +1,22 @@
 package bd;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
 
 import javax.swing.JOptionPane;
 
+import org.hamcrest.core.StringContains;
+
 import clases.*;
 import ventanas.*;
 
 public class BD {
 	private Connection conn; // conexión a la base de datos
+	private String nombreUsuarioOn = null;
+	private int Npedidos = 0;
 
 	/**
 	 * M�todo para conectar a la base de datos.
@@ -113,12 +119,24 @@ public class BD {
 		}
 		return clientes;
 	}
+	
+	public int importarIdCliente() throws SQLException{
+		int id_cliente = 0;
+		try(PreparedStatement stmt = conn.prepareStatement("SELECT id_cliente,num_pedidos FROM Cliente WHERE usuario = ?")){
+			stmt.setString(1, nombreUsuarioOn);
+			ResultSet rs = stmt.executeQuery();
+			id_cliente = rs.getInt("id_cliente");
+			Npedidos = rs.getInt("num_pedidos");
+		}
+		return id_cliente;
+	}
 	// Metodo para comprobar en la base de datos si los datos son correctos 
 	public Cuenta loggin(String usuario, String contrasenya) throws SQLException {
 		Cuenta cuenta = null;
 		try (PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM Usuario WHERE usuario = ? AND contrasenya = ?")){
 			pstmt.setString(1, usuario);
 			pstmt.setString(2, contrasenya);
+			nombreUsuarioOn = usuario;
 			ResultSet rsLog = pstmt.executeQuery();
 			if (rsLog.next()) {
 				cuenta = new Cuenta(rsLog.getInt(1), rsLog.getString(2), rsLog.getString(3), rsLog.getString(4),
@@ -144,10 +162,10 @@ public class BD {
 			rs.close();
 		}
 		return genero;
-		
+
 	}
-	
-	
+
+
 	//importamos todos los nombres de las peliculas y los guardamos en una lista
 	public List<String> importarNombresPelicula() throws SQLException {
 		List<String> NPelicula = new ArrayList<>();
@@ -179,7 +197,7 @@ public class BD {
 	//Importamos datos de una pelicula en concreto
 	public Pelicula importarDatosPelicula(String nombre) throws SQLException {
 		Pelicula pelicula = null;
-		try(PreparedStatement pstmt = conn.prepareStatement("SELECT * From Peliculas WHERE nombre = ?")){
+		try(PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM Peliculas WHERE nombre = ?")){
 			pstmt.setString(1, nombre);
 			ResultSet rs = pstmt.executeQuery();
 			if(rs.next()) {
@@ -205,4 +223,76 @@ public class BD {
 		return serie;
 	}
 
+	public void modificarCantidadPeliculas(String nombre, int cantidad) throws SQLException{
+		try(PreparedStatement stmt = conn.prepareStatement("UPDATE Peliculas SET cantidad = ? WHERE nombre = ?")){
+			stmt.setInt(1, cantidad);
+			stmt.setString(2, nombre);
+			stmt.executeUpdate();
+			stmt.close();
+		}
+
+	}
+
+	public void modificarCantidadSeries(String nombre, int cantidad) throws SQLException{
+		try(PreparedStatement stmt = conn.prepareStatement("UPDATE Series SET cantidad = ? WHERE nombre = ?")){
+			stmt.setInt(1, cantidad);
+			stmt.setString(2, nombre);
+			stmt.executeUpdate();
+			stmt.close();
+		}
+
+	}
+
+	public void cargarDatosSeriesEnFichero(String rutaFichero) throws SQLException{
+		try (PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM Series")) {
+			ResultSet rs = pstmt.executeQuery();
+			try (FileWriter fw = new FileWriter(rutaFichero)) {
+				while (rs.next()) {
+					fw.write(rs.getInt("id_serie") + ";");
+					fw.write(rs.getInt("id_producto") + ";");
+					fw.write(rs.getString("nombre") + ";");
+					fw.write(rs.getString("director") + ";");
+					fw.write(rs.getInt("id_genero") + ";");
+					fw.write(rs.getInt("anyo") + ";");
+					fw.write(rs.getInt("temporadas") + ";");
+					fw.write(rs.getDouble("precio") + ";");
+					fw.write(rs.getInt("cantidad") + ";");
+					fw.write(rs.getString("descripcion") + ";");
+					fw.write(rs.getString("imagen") + "\n");
+				}
+				fw.close();
+			}
+
+		} catch (SQLException | IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void importarAlquilarBD(Alquilar alquiler) throws SQLException{
+		int id_cliente = 0;
+		try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO Alquiler (id_cliente, id_producto, fecha_alquiler, fecha_devolucion, estado) VALUES ()")){
+			id_cliente = importarIdCliente();
+			stmt.setInt(1, id_cliente);
+			stmt.setInt(2, alquiler.getId_producto());
+			stmt.setString(3, alquiler.getFecha_alquiler());
+			stmt.setString(4, alquiler.getFecha_devolucion());
+			stmt.setString(5, alquiler.getEstado().toString());
+			stmt.executeUpdate();
+			try(PreparedStatement ustmt = conn.prepareStatement("UPDATE Cliente SET num_pedidos = ? WHERE usuario = ?")){
+				ustmt.setInt(1, Npedidos+1);
+				ustmt.setString(2, nombreUsuarioOn);
+				ustmt.executeUpdate();
+				ustmt.close();
+			}
+			try(PreparedStatement ustmt = conn.prepareStatement("UPDATE Usuario SET peliculasAlquiladas = ? WHERE usuario = ?")){
+				ustmt.setInt(1, Npedidos+1);
+				ustmt.setString(2, nombreUsuarioOn);
+				ustmt.executeUpdate();
+				ustmt.close();
+			}
+			
+			stmt.close();
+		}
+		
+	}
 }

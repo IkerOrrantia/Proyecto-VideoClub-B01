@@ -72,25 +72,22 @@ public class FicheroABaseDatos {
 
 			try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO Series (id_serie, id_producto, nombre, director, id_genero, anyo, temporadas, precio, cantidad, descripcion, imagen) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
 				try (BufferedReader reader = new BufferedReader(new FileReader("Data/Series.csv"))) {
-					reader.readLine();
-					reader.readLine();
-
 
 					String line = null;
 					while ((line = reader.readLine()) != null) {
 						String[] colupna = line.split(";");
-						String nombre = colupna[3];
-						String director = colupna[4];
+						String nombre = colupna[2];
+						String director = colupna[3];
 
-						int id_serie = colupna[1].isEmpty() ? 0 : Integer.parseInt(colupna[1]);
-						int id_producto = colupna[2].isEmpty() ? 0 : Integer.parseInt(colupna[2]);
-						int id_genero = colupna[5].isEmpty() ? 0 : Integer.parseInt(colupna[5]);
-						int anyo = colupna[6].isEmpty() ? 0 : Integer.parseInt(colupna[6]);
-						int temporadas = colupna[7].isEmpty() ? 0 : Integer.parseInt(colupna[7]);
-						double precio = colupna[8].isEmpty() ? 0 : Double.parseDouble(colupna[8]);
-						int cantidad = colupna[9].isEmpty() ? 0 : Integer.parseInt(colupna[9]);
-						String descripcion = colupna[10];
-						String imagen = colupna[11];
+						int id_serie = colupna[0].isEmpty() ? 0 : Integer.parseInt(colupna[0]);
+						int id_producto = colupna[1].isEmpty() ? 0 : Integer.parseInt(colupna[1]);
+						int id_genero = colupna[4].isEmpty() ? 0 : Integer.parseInt(colupna[4]);
+						int anyo = colupna[5].isEmpty() ? 0 : Integer.parseInt(colupna[5]);
+						int temporadas = colupna[6].isEmpty() ? 0 : Integer.parseInt(colupna[6]);
+						double precio = colupna[7].isEmpty() ? 0 : Double.parseDouble(colupna[7]);
+						int cantidad = colupna[8].isEmpty() ? 0 : Integer.parseInt(colupna[8]);
+						String descripcion = colupna[9];
+						String imagen = colupna[10];
 
 						try {
 

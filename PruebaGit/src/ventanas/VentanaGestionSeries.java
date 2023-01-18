@@ -74,22 +74,7 @@ public class VentanaGestionSeries extends JFrame {
 		// pasar render
 		this.tablaProductos.setDefaultRenderer(Object.class, new DefaultTableCellRenderer());
 
-		bAumentarStock.addActionListener(e -> {
-			//mostrar ventana emergente
-			String input = JOptionPane.showInputDialog("Introduce la cantidad a aumentar:");
-			//validar que el input no sea vacio o cancelado
-			if(input != null && !input.isEmpty()){
-				try{
-					//convertir input a entero
-					int cantidad = Integer.parseInt(input);
-					//actualizar la cantidad en la tabla
-					ultimaselec.setCantidad(ultimaselec.getCantidad() + cantidad);
-					modeloDatos.setValueAt(ultimaselec.getCantidad(), tablaProductos.getSelectedRow(), 5);
-				}catch(NumberFormatException ex){
-					JOptionPane.showMessageDialog(this, "Por favor, introduce un numero valido.");
-				}
-			}
-		});	
+		
 	}
 
 
@@ -204,7 +189,29 @@ public class VentanaGestionSeries extends JFrame {
 		});
 
 
-
+		bAumentarStock.addActionListener(e -> {
+			//mostrar ventana emergente
+			String input = JOptionPane.showInputDialog("Introduce la cantidad a aumentar:");
+			//validar que el input no sea vacío o cancelado
+			if(input != null && !input.isEmpty()){
+				try{
+					//convertir input a entero
+					int cantidad = Integer.parseInt(input);
+					//actualizar la cantidad en la tabla
+					int nuevaCantidad = ultimaselec.getCantidad() + cantidad;
+					ultimaselec.setCantidad(nuevaCantidad);
+					try {
+						BD.modificarCantidadPeliculas(ultimaselec.getNombre(), nuevaCantidad);
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					modeloDatos.setValueAt(ultimaselec.getCantidad(), tablaProductos.getSelectedRow(), 5);
+				}catch(NumberFormatException ex){
+					JOptionPane.showMessageDialog(this, "Por favor, introduce un número válido.");
+				}
+			}
+		});	
 
 		JLabel labelSerie = new JLabel("Filtrar Serie: ");
 	    campoBuscadorS = new JTextField(20);
